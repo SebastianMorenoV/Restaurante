@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -17,11 +18,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sebastian Moreno
  */
+
+@Entity
+@Table(name = "Comandas")
 public class Comanda implements Serializable {
 
     @Id
@@ -46,30 +51,46 @@ public class Comanda implements Serializable {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "numeroMesa")
-    private Mesa numMesa;
+    @JoinColumn(name = "id_mesa")
+    private Mesa mesa;
 
     public Comanda() {
     }
 
-    public Comanda(Long id, LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa numMesa) {
+    public Comanda(Long id, LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
         this.id = id;
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.totalVenta = totalVenta;
         this.detallesComanda = detallesComanda;
         this.cliente = cliente;
-        this.numMesa = numMesa;
+        this.mesa = mesa;
     }
 
-    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa numMesa) {
+    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta) {
+        this.fechaHora = fechaHora;
+        this.estado = estado;
+        this.totalVenta = totalVenta;
+    }
+
+    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.totalVenta = totalVenta;
         this.detallesComanda = detallesComanda;
         this.cliente = cliente;
-        this.numMesa = numMesa;
+        this.mesa = mesa;
     }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+
+    
 
     public LocalDateTime getFechaHora() {
         return fechaHora;
@@ -111,13 +132,6 @@ public class Comanda implements Serializable {
         this.cliente = cliente;
     }
 
-    public Mesa getNumMesa() {
-        return numMesa;
-    }
-
-    public void setNumMesa(Mesa numMesa) {
-        this.numMesa = numMesa;
-    }
 
     public Long getId() {
         return id;
@@ -129,7 +143,9 @@ public class Comanda implements Serializable {
 
     @Override
     public String toString() {
-        return "Comanda{" + "id=" + id + ", fechaHora=" + fechaHora + ", estado=" + estado + ", totalVenta=" + totalVenta + ", detallesComanda=" + detallesComanda + ", cliente=" + cliente + ", numMesa=" + numMesa + '}';
+        return "Comanda{" + "id=" + id + ", fechaHora=" + fechaHora + ", estado=" + estado + ", totalVenta=" + totalVenta + ", detallesComanda=" + detallesComanda + ", cliente=" + cliente + ", mesa=" + mesa + '}';
     }
+
+    
 
 }

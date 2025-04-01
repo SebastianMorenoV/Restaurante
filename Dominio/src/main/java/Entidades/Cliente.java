@@ -14,13 +14,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sebastian Moreno
  */
 @Entity
-public abstract class Cliente implements Serializable {
+@Table(name = "Clientes")
+public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id

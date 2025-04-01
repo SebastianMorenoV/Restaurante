@@ -1,1 +1,5 @@
-com\carniceria\persistencia\Persistencia.class
+DAO\MesaDAO.class
+interfaces\IMesaDAO.class
+pruebas\pruebasMesa.class
+conexion\Conexion.class
+exception\PersistenciaException.class
