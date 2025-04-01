@@ -1,1 +1,4 @@
 com\carniceria\dominio\Dominio.class
+Entidades\Comanda.class
+DTOSalida\MesaDTO.class
+DTOSalida\ComandaDTO.class

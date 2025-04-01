@@ -80,13 +80,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 100)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("RESTAURANTE");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         hora.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 24)); // NOI18N
-        hora.setForeground(new java.awt.Color(0, 0, 0));
         hora.setText("jLabel11");
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
@@ -95,8 +93,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderLayout.createSequentialGroup()
                 .addGap(203, 203, 203)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -129,73 +127,62 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("REPORTE");
         pnlHeader1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 40));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("PRODUCTO");
         pnlHeader1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 150, 40));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("GENERAR ");
         pnlHeader1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 130, 40));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("REGISTRAR");
         pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 140, 40));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("FRECUENTE");
         pnlHeader1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 150, 40));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("INGREDIENTE");
         pnlHeader1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 180, 30));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("REGISTRAR");
         pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 140, 40));
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("REGISTRAR");
         pnlHeader1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 140, 40));
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel10.setText("CLIENTE");
         pnlHeader1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 140, 40));
 
         add(pnlHeader1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 260, 520));
 
-        tablaMesas.setBackground(new java.awt.Color(255, 255, 255));
         tablaMesas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 48)); // NOI18N
-        tablaMesas.setForeground(new java.awt.Color(0, 0, 0));
         tablaMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"MESA 1"},
@@ -210,7 +197,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             }
         ));
         tablaMesas.setRowHeight(80);
-        tablaMesas.setRowMargin(0);
         jScrollPane1.setViewportView(tablaMesas);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, 650, -1));
