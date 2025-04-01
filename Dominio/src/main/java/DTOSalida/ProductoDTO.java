@@ -17,17 +17,15 @@ public class ProductoDTO {
     private String nombre;
     private double precio;
     private Tipo tipo;
-    private List<IngredientesProductoDTO> ingredientes;
 
     public ProductoDTO() {
     }
 
-    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, List<IngredientesProductoDTO> ingredientes) {
+    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
-        this.ingredientes = ingredientes;
     }
 
     public Long getId() {
@@ -62,11 +60,10 @@ public class ProductoDTO {
         this.tipo = tipo;
     }
 
-    public List<IngredientesProductoDTO> getIngredientes() {
-        return ingredientes;
+    @Override
+    public String toString() {
+        return "ProductoDTO{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tipo=" + tipo + '}';
     }
 
-    public void setIngredientes(List<IngredientesProductoDTO> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
+    
 }
