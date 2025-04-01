@@ -36,6 +36,9 @@ public class Producto implements Serializable {
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<IngredientesProducto> ingredientes;
+    
+    @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch
+    private List<DetallesComanda> detallesComanda;
 
     @Override
     public int hashCode() {

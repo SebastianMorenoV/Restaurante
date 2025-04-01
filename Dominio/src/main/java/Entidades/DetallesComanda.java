@@ -27,19 +27,87 @@ public class DetallesComanda implements Serializable {
 
     // atributo Producto aqui
     @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
+    private Producto producto;
+
+    @ManyToOne
     @JoinColumn(name = "comanda_id", nullable = false) // revisar las cascadas.
     private Comanda comanda;
+
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
+
     @Column(name = "precioUnitario", nullable = false)
     private double precioUnitario;
-    @Column(name = "comentarios", nullable = true)
+
+    @Column(name = "comentarios", nullable = true , length = 250)
     private String comentarios;
+
     @Column(name = "importeTotal", nullable = true)
     private double importeTotal;
 
-    
-    
+    public DetallesComanda() {
+    }
+
+    public DetallesComanda(Long id, Producto producto, Comanda comanda, Integer cantidad, double precioUnitario, String comentarios, double importeTotal) {
+        this.id = id;
+        this.producto = producto;
+        this.comanda = comanda;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.comentarios = comentarios;
+        this.importeTotal = importeTotal;
+    }
+
+    public DetallesComanda(Producto producto, Comanda comanda, Integer cantidad, double precioUnitario, String comentarios, double importeTotal) {
+        this.producto = producto;
+        this.comanda = comanda;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.comentarios = comentarios;
+        this.importeTotal = importeTotal;
+    }
+
+    public Comanda getComanda() {
+        return comanda;
+    }
+
+    public void setComanda(Comanda comanda) {
+        this.comanda = comanda;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(String comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public double getImporteTotal() {
+        return importeTotal;
+    }
+
+    public void setImporteTotal(double importeTotal) {
+        this.importeTotal = importeTotal;
+    }
+
     public Long getId() {
         return id;
     }
@@ -50,7 +118,9 @@ public class DetallesComanda implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.DetallesComanda[ id=" + id + " ]";
+        return "DetallesComanda{" + "id=" + id + ", producto=" + producto + ", comanda=" + comanda + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", comentarios=" + comentarios + ", importeTotal=" + importeTotal + '}';
     }
+
+    
 
 }
