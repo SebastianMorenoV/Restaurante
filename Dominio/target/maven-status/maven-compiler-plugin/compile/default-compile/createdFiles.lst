@@ -1,4 +1,16 @@
+DTOSalida\IngredientesProductoDTO.class
+Enums\Estado.class
+DTOSalida\IngredienteDTO.class
+Entidades\DetallesComanda.class
 com\carniceria\dominio\Dominio.class
-Entidades\Comanda.class
+Entidades\Producto.class
+Enums\Tipo.class
+Entidades\Cliente.class
 DTOSalida\MesaDTO.class
 DTOSalida\ComandaDTO.class
+DTOSalida\ProductoDTO.class
+Entidades\Ingrediente.class
+Entidades\IngredientesProducto.class
+Entidades\Comanda.class
+Enums\UnidadMedida.class
+Entidades\Mesa.class

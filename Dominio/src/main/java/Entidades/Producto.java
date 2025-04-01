@@ -34,7 +34,7 @@ public class Producto implements Serializable {
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "producto")//cascada???
     private List<IngredientesProducto> ingredientes;
     
     @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch

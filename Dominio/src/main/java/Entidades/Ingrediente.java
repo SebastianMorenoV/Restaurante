@@ -6,12 +6,14 @@ package Entidades;
 
 import Enums.UnidadMedida;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -30,6 +32,9 @@ public class Ingrediente implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private UnidadMedida unidadMedida;
+    
+    @OneToMany(mappedBy = "ingrediente")
+    private List<IngredientesProducto> productos;
 
     public Long getId() {
         return id;

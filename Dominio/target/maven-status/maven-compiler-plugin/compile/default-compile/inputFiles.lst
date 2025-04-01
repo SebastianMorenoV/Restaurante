@@ -1,4 +1,16 @@
 C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\com\carniceria\dominio\Dominio.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\ProductoDTO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\IngredienteDTO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\IngredientesProductoDTO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\IngredientesProducto.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\DetallesComanda.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Enums\Estado.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\Mesa.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\ComandaDTO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Enums\Tipo.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\Cliente.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\Ingrediente.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Enums\UnidadMedida.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\MesaDTO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\Comanda.java
-C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\DTOSalida\ComandaDTO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Dominio\src\main\java\Entidades\Producto.java
