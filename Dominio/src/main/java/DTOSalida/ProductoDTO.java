@@ -6,6 +6,7 @@ package DTOSalida;
 
 import Enums.ProductoActivo;
 import Enums.Tipo;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,8 @@ public class ProductoDTO {
     private double precio;
     private Tipo tipo;
     private ProductoActivo productoActivo;
+    private List<IngredienteDTO> ingredientes;
+    private List<ComandaDTO> comandas;
 
     public ProductoDTO() {
     }
@@ -34,6 +37,39 @@ public class ProductoDTO {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
+    }
+
+    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+    }
+
+    public ProductoDTO(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredienteDTO> ingredientes, List<ComandaDTO> comandas) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+        this.ingredientes = ingredientes;
+        this.comandas = comandas;
+    }
+
+    public List<IngredienteDTO> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<IngredienteDTO> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<ComandaDTO> getComandas() {
+        return comandas;
+    }
+
+    public void setComandas(List<ComandaDTO> comandas) {
+        this.comandas = comandas;
     }
 
     public ProductoActivo getProductoActivo() {

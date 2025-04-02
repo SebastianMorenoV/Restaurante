@@ -46,7 +46,7 @@ public class IngredienteDAO implements IIngredienteDAO {
             return ingrediente;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar el cliente: " + e.getMessage());
+            throw new PersistenciaException("No se pudo registrar el ingrediente: " + e.getMessage());
         } finally {
             em.close();
         }

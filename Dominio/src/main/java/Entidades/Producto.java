@@ -80,6 +80,24 @@ public class Producto implements Serializable {
         this.ingredientes = ingredientes;
     }
 
+    public Producto(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+    }
+
+    
+    
+    public ProductoActivo getProductoActivo() {
+        return productoActivo;
+    }
+
+    public void setProductoActivo(ProductoActivo productoActivo) {
+        this.productoActivo = productoActivo;
+    }
+
     public Long getId() {
         return id;
     }
