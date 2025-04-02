@@ -30,10 +30,10 @@ public class ClienteBO implements IClienteBO {
     @Override
     public ClienteDTO registrarCliente(CrearClienteDTO clienteDTO) throws NegocioException {
 
-        if (clienteDTO.getNombres().isEmpty()) {
+        if (clienteDTO.getNombres().isBlank()) {
             throw new NegocioException("El nombre no debe de estar vacio!.");
         }
-        if (clienteDTO.getApellidoPaterno().isEmpty()) {
+        if (clienteDTO.getApellidoPaterno().isBlank()) {
             throw new NegocioException("Se necesita un apellido paterno!.");
         }
         if (clienteDTO.getTelefono().isEmpty()) {
@@ -41,17 +41,17 @@ public class ClienteBO implements IClienteBO {
         }
 
         String cadenaNombre;
-        if (clienteDTO.getApellidoMaterno().isEmpty()) {
-            cadenaNombre = clienteDTO.getNombres() + "" + clienteDTO.getApellidoPaterno();
+        if (clienteDTO.getApellidoMaterno().isBlank() || clienteDTO.getApellidoMaterno() == null) {
+            cadenaNombre = clienteDTO.getNombres() + " " + clienteDTO.getApellidoPaterno();
         } else {
-            cadenaNombre = clienteDTO.getNombres() + "" + clienteDTO.getApellidoPaterno() + "" + clienteDTO.getApellidoMaterno();
+            cadenaNombre = clienteDTO.getNombres() + " " + clienteDTO.getApellidoPaterno() + " " + clienteDTO.getApellidoMaterno();
         }
 
         ClienteFrecuente cliente = new ClienteFrecuente(0, 0, 0, cadenaNombre, clienteDTO.getTelefono(), clienteDTO.getCorreoElectronico(), LocalDate.now());
 
         try {
             clienteDAO.guardarClienteFrecuente(cliente);
-            return new ClienteDTO();
+            return new ClienteDTO(cadenaNombre,cliente.getCorreo(),cliente.getTelefono(),cliente.getPuntosFidelidad(),cliente.getGastoAcumulado(),cliente.getVisitas());
         } catch (PersistenciaException ex) {
             Logger.getLogger(ClienteBO.class.getName()).log(Level.SEVERE, null, ex);
             throw new NegocioException("Error al guardar el cliente." + ex.getMessage(), ex);
