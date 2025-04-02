@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Enums.ProductoActivo;
 import Enums.Tipo;
 import java.io.Serializable;
 import java.util.List;
@@ -12,39 +13,120 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Admin
  */
 @Entity
-@Table(name = "Productos")
+@Table(name = "Productos", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"})) // indica que solo un producto puede tener un nombre y no repetirse
 public class Producto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(name = "nombre", nullable = false , length = 150)
+
+    @Column(name = "nombre", nullable = false, length = 150)
     private String nombre;
-    
+
     @Column(name = "precio")
     private double precio;
-    
+
     @Column(name = "tipo")
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
-    
-    @OneToMany(mappedBy = "producto")//cascada???  si deberia tener la relacion. si son unidireccionales
+
+    @Column(name = "Habilitado/Deshabilitado")
+    @Enumerated(EnumType.STRING)
+    private ProductoActivo productoActivo;
+
+    @OneToMany(mappedBy = "producto", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<IngredientesProducto> ingredientes;
-    
+
     @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch
     private List<DetallesComanda> detallesComanda;
+
+    public Producto() {
+    }
+
+    public Producto(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProducto> ingredientes, List<DetallesComanda> detallesComanda) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+        this.ingredientes = ingredientes;
+        this.detallesComanda = detallesComanda;
+    }
+
+    public Producto(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+    }
+
+    public Producto(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProducto> ingredientes) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.productoActivo = productoActivo;
+        this.ingredientes = ingredientes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<IngredientesProducto> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<IngredientesProducto> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public List<DetallesComanda> getDetallesComanda() {
+        return detallesComanda;
+    }
+
+    public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
+        this.detallesComanda = detallesComanda;
+    }
 
     @Override
     public int hashCode() {

@@ -13,5 +13,6 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>19</maven.compiler.release>
     </properties>
 </project>

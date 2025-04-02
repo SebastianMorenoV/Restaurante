@@ -11,12 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Admin
  */
 @Entity
+@Table(name = "Ingrediente_Productot")
 public class IngredientesProducto implements Serializable {
 
     @Id
@@ -29,9 +31,39 @@ public class IngredientesProducto implements Serializable {
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    @ManyToOne
+    @ManyToOne //uso de fetch.lazy????
     @JoinColumn(name = "producto_id")
     private Producto producto;
+
+    public IngredientesProducto(Integer cantidad, Ingrediente ingrediente, Producto producto) {
+        this.cantidad = cantidad;
+        this.ingrediente = ingrediente;
+        this.producto = producto;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Ingrediente getIngrediente() {
+        return ingrediente;
+    }
+
+    public void setIngrediente(Ingrediente ingrediente) {
+        this.ingrediente = ingrediente;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
 
     public Long getId() {
         return id;
