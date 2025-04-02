@@ -4,10 +4,17 @@
  */
 package GUI.ModuloClientesFrecuentes;
 
+import DTOEntrada.CrearClienteDTO;
+import DTOSalida.ClienteDTO;
 import GUI.Aplicacion;
+import exception.NegocioException;
+import interfaces.IClienteBO;
 import java.awt.Color;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -19,7 +26,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
     /**
      * Creates new form PantallaRegistrarCliente
      */
-    Aplicacion app;
+    private Aplicacion app;
 
     public PantallaRegistrarCliente(Aplicacion app) {
         this.app = app;
@@ -36,8 +43,9 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -64,18 +72,32 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         lblHora = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         icnTiempo = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 120)); // NOI18N
         jLabel1.setText("Registrar Cliente");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
+        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaAtras.png"))); // NOI18N
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        pnlHeader.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -90,7 +112,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 10));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel2.setText("APELLIDO MATERNO (OPCIONAL):");
@@ -112,17 +134,20 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlApellidoMaterno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputApellidoMaterno.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputApellidoMaterno.setForeground(new java.awt.Color(204, 204, 204));
-        inputApellidoMaterno.setText("Ingresar nombre de usuario");
+        inputApellidoMaterno.setForeground(new java.awt.Color(0, 0, 0));
+        inputApellidoMaterno.setText("Apellido Materno (Opcional)");
         inputApellidoMaterno.setBorder(null);
+        inputApellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputApellidoMaternoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputApellidoMaternoFocusLost(evt);
+            }
+        });
         inputApellidoMaterno.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 inputApellidoMaternoMouseClicked(evt);
-            }
-        });
-        inputApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputApellidoMaternoActionPerformed(evt);
             }
         });
         pnlApellidoMaterno.add(inputApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -137,17 +162,15 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlCorreo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputCorreo.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputCorreo.setForeground(new java.awt.Color(204, 204, 204));
-        inputCorreo.setText("Ingresar nombre de usuario");
+        inputCorreo.setForeground(new java.awt.Color(0, 0, 0));
+        inputCorreo.setText("Correo Electronico (Opcional)");
         inputCorreo.setBorder(null);
-        inputCorreo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputCorreoMouseClicked(evt);
+        inputCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputCorreoFocusGained(evt);
             }
-        });
-        inputCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputCorreoActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputCorreoFocusLost(evt);
             }
         });
         pnlCorreo.add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -162,17 +185,15 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlApellidoPaterno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputApellidoPaterno.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputApellidoPaterno.setForeground(new java.awt.Color(204, 204, 204));
-        inputApellidoPaterno.setText("Ingresar nombre de usuario");
+        inputApellidoPaterno.setForeground(new java.awt.Color(0, 0, 0));
+        inputApellidoPaterno.setText("Ingresar apellido");
         inputApellidoPaterno.setBorder(null);
-        inputApellidoPaterno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputApellidoPaternoMouseClicked(evt);
+        inputApellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputApellidoPaternoFocusGained(evt);
             }
-        });
-        inputApellidoPaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputApellidoPaternoActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputApellidoPaternoFocusLost(evt);
             }
         });
         pnlApellidoPaterno.add(inputApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -193,6 +214,12 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         btnCancelar.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelar.setText("CANCELAR");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
         pnlBtnGuardarCliente.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
 
         add(pnlBtnGuardarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 580, 180, 50));
@@ -209,17 +236,15 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlTelefono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputTelefono.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputTelefono.setForeground(new java.awt.Color(204, 204, 204));
-        inputTelefono.setText("Ingresar nombre de usuario");
+        inputTelefono.setForeground(new java.awt.Color(0, 0, 0));
+        inputTelefono.setText("Ingresar telefono");
         inputTelefono.setBorder(null);
-        inputTelefono.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputTelefonoMouseClicked(evt);
+        inputTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputTelefonoFocusGained(evt);
             }
-        });
-        inputTelefono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTelefonoActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputTelefonoFocusLost(evt);
             }
         });
         pnlTelefono.add(inputTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -234,17 +259,15 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlNombre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputNombre.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputNombre.setForeground(new java.awt.Color(204, 204, 204));
-        inputNombre.setText("Ingresar nombre de usuario");
+        inputNombre.setForeground(new java.awt.Color(0, 0, 0));
+        inputNombre.setText("Ingresar nombre(s)");
         inputNombre.setBorder(null);
-        inputNombre.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputNombreMouseClicked(evt);
+        inputNombre.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                inputNombreFocusGained(evt);
             }
-        });
-        inputNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombreActionPerformed(evt);
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                inputNombreFocusLost(evt);
             }
         });
         pnlNombre.add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -261,7 +284,8 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         btnBuscarCliente.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
         btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscarCliente.setText("BUSCAR UN CLIENTE");
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 320, 30));
+        btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 50));
 
         add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 550, 320, 50));
 
@@ -275,6 +299,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         btnGuardarCliente.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
         btnGuardarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnGuardarCliente.setText("      GUARDAR CLIENTE");
+        btnGuardarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGuardarClienteMouseClicked(evt);
@@ -296,6 +321,21 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
 
         icnTiempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tiempo.png"))); // NOI18N
         add(icnTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 620, -1, -1));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flecha.png"))); // NOI18N
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 310, -1, 20));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flecha.png"))); // NOI18N
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, -1, 20));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flecha.png"))); // NOI18N
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, -1, 20));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flecha.png"))); // NOI18N
+        add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 210, -1, 20));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flecha.png"))); // NOI18N
+        add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, -1, 20));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputApellidoMaternoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputApellidoMaternoMouseClicked
@@ -305,45 +345,77 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputApellidoMaternoMouseClicked
 
-    private void inputApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputApellidoMaternoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputApellidoMaternoActionPerformed
-
-    private void inputCorreoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputCorreoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputCorreoMouseClicked
-
-    private void inputCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputCorreoActionPerformed
-
-    private void inputApellidoPaternoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputApellidoPaternoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputApellidoPaternoMouseClicked
-
-    private void inputApellidoPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputApellidoPaternoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputApellidoPaternoActionPerformed
-
-    private void inputTelefonoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputTelefonoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTelefonoMouseClicked
-
-    private void inputTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTelefonoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTelefonoActionPerformed
-
-    private void inputNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputNombreMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombreMouseClicked
-
-    private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombreActionPerformed
-
     private void btnGuardarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarClienteMouseClicked
-        // TODO add your handling code here:
+        guardarCliente();
     }//GEN-LAST:event_btnGuardarClienteMouseClicked
+
+    private void inputNombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombreFocusGained
+        if (inputNombre.getText().equals("Ingresar nombre(s)")) {
+            inputNombre.setText("");
+        }
+    }//GEN-LAST:event_inputNombreFocusGained
+
+    private void inputNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombreFocusLost
+        if (inputNombre.getText().trim().isEmpty()) {
+            inputNombre.setText("Ingresar nombre(s)");
+        }
+    }//GEN-LAST:event_inputNombreFocusLost
+
+    private void inputApellidoPaternoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoPaternoFocusGained
+        if (inputApellidoPaterno.getText().equals("Ingresar apellido")) {
+            inputApellidoPaterno.setText("");
+        }
+    }//GEN-LAST:event_inputApellidoPaternoFocusGained
+
+    private void inputApellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoPaternoFocusLost
+        if (inputApellidoPaterno.getText().trim().isEmpty()) {
+            inputApellidoPaterno.setText("Ingresar apellido");
+        }
+    }//GEN-LAST:event_inputApellidoPaternoFocusLost
+
+    private void inputTelefonoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTelefonoFocusGained
+        if (inputTelefono.getText().equals("Ingresar telefono")) {
+            inputTelefono.setText("");
+        }
+    }//GEN-LAST:event_inputTelefonoFocusGained
+
+    private void inputTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTelefonoFocusLost
+        if (inputTelefono.getText().trim().isEmpty()) {
+            inputTelefono.setText("Ingresar telefono");
+        }
+    }//GEN-LAST:event_inputTelefonoFocusLost
+
+    private void inputApellidoMaternoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoMaternoFocusGained
+        if (inputApellidoMaterno.getText().equals("Apellido Materno (Opcional)")) {
+            inputApellidoMaterno.setText("");
+        }
+    }//GEN-LAST:event_inputApellidoMaternoFocusGained
+
+    private void inputApellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoMaternoFocusLost
+        if (inputApellidoMaterno.getText().trim().isEmpty()) {
+            inputApellidoMaterno.setText("Apellido Materno (Opcional)");
+        }
+    }//GEN-LAST:event_inputApellidoMaternoFocusLost
+
+    private void inputCorreoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputCorreoFocusGained
+        if (inputCorreo.getText().equals("Correo Electronico (Opcional)")) {
+            inputCorreo.setText("");
+        }
+    }//GEN-LAST:event_inputCorreoFocusGained
+
+    private void inputCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputCorreoFocusLost
+        if (inputCorreo.getText().trim().isEmpty()) {
+            inputCorreo.setText("Correo Electronico (Opcional)");
+        }
+    }//GEN-LAST:event_inputCorreoFocusLost
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        app.mostrarMenuPrincipal();
+     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        app.mostrarMenuPrincipal();
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -357,14 +429,19 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
     private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputTelefono;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblHora;
     private GUI.PanelRound pnlApellidoMaterno;
@@ -373,15 +450,50 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
     private GUI.PanelRound pnlCorreo;
+    private javax.swing.JPanel pnlHeader;
     private GUI.PanelRound pnlNombre;
     private GUI.PanelRound pnlTelefono;
     // End of variables declaration//GEN-END:variables
-public void mostrarFecha() {
+
+    //Metodos que acceden a la base de datos.
+    public void guardarCliente() {
+        String nombres = inputNombre.getText().trim();
+        String apellidoPaterno = inputApellidoPaterno.getText().trim();
+        String apellidoMaterno = inputApellidoMaterno.getText().trim();
+        String telefono = inputTelefono.getText().trim();
+        String correo = inputCorreo.getText().trim();
+
+        String nombreCompleto = nombres + " " + apellidoPaterno + " " + apellidoMaterno;
+        CrearClienteDTO cliente = new CrearClienteDTO(nombres, apellidoPaterno, apellidoMaterno, telefono, correo);
+        try {
+            app.registrarCliente(cliente);
+            JOptionPane.showMessageDialog(this, "¡Cliente registrado con exito!\n " + nombreCompleto,
+                    "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+            limpiarCampos();
+        } catch (NegocioException ex) {
+            // si algo sale mal
+            JOptionPane.showMessageDialog(this, "Error al registrar el cliente : " + ex.getMessage(),
+                    "Error en Registro", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(PantallaRegistrarCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //Metodos Auxiliares.
+    private void mostrarFecha() {
         Timer timer = new Timer(1000, e -> {
             LocalTime horaActual = LocalTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
             lblHora.setText(horaActual.format(formatter));
         });
         timer.start();
+    }
+
+    public void limpiarCampos() {
+        inputNombre.setText("");
+        inputApellidoPaterno.setText("");
+        inputApellidoMaterno.setText("");
+        inputTelefono.setText("");
+        inputCorreo.setText("");
     }
 }

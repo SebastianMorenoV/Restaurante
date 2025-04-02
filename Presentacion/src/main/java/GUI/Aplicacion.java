@@ -4,9 +4,17 @@
  */
 package GUI;
 
+import BO.ClienteBO;
+import DTOEntrada.CrearClienteDTO;
+import DTOSalida.ClienteDTO;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
+import exception.NegocioException;
+import interfaces.IClienteBO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
 
 /**
  *
@@ -15,8 +23,9 @@ import javax.swing.JPanel;
 public class Aplicacion {
 
     private JFrame framePrincipal; // Ventana principal
-    MenuPrincipalRestaurante menuPrincipal;
-    PantallaRegistrarCliente registrarCliente;
+    private MenuPrincipalRestaurante menuPrincipal;
+    private PantallaRegistrarCliente registrarCliente;
+    private IClienteBO clientesBO; 
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -27,9 +36,21 @@ public class Aplicacion {
         //inicializar pantallas
         menuPrincipal = new MenuPrincipalRestaurante(this);
         registrarCliente = new  PantallaRegistrarCliente(this);
+        clientesBO = ManejadorObjetosNegocio.crearClientesBO();
         
     }
-
+    
+    
+    public ClienteDTO registrarCliente(CrearClienteDTO cliente) throws NegocioException{
+        try {
+            return clientesBO.registrarCliente(cliente);
+        } catch (NegocioException ex) {
+            throw new NegocioException("salio algo mal.");
+        }
+    }
+            
+            
+            
     public void mostrarMenuPrincipal() {
         cambiarPantalla(menuPrincipal);
     }
