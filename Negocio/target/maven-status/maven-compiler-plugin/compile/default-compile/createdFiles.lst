@@ -1,0 +1,4 @@
+exception\NegocioException.class
+BO\ClienteBO.class
+interfaces\IClienteBO.class
+manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.class

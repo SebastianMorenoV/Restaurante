@@ -1,9 +1,12 @@
+DTOEntrada\CrearClienteDTO.class
 DTOSalida\IngredientesProductoDTO.class
 Enums\Estado.class
+DTOEntrada\ClasePrueba.class
 DTOSalida\IngredienteDTO.class
 Entidades\DetallesComanda.class
 com\carniceria\dominio\Dominio.class
 Entidades\Producto.class
+DTOSalida\ClienteDTO.class
 Enums\Tipo.class
 Entidades\Cliente.class
 DTOSalida\MesaDTO.class
@@ -12,5 +15,6 @@ DTOSalida\ProductoDTO.class
 Entidades\Ingrediente.class
 Entidades\IngredientesProducto.class
 Entidades\Comanda.class
+Entidades\ClienteFrecuente.class
 Enums\UnidadMedida.class
 Entidades\Mesa.class

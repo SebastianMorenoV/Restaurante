@@ -1,5 +1,8 @@
 DAO\MesaDAO.class
-interfaces\IMesaDAO.class
 pruebas\pruebasMesa.class
+interfaces\IMesaDAO.class
+pruebas\pruebasCliente.class
+interfaces\IClienteDAO.class
 conexion\Conexion.class
 exception\PersistenciaException.class
+DAO\ClienteDAO.class

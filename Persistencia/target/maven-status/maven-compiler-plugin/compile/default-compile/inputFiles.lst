@@ -1,5 +1,8 @@
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IMesaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\DAO\ClienteDAO.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\pruebas\pruebasCliente.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\interfaces\IMesaDAO.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Persistencia\src\main\java\interfaces\IClienteDAO.java
