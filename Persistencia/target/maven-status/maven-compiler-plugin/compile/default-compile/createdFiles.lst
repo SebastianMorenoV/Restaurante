@@ -1,11 +1,13 @@
 DAO\MesaDAO.class
 pruebas\pruebasMesa.class
-pruebas\pruebasIngrediente.class
 DAO\IngredienteDAO.class
 interfaces\IMesaDAO.class
-pruebas\pruebasCliente.class
 interfaces\IIngredienteDAO.class
 interfaces\IClienteDAO.class
-conexion\Conexion.class
 exception\PersistenciaException.class
+DAO\ProductoDAO.class
+pruebas\pruebasIngrediente.class
+DAO\IProductoDAO.class
+pruebas\pruebasCliente.class
+conexion\Conexion.class
 DAO\ClienteDAO.class

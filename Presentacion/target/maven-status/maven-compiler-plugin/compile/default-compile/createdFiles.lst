@@ -1,4 +1,5 @@
 com\carniceria\presentacion\Main.class
+GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente.class
 GUI\Aplicacion.class
 GUI\PanelRound.class
 GUI\MenuPrincipalRestaurante.class

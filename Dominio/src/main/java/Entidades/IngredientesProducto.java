@@ -18,7 +18,7 @@ import javax.persistence.Table;
  * @author Admin
  */
 @Entity
-@Table(name = "Ingrediente_Productot")
+@Table(name = "Ingrediente_Producto")
 public class IngredientesProducto implements Serializable {
 
     @Id
@@ -34,6 +34,11 @@ public class IngredientesProducto implements Serializable {
     @ManyToOne //uso de fetch.lazy????
     @JoinColumn(name = "producto_id")
     private Producto producto;
+
+    public IngredientesProducto() {
+    }
+    
+    
 
     public IngredientesProducto(Integer cantidad, Ingrediente ingrediente, Producto producto) {
         this.cantidad = cantidad;

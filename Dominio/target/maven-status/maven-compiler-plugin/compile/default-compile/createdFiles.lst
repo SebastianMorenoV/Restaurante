@@ -16,6 +16,7 @@ DTOSalida\ProductoDTO.class
 Entidades\Ingrediente.class
 Entidades\IngredientesProducto.class
 Entidades\Comanda.class
+Enums\ProductoActivo.class
 Entidades\ClienteFrecuente.class
 Enums\UnidadMedida.class
 Entidades\Mesa.class
