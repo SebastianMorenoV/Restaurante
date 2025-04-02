@@ -4,6 +4,12 @@
  */
 package GUI.ModuloClientesFrecuentes;
 
+import GUI.Aplicacion;
+import java.awt.Color;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.Timer;
+
 /**
  *
  * @author Sebastian Moreno
@@ -13,8 +19,12 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
     /**
      * Creates new form PantallaRegistrarCliente
      */
-    public PantallaRegistrarCliente() {
+    Aplicacion app;
+
+    public PantallaRegistrarCliente(Aplicacion app) {
+        this.app = app;
         initComponents();
+        mostrarFecha();
     }
 
     /**
@@ -40,18 +50,20 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         inputApellidoPaterno = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         pnlBtnGuardarCliente = new GUI.PanelRound();
-        jLabel7 = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         pnlTelefono = new GUI.PanelRound();
         inputTelefono = new javax.swing.JTextField();
-        pnlNombre1 = new GUI.PanelRound();
-        inputNombres1 = new javax.swing.JTextField();
+        pnlNombre = new GUI.PanelRound();
+        inputNombre = new javax.swing.JTextField();
         pnlBtnGuardarCliente1 = new GUI.PanelRound();
-        jLabel8 = new javax.swing.JLabel();
+        btnBuscarCliente = new javax.swing.JLabel();
         pnlBtnGuardarCliente2 = new GUI.PanelRound();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        btnGuardarCliente = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblHora = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        icnTiempo = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -61,9 +73,9 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 120)); // NOI18N
         jLabel1.setText("Registrar Cliente");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, -1, -1));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 230));
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -78,19 +90,19 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 1150, 3));
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 10));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel2.setText("APELLIDO MATERNO (OPCIONAL):");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, -1, -1));
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel3.setText("CORREO (OPCIONAL):");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 350, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 300, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel4.setText("APELLIDO PATERNO*:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, -1, -1));
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, -1));
 
         pnlApellidoMaterno.setBackground(new java.awt.Color(255, 255, 255));
         pnlApellidoMaterno.setRoundBottomLeft(30);
@@ -115,7 +127,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         });
         pnlApellidoMaterno.add(inputApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
-        add(pnlApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 490, 460, 50));
+        add(pnlApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 460, 50));
 
         pnlCorreo.setBackground(new java.awt.Color(255, 255, 255));
         pnlCorreo.setRoundBottomLeft(30);
@@ -140,7 +152,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         });
         pnlCorreo.add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
-        add(pnlCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 390, 440, 50));
+        add(pnlCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 350, 440, 50));
 
         pnlApellidoPaterno.setBackground(new java.awt.Color(255, 255, 255));
         pnlApellidoPaterno.setRoundBottomLeft(30);
@@ -165,11 +177,11 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         });
         pnlApellidoPaterno.add(inputApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
-        add(pnlApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 390, 460, 50));
+        add(pnlApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 460, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel5.setText("NOMBRE(S)*:");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
 
         pnlBtnGuardarCliente.setBackground(new java.awt.Color(255, 255, 255));
         pnlBtnGuardarCliente.setRoundBottomLeft(30);
@@ -178,16 +190,16 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlBtnGuardarCliente.setRoundTopRight(30);
         pnlBtnGuardarCliente.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("CANCELAR");
-        pnlBtnGuardarCliente.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+        btnCancelar.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
+        btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setText("CANCELAR");
+        pnlBtnGuardarCliente.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
 
-        add(pnlBtnGuardarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 630, 180, 50));
+        add(pnlBtnGuardarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 580, 180, 50));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel6.setText("TELEFONO*:");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 250, -1, -1));
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
 
         pnlTelefono.setBackground(new java.awt.Color(255, 255, 255));
         pnlTelefono.setRoundBottomLeft(30);
@@ -212,32 +224,32 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         });
         pnlTelefono.add(inputTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
-        add(pnlTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, 350, 50));
+        add(pnlTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 240, 350, 50));
 
-        pnlNombre1.setBackground(new java.awt.Color(255, 255, 255));
-        pnlNombre1.setRoundBottomLeft(30);
-        pnlNombre1.setRoundBottomRight(30);
-        pnlNombre1.setRoundTopLeft(30);
-        pnlNombre1.setRoundTopRight(30);
-        pnlNombre1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlNombre.setBackground(new java.awt.Color(255, 255, 255));
+        pnlNombre.setRoundBottomLeft(30);
+        pnlNombre.setRoundBottomRight(30);
+        pnlNombre.setRoundTopLeft(30);
+        pnlNombre.setRoundTopRight(30);
+        pnlNombre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        inputNombres1.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputNombres1.setForeground(new java.awt.Color(204, 204, 204));
-        inputNombres1.setText("Ingresar nombre de usuario");
-        inputNombres1.setBorder(null);
-        inputNombres1.addMouseListener(new java.awt.event.MouseAdapter() {
+        inputNombre.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
+        inputNombre.setForeground(new java.awt.Color(204, 204, 204));
+        inputNombre.setText("Ingresar nombre de usuario");
+        inputNombre.setBorder(null);
+        inputNombre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputNombres1MouseClicked(evt);
+                inputNombreMouseClicked(evt);
             }
         });
-        inputNombres1.addActionListener(new java.awt.event.ActionListener() {
+        inputNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombres1ActionPerformed(evt);
+                inputNombreActionPerformed(evt);
             }
         });
-        pnlNombre1.add(inputNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
+        pnlNombre.add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
-        add(pnlNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 450, 50));
+        add(pnlNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 450, 50));
 
         pnlBtnGuardarCliente1.setBackground(new java.awt.Color(255, 255, 255));
         pnlBtnGuardarCliente1.setRoundBottomLeft(30);
@@ -246,12 +258,12 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlBtnGuardarCliente1.setRoundTopRight(30);
         pnlBtnGuardarCliente1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("BUSCAR UN CLIENTE");
-        pnlBtnGuardarCliente1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 320, 30));
+        btnBuscarCliente.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
+        btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente.setText("BUSCAR UN CLIENTE");
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 320, 30));
 
-        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 580, 320, 50));
+        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 550, 320, 50));
 
         pnlBtnGuardarCliente2.setBackground(new java.awt.Color(255, 255, 255));
         pnlBtnGuardarCliente2.setRoundBottomLeft(30);
@@ -260,19 +272,30 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         pnlBtnGuardarCliente2.setRoundTopRight(30);
         pnlBtnGuardarCliente2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("      GUARDAR CLIENTE");
-        pnlBtnGuardarCliente2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 320, 30));
+        btnGuardarCliente.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
+        btnGuardarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGuardarCliente.setText("      GUARDAR CLIENTE");
+        btnGuardarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarClienteMouseClicked(evt);
+            }
+        });
+        pnlBtnGuardarCliente2.add(btnGuardarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 320, 30));
 
-        add(pnlBtnGuardarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 560, 320, 50));
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
+        pnlBtnGuardarCliente2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 40, 50));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
-        jLabel10.setText("10:00 PM");
-        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 650, -1, -1));
+        add(pnlBtnGuardarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 510, 320, 50));
+
+        lblHora.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        lblHora.setText("10:00 PM");
+        add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 610, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/audiencia.png"))); // NOI18N
-        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 450, -1, -1));
+        add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 410, -1, -1));
+
+        icnTiempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tiempo.png"))); // NOI18N
+        add(icnTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 620, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputApellidoMaternoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputApellidoMaternoMouseClicked
@@ -310,41 +333,55 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputTelefonoActionPerformed
 
-    private void inputNombres1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputNombres1MouseClicked
+    private void inputNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputNombreMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombres1MouseClicked
+    }//GEN-LAST:event_inputNombreMouseClicked
 
-    private void inputNombres1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombres1ActionPerformed
+    private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputNombres1ActionPerformed
+    }//GEN-LAST:event_inputNombreActionPerformed
+
+    private void btnGuardarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarClienteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarClienteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnBuscarCliente;
+    private javax.swing.JLabel btnCancelar;
+    private javax.swing.JLabel btnGuardarCliente;
+    private javax.swing.JLabel icnTiempo;
     private javax.swing.JTextField inputApellidoMaterno;
     private javax.swing.JTextField inputApellidoPaterno;
     private javax.swing.JTextField inputCorreo;
-    private javax.swing.JTextField inputNombres1;
+    private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputTelefono;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblHora;
     private GUI.PanelRound pnlApellidoMaterno;
     private GUI.PanelRound pnlApellidoPaterno;
     private GUI.PanelRound pnlBtnGuardarCliente;
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
     private GUI.PanelRound pnlCorreo;
-    private GUI.PanelRound pnlNombre1;
+    private GUI.PanelRound pnlNombre;
     private GUI.PanelRound pnlTelefono;
     // End of variables declaration//GEN-END:variables
+public void mostrarFecha() {
+        Timer timer = new Timer(1000, e -> {
+            LocalTime horaActual = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            lblHora.setText(horaActual.format(formatter));
+        });
+        timer.start();
+    }
 }

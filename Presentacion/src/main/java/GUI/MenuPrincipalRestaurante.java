@@ -30,7 +30,9 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     /**
      * Creates new form MenuPrincipalRestaurante
      */
-    public MenuPrincipalRestaurante() {
+    Aplicacion app;
+    public MenuPrincipalRestaurante(Aplicacion app) {
+        this.app = app;
         initComponents();
         centrarTextoTabla(tablaMesas);
         calcularHora();
@@ -141,6 +143,12 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("GENERAR ");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 130, 40));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
@@ -201,6 +209,10 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, 650, -1));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        app.mostrarPantallaRegistrarCliente();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

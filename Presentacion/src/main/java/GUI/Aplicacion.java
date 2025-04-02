@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,19 +16,26 @@ public class Aplicacion {
 
     private JFrame framePrincipal; // Ventana principal
     MenuPrincipalRestaurante menuPrincipal;
+    PantallaRegistrarCliente registrarCliente;
 
     public Aplicacion() {
-        framePrincipal = new JFrame("Sistema Carnicería");
+        framePrincipal = new JFrame("Sistema Restaurante");
         framePrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         framePrincipal.setSize(1150, 700);
         framePrincipal.setLocationRelativeTo(null); // Centrar pantalla
 
         //inicializar pantallas
-        menuPrincipal = new MenuPrincipalRestaurante();
+        menuPrincipal = new MenuPrincipalRestaurante(this);
+        registrarCliente = new  PantallaRegistrarCliente(this);
+        
     }
 
     public void mostrarMenuPrincipal() {
         cambiarPantalla(menuPrincipal);
+    }
+    
+    public void mostrarPantallaRegistrarCliente() {
+        cambiarPantalla(registrarCliente);
     }
 
     // Cambiar de pantalla dentro del frame principal
