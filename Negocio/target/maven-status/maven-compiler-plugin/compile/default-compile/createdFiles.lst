@@ -1,4 +1,6 @@
 exception\NegocioException.class
+interfaces\IIngredienteBO.class
 BO\ClienteBO.class
+BO\IngredienteBO.class
 interfaces\IClienteBO.class
 manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.class

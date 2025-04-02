@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DTOSalida;
+package DTOEntrada;
 
 import Enums.UnidadMedida;
 
@@ -10,16 +10,13 @@ import Enums.UnidadMedida;
  *
  * @author Admin
  */
-public class IngredienteDTO {
+public class CrearIngredienteDTO {
 
     private String nombre;
     private Integer stock;
     private UnidadMedida unidadMedida;
 
-    public IngredienteDTO() {
-    }
-
-    public IngredienteDTO(String nombre, Integer stock, UnidadMedida unidadMedida) {
+    public CrearIngredienteDTO(String nombre, Integer stock, UnidadMedida unidadMedida) {
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
@@ -48,13 +45,6 @@ public class IngredienteDTO {
     public void setUnidadMedida(UnidadMedida unidadMedida) {
         this.unidadMedida = unidadMedida;
     }
-
-    @Override
-    public String toString() {
-        return "IngredienteDTO{" + "nombre=" + nombre + ", stock=" + stock + ", unidadMedida=" + unidadMedida + '}';
-    }
-
-    
     
     
 }

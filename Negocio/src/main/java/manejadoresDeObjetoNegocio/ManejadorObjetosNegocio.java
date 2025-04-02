@@ -5,9 +5,13 @@
 package manejadoresDeObjetoNegocio;
 
 import BO.ClienteBO;
+import BO.IngredienteBO;
 import DAO.ClienteDAO;
+import DAO.IngredienteDAO;
 import interfaces.IClienteBO;
 import interfaces.IClienteDAO;
+import interfaces.IIngredienteBO;
+import interfaces.IIngredienteDAO;
 
 /**
  *
@@ -25,4 +29,13 @@ public class ManejadorObjetosNegocio {
         // 3. Retornamos la instancia del BO lista para ser utilizada.
         return clientesBO;
     }
+     
+     public static IIngredienteBO crearIngredientesBO(){
+         IIngredienteDAO ingredienteDAO = IngredienteDAO.getInstanceDAO();
+         
+         IIngredienteBO ingredienteBO = new IngredienteBO(ingredienteDAO);
+         
+         return ingredienteBO;
+         
+     }
 }

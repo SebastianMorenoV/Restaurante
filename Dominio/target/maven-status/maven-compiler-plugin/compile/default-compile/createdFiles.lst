@@ -8,6 +8,7 @@ com\carniceria\dominio\Dominio.class
 Entidades\Producto.class
 DTOSalida\ClienteDTO.class
 Enums\Tipo.class
+DTOEntrada\CrearIngredienteDTO.class
 Entidades\Cliente.class
 DTOSalida\MesaDTO.class
 DTOSalida\ComandaDTO.class

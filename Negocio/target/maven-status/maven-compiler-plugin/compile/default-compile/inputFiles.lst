@@ -1,4 +1,6 @@
-C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Negocio\src\main\java\BO\ClienteBO.java
-C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Negocio\src\main\java\interfaces\IClienteBO.java
-C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Negocio\src\main\java\manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.java
-C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Negocio\src\main\java\exception\NegocioException.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\BO\IngredienteBO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\exception\NegocioException.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\interfaces\IIngredienteBO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\interfaces\IClienteBO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Negocio\src\main\java\BO\ClienteBO.java
