@@ -7,6 +7,7 @@ package GUI;
 import BO.ClienteBO;
 import DTOEntrada.CrearClienteDTO;
 import DTOSalida.ClienteDTO;
+import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import exception.NegocioException;
 import interfaces.IClienteBO;
@@ -21,11 +22,17 @@ import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
  * @author Sebastian Moreno
  */
 public class Aplicacion {
-
+    
     private JFrame framePrincipal; // Ventana principal
+        // pantallas
     private MenuPrincipalRestaurante menuPrincipal;
     private PantallaRegistrarCliente registrarCliente;
+    private PantallaConsultarClientes consultarCliente;
+    
+    
+        //Manejadores de BO
     private IClienteBO clientesBO; 
+    
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -36,7 +43,11 @@ public class Aplicacion {
         //inicializar pantallas
         menuPrincipal = new MenuPrincipalRestaurante(this);
         registrarCliente = new  PantallaRegistrarCliente(this);
+        consultarCliente = new PantallaConsultarClientes(this);
+        
+        //manejadores de bo
         clientesBO = ManejadorObjetosNegocio.crearClientesBO();
+        
         
     }
     
@@ -45,18 +56,21 @@ public class Aplicacion {
         try {
             return clientesBO.registrarCliente(cliente);
         } catch (NegocioException ex) {
-            throw new NegocioException("salio algo mal.");
+            throw new NegocioException(ex.getLocalizedMessage());
         }
     }
             
             
-            
+    // Metodos para realizar cambios de pantalla
     public void mostrarMenuPrincipal() {
         cambiarPantalla(menuPrincipal);
     }
     
     public void mostrarPantallaRegistrarCliente() {
         cambiarPantalla(registrarCliente);
+    }
+    public void mostrarPantallaConsultarCliente(){
+        cambiarPantalla(consultarCliente);
     }
 
     // Cambiar de pantalla dentro del frame principal

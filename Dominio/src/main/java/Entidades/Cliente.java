@@ -35,9 +35,9 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", nullable = false, length = 100)
+    @Column(name = "nombre", nullable = false, length = 100 )
     private String nombre;
-    @Column(name = "telefono", nullable = false, length = 10)
+    @Column(name = "telefono", nullable = false, length = 10, unique = true)
     private String telefono;
     @Column(name = "correo", nullable = true, length = 200)
     private String correo;

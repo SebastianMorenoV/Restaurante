@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
  *
  * @author Sebastian Moreno
  */
-public class ClienteDAO implements IClienteDAO{
+public class ClienteDAO implements IClienteDAO {
 
     private static ClienteDAO instanceClienteDAO;
 
@@ -53,7 +53,7 @@ public class ClienteDAO implements IClienteDAO{
 
     @Override
     public ClienteFrecuente guardarClienteFrecuente(ClienteFrecuente clienteFrecuente) throws PersistenciaException {
-         EntityManager em = Conexion.crearConexion();
+        EntityManager em = Conexion.crearConexion();
         try {
             em.getTransaction().begin();
             em.persist(clienteFrecuente);
@@ -97,9 +97,9 @@ public class ClienteDAO implements IClienteDAO{
 
     @Override
     public List<ClienteFrecuente> obtenerClientesFrecuentes() throws PersistenciaException {
-       EntityManager em = Conexion.crearConexion();
+        EntityManager em = Conexion.crearConexion();
         try {
-            return em.createQuery("SELECT c FROM ClienteFrecuente c", ClienteFrecuente .class).getResultList();
+            return em.createQuery("SELECT c FROM ClienteFrecuente c", ClienteFrecuente.class).getResultList();
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar todos los Clientes Frecuentes: " + e.getMessage());
         } finally {
@@ -125,7 +125,7 @@ public class ClienteDAO implements IClienteDAO{
 
     @Override
     public boolean eliminar(Long id) throws PersistenciaException {
-       EntityManager em = Conexion.crearConexion();
+        EntityManager em = Conexion.crearConexion();
         try {
             Cliente cliente = em.find(Cliente.class, id);
             if (cliente == null) {
@@ -142,7 +142,23 @@ public class ClienteDAO implements IClienteDAO{
             em.close();
         }
     }
+
+    @Override
+    public boolean existeTelefono(String telefono) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            Long count = em.createQuery(
+                    "SELECT COUNT(c) FROM Cliente c WHERE c.telefono = :telefono", Long.class)
+                    .setParameter("telefono", telefono)
+                    .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al verificar teléfono: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
     
     
-    
+
 }

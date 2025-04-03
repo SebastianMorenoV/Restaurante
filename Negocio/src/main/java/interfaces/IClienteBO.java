@@ -4,6 +4,7 @@ package interfaces;
 import DTOEntrada.CrearClienteDTO;
 import DTOSalida.ClienteDTO;
 import exception.NegocioException;
+import java.util.List;
 
 /**
  *
@@ -11,4 +12,6 @@ import exception.NegocioException;
  */
 public interface IClienteBO {
     public ClienteDTO registrarCliente(CrearClienteDTO clienteDTO) throws NegocioException;
+    
+    public List<ClienteDTO> obtenerTodos(CrearClienteDTO clienteDTO)throws NegocioException;
 }
