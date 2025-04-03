@@ -9,12 +9,14 @@ import DTOEntrada.CrearClienteDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
 import DTOSalida.IngredienteDTO;
+import DTOSalida.MesaDTO;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloIngredientes.FormularioRegistrarIngrediente;
 import exception.NegocioException;
 import interfaces.IClienteBO;
 import interfaces.IIngredienteBO;
+import interfaces.IMesaBO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,12 +46,18 @@ public class Aplicacion {
     //Manejadores de BO
     private IClienteBO clientesBO;
     private IIngredienteBO ingredientesBO;
+    private IMesaBO mesasBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
         framePrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         framePrincipal.setSize(1150, 700);
         framePrincipal.setLocationRelativeTo(null); // Centrar pantalla
+
+        //manejadores de bo
+        clientesBO = ManejadorObjetosNegocio.crearClientesBO();
+        ingredientesBO = ManejadorObjetosNegocio.crearIngredientesBO();
+        mesasBO = ManejadorObjetosNegocio.crearMesasBO();
 
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
@@ -59,10 +67,6 @@ public class Aplicacion {
         consultarCliente = new PantallaConsultarClientes(this);
         comandasActivas = new PantallaComandasActivas(this);
         formularioIngrediente = new FormularioRegistrarIngrediente(this);
-
-        //manejadores de bo
-        clientesBO = ManejadorObjetosNegocio.crearClientesBO();
-        ingredientesBO = ManejadorObjetosNegocio.crearIngredientesBO();
 
     }
 
@@ -81,10 +85,26 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    public IngredienteDTO registrarIngrediente(CrearIngredienteDTO ingrediente)throws NegocioException {
+
+    public IngredienteDTO registrarIngrediente(CrearIngredienteDTO ingrediente) throws NegocioException {
         try {
             return ingredientesBO.agregarIngrediente(ingrediente);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+    public boolean insertMasivoMesas() throws NegocioException {
+        try {
+            return mesasBO.insertMasivoMesas();
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+    public List<MesaDTO> obtenerTodas() throws NegocioException {
+        try {
+            return mesasBO.obtenerTodas();
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
@@ -110,12 +130,18 @@ public class Aplicacion {
     public void mostrarPantallaComandasActivas() {
         cambiarPantalla(comandasActivas);
     }
-    
-    public void mostrarPantallaRegistrarIngrediente(){
+
+    public void mostrarPantallaRegistrarIngrediente() {
         cambiarPantalla(formularioIngrediente);
     }
-    public void mostrarMenuMesero(){
+
+    public void mostrarMenuMesero() {
         cambiarPantalla(menuMesero);
+    }
+
+    public void reconstruirPantallaMesero() {
+       menuMesero = new MenuMesero(this);
+        
     }
 
     // Cambiar de pantalla dentro del frame principal
@@ -131,7 +157,8 @@ public class Aplicacion {
     public void setRol(String rol) {
         this.rol = rol;
     }
-    public String getRol(){
+
+    public String getRol() {
         return rol;
     }
 }

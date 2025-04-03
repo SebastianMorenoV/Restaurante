@@ -1,5 +1,6 @@
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOSalida\ClienteDTO.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOSalida\ProductoDTO.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOEntrada\CrearMesaDTO.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Entidades\Cliente.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Enums\UnidadMedida.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOSalida\IngredientesProductoDTO.java
@@ -15,6 +16,7 @@ C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\mai
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOSalida\MesaDTO.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Entidades\Mesa.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\DTOEntrada\ClasePrueba.java
+C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Enums\EstadoMesa.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Entidades\Comanda.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Entidades\DetallesComanda.java
 C:\Users\Sebastian Moreno\Documents\NetBeansProjects\Restaurante\Dominio\src\main\java\Enums\Estado.java

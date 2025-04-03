@@ -6,6 +6,7 @@ package interfaces;
 
 import Entidades.Mesa;
 import exception.PersistenciaException;
+import java.util.List;
 
 /**
  *
@@ -17,5 +18,6 @@ public interface IMesaDAO {
     
     public boolean eliminarMesa(Long numeroMesa) throws PersistenciaException;
     
+    public List<Mesa> obtenerTodas() throws PersistenciaException;
     
 }

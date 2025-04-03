@@ -4,9 +4,17 @@
  */
 package GUI;
 
+import DTOSalida.MesaDTO;
+import exception.NegocioException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,10 +26,13 @@ public class MenuMesero extends javax.swing.JPanel {
      * Creates new form MenuMesero
      */
     Aplicacion app;
+
     public MenuMesero(Aplicacion app) {
         this.app = app;
         initComponents();
-        mostrarFecha(); 
+        mostrarFecha();
+        validarMesasExistentes();
+        centrarTextoTabla(tablaMesas);
     }
 
     /**
@@ -48,6 +59,7 @@ public class MenuMesero extends javax.swing.JPanel {
         icnTiempo = new javax.swing.JLabel();
         lblHora = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -113,9 +125,9 @@ public class MenuMesero extends javax.swing.JPanel {
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel11.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Playfair Display", 1, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("INICIAR COMANDA");
+        jLabel11.setText("INICIAR COMANDA EN MESA :");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         panelRound1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, -1));
 
@@ -123,12 +135,7 @@ public class MenuMesero extends javax.swing.JPanel {
         tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 36)); // NOI18N
         tablaMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"                    MESA 1"},
-                {"                    MESA 2"},
-                {"                    MESA 3"},
-                {"                    MESA 4"},
-                {"                    MESA 5"},
-                {"                    MESA 6"}
+
             },
             new String [] {
                 ""
@@ -179,6 +186,9 @@ public class MenuMesero extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mesero2.png"))); // NOI18N
         add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 320, -1, -1));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 40, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
@@ -196,6 +206,7 @@ public class MenuMesero extends javax.swing.JPanel {
     private javax.swing.JLabel icnTiempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
@@ -207,6 +218,21 @@ public class MenuMesero extends javax.swing.JPanel {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JTable tablaMesas;
     // End of variables declaration//GEN-END:variables
+    //Metodos que acceden a la base de datos.
+    public List<MesaDTO> obtenerTodas() {
+        try {
+            List<MesaDTO> mesasCargadas = app.obtenerTodas();
+            if (mesasCargadas == null || mesasCargadas.isEmpty()) {
+                return null; // Si la lista es vacía, se retorna null
+            }
+            cargarMesasTabla(mesasCargadas);
+            return mesasCargadas;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al consultar las mesas : " + ex.getMessage(),
+                    "Error en Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
 
     //metodos auxiliares
     private void mostrarFecha() {
@@ -216,5 +242,33 @@ public class MenuMesero extends javax.swing.JPanel {
             lblHora.setText(horaActual.format(formatter));
         });
         timer.start();
+    }
+
+    public void validarMesasExistentes() {
+        //logica para validar que haya o no mesas
+        if (obtenerTodas() != null) {
+
+        }
+    }
+
+    public void centrarTextoTabla(JTable tabla) {
+        DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
+        centrado.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Aplicar el renderizador a todas las columnas de la tabla
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            tabla.getColumnModel().getColumn(i).setCellRenderer(centrado);
+        }
+    }
+
+    public void cargarMesasTabla(List<MesaDTO> mesasDTO) {
+
+        DefaultTableModel model = (DefaultTableModel) tablaMesas.getModel();
+        model.setRowCount(0);
+
+        for (MesaDTO mesa : mesasDTO) {
+            model.addRow(new Object[]{mesa.getNumeroMesa()});
+        }
+
     }
 }

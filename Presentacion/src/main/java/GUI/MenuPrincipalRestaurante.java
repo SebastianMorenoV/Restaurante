@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import DTOSalida.MesaDTO;
+import exception.NegocioException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,13 +16,18 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -38,6 +45,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         initComponents();
         centrarTextoTabla(tablaMesas);
         calcularHora();
+        validarMesasExistentes();
     }
 
     /**
@@ -50,10 +58,12 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        pnlBtnGuardarCliente3 = new GUI.PanelRound();
+        btnBuscarCliente2 = new javax.swing.JLabel();
         pnlHeader = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        pnlBtnGuardarCliente1 = new GUI.PanelRound();
-        btnBuscarCliente = new javax.swing.JLabel();
+        pnlBtnInsertarMesas = new GUI.PanelRound();
+        btnInsertarMesas = new javax.swing.JLabel();
         pnlHeader1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -79,6 +89,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         pnlBtnGuardarCliente2 = new GUI.PanelRound();
         btnBuscarCliente1 = new javax.swing.JLabel();
+        icnTiempo = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setForeground(new java.awt.Color(216, 202, 179));
@@ -99,6 +111,27 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
+        pnlBtnGuardarCliente3.setBackground(new java.awt.Color(153, 0, 0));
+        pnlBtnGuardarCliente3.setRoundBottomLeft(30);
+        pnlBtnGuardarCliente3.setRoundBottomRight(30);
+        pnlBtnGuardarCliente3.setRoundTopLeft(30);
+        pnlBtnGuardarCliente3.setRoundTopRight(30);
+        pnlBtnGuardarCliente3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBuscarCliente2.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
+        btnBuscarCliente2.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarCliente2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente2.setText("SALIR");
+        btnBuscarCliente2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarCliente2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente2MouseClicked(evt);
+            }
+        });
+        pnlBtnGuardarCliente3.add(btnBuscarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 60));
+
+        add(pnlBtnGuardarCliente3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 62, 182, 60));
+
         pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
         pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -109,26 +142,26 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 15, -1, -1));
 
-        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(153, 0, 0));
-        pnlBtnGuardarCliente1.setRoundBottomLeft(30);
-        pnlBtnGuardarCliente1.setRoundBottomRight(30);
-        pnlBtnGuardarCliente1.setRoundTopLeft(30);
-        pnlBtnGuardarCliente1.setRoundTopRight(30);
-        pnlBtnGuardarCliente1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlBtnInsertarMesas.setBackground(new java.awt.Color(51, 204, 0));
+        pnlBtnInsertarMesas.setRoundBottomLeft(30);
+        pnlBtnInsertarMesas.setRoundBottomRight(30);
+        pnlBtnInsertarMesas.setRoundTopLeft(30);
+        pnlBtnInsertarMesas.setRoundTopRight(30);
+        pnlBtnInsertarMesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBuscarCliente.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnBuscarCliente.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnBuscarCliente.setText("SALIR");
-        btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnInsertarMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
+        btnInsertarMesas.setForeground(new java.awt.Color(0, 0, 0));
+        btnInsertarMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnInsertarMesas.setText("INSERTAR MESAS");
+        btnInsertarMesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarClienteMouseClicked(evt);
+                btnInsertarMesasMouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 60));
+        pnlBtnInsertarMesas.add(btnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 60));
 
-        pnlHeader.add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 62, 182, 60));
+        pnlHeader.add(pnlBtnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 60, 182, 60));
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
@@ -306,12 +339,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 36)); // NOI18N
         tablaMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"                    MESA 1"},
-                {"                    MESA 2"},
-                {"                    MESA 3"},
-                {"                    MESA 4"},
-                {"                    MESA 5"},
-                {"                    MESA 6"}
+
             },
             new String [] {
                 ""
@@ -342,9 +370,9 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel11.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Playfair Display", 1, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("INICIAR COMANDA");
+        jLabel11.setText("INICIAR  COMANDA  EN  MESA :");
         jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         panelRound1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, -1));
 
@@ -375,10 +403,16 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         pnlBtnGuardarCliente2.add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 40));
 
         add(pnlBtnGuardarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 360, 40));
+
+        icnTiempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tiempo.png"))); // NOI18N
+        add(icnTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 178, -1, 40));
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/usuario.png"))); // NOI18N
+        add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 180, 40, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-      
+
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
@@ -393,9 +427,18 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         app.mostrarPantallaRegistrarCliente();
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
-        app.mostrarMenuSelector();
-    }//GEN-LAST:event_btnBuscarClienteMouseClicked
+    private void btnInsertarMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesasMouseClicked
+
+        //logica para validar que haya o no mesas
+        if (obtenerTodas() == null) {
+            insertMasivoMesas();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error ya existen las mesas : ",
+                    "Error en Registro", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_btnInsertarMesasMouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
         app.mostrarPantallaRegistrarCliente();
@@ -417,11 +460,17 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         app.mostrarPantallaComandasActivas();
     }//GEN-LAST:event_btnBuscarCliente1MouseClicked
 
+    private void btnBuscarCliente2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente2MouseClicked
+        app.mostrarMenuSelector();
+    }//GEN-LAST:event_btnBuscarCliente2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnBuscarCliente;
     private javax.swing.JLabel btnBuscarCliente1;
+    private javax.swing.JLabel btnBuscarCliente2;
+    private javax.swing.JLabel btnInsertarMesas;
     private javax.swing.JLabel hora;
+    private javax.swing.JLabel icnTiempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -430,6 +479,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -444,14 +494,46 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.PanelRound panelRound1;
-    private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
+    private GUI.PanelRound pnlBtnGuardarCliente3;
+    private GUI.PanelRound pnlBtnInsertarMesas;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHeader1;
     private javax.swing.JTable tablaMesas;
     // End of variables declaration//GEN-END:variables
+//Metodos que acceden a la base de datos.
+    public void insertMasivoMesas() {
+        try {
+            // logica para insertas mesas , pero debe buscar primero para saber si hay o no hay
+            app.insertMasivoMesas();
+            JOptionPane.showMessageDialog(this, "¡Mesas ingresadas correctemente!\n " + "Total mesas : 20",
+                    "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            validarMesasExistentes();
+            pnlBtnInsertarMesas.setVisible(false);
+            btnInsertarMesas.setVisible(false);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al registrar las mesas : " + ex.getMessage(),
+                    "Error en Registro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
+    public List<MesaDTO> obtenerTodas() {
+        try {
+            List<MesaDTO> mesasCargadas = app.obtenerTodas();
+            if (mesasCargadas == null || mesasCargadas.isEmpty()) {
+                return null; // Si la lista es vacía, se retorna null
+            }
+            cargarMesasTabla(mesasCargadas);
+            app.reconstruirPantallaMesero();
+            return mesasCargadas;
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al consultar las mesas : " + ex.getMessage(),
+                    "Error en Consulta", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
 //Metodos Auxiliares
+
     public void centrarTextoTabla(JTable tabla) {
         DefaultTableCellRenderer centrado = new DefaultTableCellRenderer();
         centrado.setHorizontalAlignment(SwingConstants.CENTER);
@@ -463,12 +545,31 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     }
 
     public void calcularHora() {
-  Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(1000, e -> {
             LocalTime horaActual = LocalTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
             hora.setText(horaActual.format(formatter));
         });
         timer.start();
+    }
+
+    public void validarMesasExistentes() {
+        //logica para validar que haya o no mesas
+        if (obtenerTodas() != null) {
+            pnlBtnInsertarMesas.setVisible(false);
+            btnInsertarMesas.setVisible(false);
+        }
+    }
+
+    public void cargarMesasTabla(List<MesaDTO> mesasDTO) {
+
+        DefaultTableModel model = (DefaultTableModel) tablaMesas.getModel();
+        model.setRowCount(0);
+
+        for (MesaDTO mesa : mesasDTO) {
+            model.addRow(new Object[]{mesa.getNumeroMesa()});
+        }
+
     }
 
 }

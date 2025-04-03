@@ -9,6 +9,7 @@ import conexion.Conexion;
 import exception.PersistenciaException;
 import javax.persistence.EntityManager;
 import interfaces.IMesaDAO;
+import java.util.List;
 
 /**
  *
@@ -63,6 +64,18 @@ public class MesaDAO implements IMesaDAO {
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new PersistenciaException("No se pudo eliminar la mesa: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Mesa> obtenerTodas() throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            return em.createQuery("SELECT m FROM Mesa m", Mesa.class).getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("No se pudieron obtener las mesas: " + e.getMessage());
         } finally {
             em.close();
         }

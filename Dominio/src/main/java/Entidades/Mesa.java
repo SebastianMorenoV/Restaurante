@@ -1,8 +1,11 @@
 package Entidades;
 
+import Enums.EstadoMesa;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +26,10 @@ public class Mesa implements Serializable {
     
     @Column(name = "numeroMesa" , nullable = false)
     private Integer numMesa;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado" , nullable = true)
+    private EstadoMesa estado;
 
     public Mesa() {
     }
@@ -32,15 +39,18 @@ public class Mesa implements Serializable {
         this.numMesa = numMesa;
     }
 
-    public Mesa(Integer numMesa) {
+    public Mesa(Long id, Integer numMesa, EstadoMesa estado) {
+        this.id = id;
         this.numMesa = numMesa;
+        this.estado = estado;
     }
 
-    public Integer getNumMesa() {
-        return numMesa;
+    public Mesa(Integer numMesa, EstadoMesa estado) {
+        this.numMesa = numMesa;
+        this.estado = estado;
     }
 
-    public void setNumMesa(Integer numMesa) {
+    public Mesa(Integer numMesa) {
         this.numMesa = numMesa;
     }
     
@@ -52,6 +62,24 @@ public class Mesa implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getNumMesa() {
+        return numMesa;
+    }
+
+    public void setNumMesa(Integer numMesa) {
+        this.numMesa = numMesa;
+    }
+
+    public EstadoMesa getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoMesa estado) {
+        this.estado = estado;
+    }
+
+    
 
     @Override
     public String toString() {
