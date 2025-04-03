@@ -53,6 +53,12 @@ public class Ingrediente implements Serializable {
         this.unidadMedida = unidadMedida;
         this.productos = productos;
     }
+
+    public Ingrediente(String nombre, Integer stock, UnidadMedida unidadMedida) {
+        this.nombre = nombre;
+        this.stock = stock;
+        this.unidadMedida = unidadMedida;
+    }
     
     
 

@@ -24,39 +24,40 @@ public class pruebasIngrediente {
         // TODO code application logic here
         IIngredienteDAO ingredienteDAO = IngredienteDAO.getInstanceDAO();
 
-        //Agregar un ingrediente
-        try {
-            Ingrediente ingrediente = new Ingrediente(1L, "Queso parmesano", 20, UnidadMedida.GRAMOS);
-            ingredienteDAO.guardarIngrediente(ingrediente);
-        } catch (PersistenciaException ex) {
-            ex.printStackTrace();
-        }
+//        //Agregar un ingrediente
+//        try {
+//            Ingrediente ingrediente = new Ingrediente(1L, "Queso parmesano", 20, UnidadMedida.GRAMOS);
+//            ingredienteDAO.guardarIngrediente(ingrediente);
+//        } catch (PersistenciaException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        try {
+//            Ingrediente ingrediente = new Ingrediente(2L, "Tomate", 13, UnidadMedida.PIEZAS);
+//            ingredienteDAO.guardarIngrediente(ingrediente);
+//        } catch (PersistenciaException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        try {
+//            Ingrediente ingrediente = new Ingrediente(3L, "Leche", 7000, UnidadMedida.MILILITROS);
+//            ingredienteDAO.guardarIngrediente(ingrediente);
+//        } catch (PersistenciaException ex) {
+//            ex.printStackTrace();
+//        }
 
-        try {
-            Ingrediente ingrediente = new Ingrediente(2L, "Pepino", 13, UnidadMedida.PIEZAS);
-            ingredienteDAO.guardarIngrediente(ingrediente);
-        } catch (PersistenciaException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            Ingrediente ingrediente = new Ingrediente(3L, "Aceite", 7000, UnidadMedida.MILILITROS);
-            ingredienteDAO.guardarIngrediente(ingrediente);
-        } catch (PersistenciaException ex) {
-            ex.printStackTrace();
-        }
-
-        //Eliminar un ingrediente
-        try {
-            ingredienteDAO.eliminarIngrediente(2L);
-        } catch (PersistenciaException ex) {
-            ex.printStackTrace();
-        }
+////        //Eliminar un ingrediente
+////        try {
+////            ingredienteDAO.eliminarIngrediente(18L);
+////            ingredienteDAO.eliminarIngrediente(19L);
+////            ingredienteDAO.eliminarIngrediente(20L);
+////        } catch (PersistenciaException ex) {
+////            ex.printStackTrace();
+////        }
 
         //Actualizar un ingrediente
         try {
-            // Supongamos que el ingrediente con id 1 existe
-            Ingrediente ingrediente = ingredienteDAO.buscarPorId(1L);//Queso parmesano
+            Ingrediente ingrediente = ingredienteDAO.buscarPorId(15L);//Queso parmesano
             if (ingrediente != null) {
                 ingrediente.setStock(25);
                 ingrediente.setUnidadMedida(UnidadMedida.GRAMOS); // En caso de querer cambiar la unidad

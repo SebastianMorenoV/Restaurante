@@ -94,6 +94,42 @@ public class Aplicacion {
         }
     }
 
+    public void eliminarIngrediente(Long id) throws NegocioException {
+        try {
+            IngredienteDTO ingrediente = ingredientesBO.obtenerPorId(id);
+            ingredientesBO.eliminarIngrediente(ingrediente.getId());
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+    public IngredienteDTO actualizarStockIngrediente(Long id, int stock)throws NegocioException{
+        try{
+            return ingredientesBO.actualizarPorID(id, stock);
+        }catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+    public IngredienteDTO obtenerIngredientePorId(Long id) throws NegocioException{
+        try{
+            return ingredientesBO.obtenerPorId(id);
+        }catch(NegocioException ex){
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    } 
+
+    public List<IngredienteDTO> obtenerIngredientes() throws NegocioException {
+        try {
+            if (ingredientesBO == null) {
+                throw new NegocioException("Error: ingredientesBO no ha sido inicializado.");
+            }
+            return ingredientesBO.obtenerTodos();
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
     public boolean insertMasivoMesas() throws NegocioException {
         try {
             return mesasBO.insertMasivoMesas();
@@ -140,8 +176,8 @@ public class Aplicacion {
     }
 
     public void reconstruirPantallaMesero() {
-       menuMesero = new MenuMesero(this);
-        
+        menuMesero = new MenuMesero(this);
+
     }
 
     // Cambiar de pantalla dentro del frame principal

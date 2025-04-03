@@ -12,6 +12,7 @@ import Enums.UnidadMedida;
  */
 public class IngredienteDTO {
 
+    private Long id;
     private String nombre;
     private Integer stock;
     private UnidadMedida unidadMedida;
@@ -19,10 +20,19 @@ public class IngredienteDTO {
     public IngredienteDTO() {
     }
 
-    public IngredienteDTO(String nombre, Integer stock, UnidadMedida unidadMedida) {
+    public IngredienteDTO(Long id, String nombre, Integer stock, UnidadMedida unidadMedida) {
+        this.id = id;
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -51,10 +61,7 @@ public class IngredienteDTO {
 
     @Override
     public String toString() {
-        return "IngredienteDTO{" + "nombre=" + nombre + ", stock=" + stock + ", unidadMedida=" + unidadMedida + '}';
+        return "IngredienteDTO{" + "id=" + id + ", nombre=" + nombre + ", stock=" + stock + ", unidadMedida=" + unidadMedida + '}';
     }
 
-    
-    
-    
 }

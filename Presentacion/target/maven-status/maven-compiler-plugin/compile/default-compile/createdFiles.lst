@@ -38,6 +38,7 @@ GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$8.class
 GUI\MenuPrincipalRestaurante$10.class
 GUI\ModuloIngredientes\PruebaFormularioIngrediente.class
 GUI\MenuMesero$3.class
+GUI\ModuloIngredientes\FormularioRegistrarIngrediente$7.class
 GUI\MenuPrincipalRestaurante$3.class
 GUI\MenuPrincipalRestaurante.class
 GUI\MenuPrincipalRestaurante$4.class
@@ -52,6 +53,7 @@ GUI\MenuSelector.class
 GUI\MenuSelector$2.class
 GUI\MenuMesero$1.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$6.class
+GUI\ModuloIngredientes\FormularioRegistrarIngrediente$8.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$9.class
 GUI\MenuPrincipalRestaurante$11.class
 GUI\MenuPrincipalRestaurante$7.class

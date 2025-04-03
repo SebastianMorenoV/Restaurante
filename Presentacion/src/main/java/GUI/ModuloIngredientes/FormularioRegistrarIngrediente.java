@@ -5,6 +5,7 @@ package GUI.ModuloIngredientes;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 import DTOEntrada.CrearIngredienteDTO;
+import DTOSalida.IngredienteDTO;
 import Enums.UnidadMedida;
 import GUI.*;
 import GUI.Aplicacion;
@@ -19,6 +20,9 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -26,6 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -44,6 +49,43 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         cbxUnidades.setUI(null);
         cbxUnidades.setUI(new javax.swing.plaf.basic.BasicComboBoxUI());
         cbxUnidades.setBackground(Color.WHITE);
+        configurarTablaIngredientes();
+        cargarDatosTabla();
+
+        tableIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) { // Doble clic
+                    int filaSeleccionada = tableIngredientes.getSelectedRow();
+                    if (filaSeleccionada != -1) {
+                        Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
+                        String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
+                        UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
+                        int stock = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
+
+                        IngredienteDTO ingredienteEliminar = new IngredienteDTO(id, nombre, stock, unidadMedida);
+
+                        int mensajeEliminar = JOptionPane.showConfirmDialog(
+                                null,
+                                "¿Desea eliminar el ingrediente?",
+                                " ",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (mensajeEliminar == JOptionPane.YES_OPTION) {
+                            try {
+                                app.eliminarIngrediente(ingredienteEliminar.getId());
+                                JOptionPane.showMessageDialog(null, "Ingrediente eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                                cargarDatosTabla();
+                            } catch (NegocioException ex) {
+                                Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+                
+            }
+        });
 
     }
 
@@ -75,7 +117,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound4 = new GUI.PanelRound();
         btnCancelar = new javax.swing.JLabel();
         panelRound5 = new GUI.PanelRound();
-        bntModificarIngrediente = new javax.swing.JLabel();
+        btnModificarIngrediente = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
@@ -123,6 +165,8 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
                 "Codigo", "Ingrediente", "Unidad de medida", "Stock"
             }
         ));
+        tableIngredientes.getTableHeader().setResizingAllowed(false);
+        tableIngredientes.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableIngredientes);
 
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(512, 250, 570, 340));
@@ -289,13 +333,13 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound5.setRoundTopLeft(30);
         panelRound5.setRoundTopRight(30);
 
-        bntModificarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        bntModificarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bntModificarIngrediente.setText("Modificar Ingrediente");
-        bntModificarIngrediente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bntModificarIngrediente.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnModificarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnModificarIngrediente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnModificarIngrediente.setText("Modificar Ingrediente");
+        btnModificarIngrediente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificarIngrediente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bntModificarIngredienteMouseClicked(evt);
+                btnModificarIngredienteMouseClicked(evt);
             }
         });
 
@@ -303,11 +347,11 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound5.setLayout(panelRound5Layout);
         panelRound5Layout.setHorizontalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bntModificarIngrediente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addComponent(btnModificarIngrediente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
         );
         panelRound5Layout.setVerticalGroup(
             panelRound5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bntModificarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(btnModificarIngrediente, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
         add(panelRound5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 600, 320, 50));
@@ -319,7 +363,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
     private void cbxUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUnidadesActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cbxUnidadesActionPerformed
 
     private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
@@ -335,13 +379,42 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         registrarIngrediente();
     }//GEN-LAST:event_btnRegistrarIngredienteMouseClicked
 
-    private void bntModificarIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bntModificarIngredienteMouseClicked
+    private void btnModificarIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarIngredienteMouseClicked
         // TODO add your handling code here:
-        
-        String nuevoStockStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo stock para " + "asd" + ":", "Modificar Stock", JOptionPane.PLAIN_MESSAGE);
-        Integer nuevoStock = Integer.parseInt(nuevoStockStr.trim());
-        
-    }//GEN-LAST:event_bntModificarIngredienteMouseClicked
+        int filaSeleccionada = tableIngredientes.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un ingrediente a modificar", "Error", JOptionPane.ERROR_MESSAGE);
+            return; 
+        }
+
+        Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
+        String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
+        UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
+        int stockActual = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
+
+        // Mostrar un JOptionPane para modificar el stock
+        String nuevoStockStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo stock para " + nombre + ":", "Modificar Stock", JOptionPane.PLAIN_MESSAGE);
+
+        if (nuevoStockStr != null && !nuevoStockStr.trim().isEmpty()) {
+            try {
+                int nuevoStock = Integer.parseInt(nuevoStockStr.trim());
+
+                // Aquí puedes agregar la llamada al método de la lógica de negocio para actualizar el stock
+                app.actualizarStockIngrediente(id, nuevoStock);
+
+                // Refrescar la tabla después de modificar
+                cargarDatosTabla();
+
+                JOptionPane.showMessageDialog(this, "Stock modificado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NegocioException ex) {
+                Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Error al modificar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnModificarIngredienteMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         app.mostrarMenuPrincipal();
@@ -349,8 +422,8 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel bntModificarIngrediente;
     private javax.swing.JLabel btnCancelar;
+    private javax.swing.JLabel btnModificarIngrediente;
     private javax.swing.JLabel btnRegistrarIngrediente;
     private javax.swing.JComboBox<String> cbxUnidades;
     private javax.swing.JTextField inputNombre;
@@ -375,8 +448,8 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 //
     public void registrarIngrediente() {
         String nombreIngrediente = inputNombre.getText().trim();
-        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();
-        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada); //seleccionamos la opcion dle combobox y la casteamos a UnidadMedida
+        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();//seleccionamos la opcion dle combobox y la casteamos a un string
+        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada); //ahora convertimos el String a un UnidadMedida
         Integer stock = Integer.parseInt(inputStockInicial.getText().trim());
 
         if (nombreIngrediente.isEmpty() || nombreIngrediente.equals("Nombre del ingrediente")) {
@@ -392,19 +465,52 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Ingrediente registrado exitosamente!\n ",
                     ingredienteEntero, JOptionPane.INFORMATION_MESSAGE);
             limpiarCampos();
+            cargarDatosTabla();
+
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error al registrar el ingrediente: " + ex.getMessage(),
                     "Error en Registro", JOptionPane.ERROR_MESSAGE);
         }
 
     }
-    
-    public void actualizarStock(){
-        //String nombreIngrediente = 
-        
+
+    public void eliminarIngrediente() {
+        //app.eliminarIngrediente();
     }
-    
+
+    public void actualizarStock() {
+
+    }
+
     //Falta cargar datos en tabla y eliminar ingrediente de la tabla con doble click
+    private void configurarTablaIngredientes() {
+        DefaultTableModel modelo = new DefaultTableModel(
+                new Object[][]{},
+                new String[]{"Código", "Ingrediente", "Unidad de medida", "Stock"}
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hace que todas las celdas sean no editables
+            }
+        };
+
+        tableIngredientes.setModel(modelo);
+    }
+
+    private void cargarDatosTabla() {
+        try {
+            List<IngredienteDTO> ingredientes = app.obtenerIngredientes();
+            DefaultTableModel model = (DefaultTableModel) tableIngredientes.getModel();
+            model.setRowCount(0); // Limpiar tabla existente
+
+            for (IngredienteDTO ingrediente : ingredientes) {
+                model.addRow(new Object[]{ingrediente.getId(), ingrediente.getNombre(), ingrediente.getUnidadMedida(), ingrediente.getStock()});
+            }
+
+        } catch (NegocioException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     //Auxiliares
     public void limpiarCampos() {
