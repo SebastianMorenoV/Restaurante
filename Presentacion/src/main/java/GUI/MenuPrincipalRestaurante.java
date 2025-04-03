@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,6 +32,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
      * Creates new form MenuPrincipalRestaurante
      */
     Aplicacion app;
+
     public MenuPrincipalRestaurante(Aplicacion app) {
         this.app = app;
         initComponents();
@@ -47,15 +49,10 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSeparator1 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        hora = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
         pnlHeader1 = new javax.swing.JPanel();
-        jSeparator2 = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -65,79 +62,84 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaMesas = new javax.swing.JTable();
+        hora = new javax.swing.JLabel();
+        panelRound1 = new GUI.PanelRound();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        pnlBtnGuardarCliente1 = new GUI.PanelRound();
+        btnBuscarCliente = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setForeground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator1.setFont(new java.awt.Font("Dialog", 0, 48)); // NOI18N
-        jSeparator1.setMaximumSize(new java.awt.Dimension(10, 32767));
-        jSeparator1.setPreferredSize(new java.awt.Dimension(500, 2));
-        add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 4, 520));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
         pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 100)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Playfair Display", 1, 100)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("RESTAURANTE");
+        jLabel4.setText("Restaurante");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        hora.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 24)); // NOI18N
-        hora.setText("jLabel11");
 
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
         pnlHeaderLayout.setHorizontalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(203, 203, 203)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addGap(300, 300, 300))
         );
         pnlHeaderLayout.setVerticalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(hora, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
-        jSeparator3.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 10));
-
         pnlHeader1.setBackground(new java.awt.Color(255, 255, 255));
         pnlHeader1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jSeparator2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        pnlHeader1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 260, 20));
-
-        jSeparator5.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        pnlHeader1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 10));
-
-        jSeparator4.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        pnlHeader1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 260, -1));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("REPORTE");
-        pnlHeader1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 40));
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 130, 40));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("PRODUCTO");
-        pnlHeader1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 150, 40));
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 150, 40));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
@@ -149,76 +151,245 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
                 jLabel3MouseClicked(evt);
             }
         });
-        pnlHeader1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 130, 40));
+        pnlHeader1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 130, 40));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("REGISTRAR");
-        pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 140, 40));
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 140, 40));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel6.setText("FRECUENTE");
-        pnlHeader1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 150, 40));
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+        pnlHeader1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 150, 30));
 
         jLabel7.setBackground(new java.awt.Color(0, 0, 0));
         jLabel7.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("INGREDIENTE");
-        pnlHeader1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 180, 30));
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 180, 30));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("REGISTRAR");
-        pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 140, 40));
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 140, 40));
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("REGISTRAR");
-        pnlHeader1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 140, 40));
+        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
+        pnlHeader1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 140, 30));
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel10.setText("CLIENTE");
-        pnlHeader1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 140, 40));
+        jLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
+        pnlHeader1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 140, 30));
+
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        pnlHeader1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 260, 4));
+
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        pnlHeader1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 260, 4));
+
+        jPanel5.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        pnlHeader1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 260, 4));
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perfil (1).png"))); // NOI18N
+        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
+        pnlHeader1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 70, 70));
+
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/verdura.png"))); // NOI18N
+        jLabel12.setText("jLabel12");
+        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 70, -1));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/caja.png"))); // NOI18N
+        jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, -1, -1));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/documento.png"))); // NOI18N
+        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlHeader1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
 
         add(pnlHeader1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 260, 520));
 
-        tablaMesas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 48)); // NOI18N
+        tablaMesas.setBackground(new java.awt.Color(255, 255, 255));
+        tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 36)); // NOI18N
         tablaMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"MESA 1"},
-                {"MESA 2"},
-                {"MESA 3"},
-                {"MESA 4"},
-                {"MESA 5"},
-                {"MESA 6"}
+                {"                    MESA 1"},
+                {"                    MESA 2"},
+                {"                    MESA 3"},
+                {"                    MESA 4"},
+                {"                    MESA 5"},
+                {"                    MESA 6"}
             },
             new String [] {
-                "INICIAR COMANDA"
+                ""
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaMesas.setRowHeight(80);
         jScrollPane1.setViewportView(tablaMesas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, 650, -1));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 590, 330));
+
+        hora.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
+        hora.setText("jLabel11");
+        add(hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 180, 127, 36));
+
+        panelRound1.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound1.setRoundBottomLeft(30);
+        panelRound1.setRoundBottomRight(30);
+        panelRound1.setRoundTopLeft(30);
+        panelRound1.setRoundTopRight(30);
+        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel11.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("INICIAR COMANDA");
+        jLabel11.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelRound1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, -1));
+
+        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, 590, 380));
+
+        jLabel16.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel16.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
+        jLabel16.setText("Rol : Administrador");
+        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 230, -1));
+
+        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBtnGuardarCliente1.setRoundBottomLeft(30);
+        pnlBtnGuardarCliente1.setRoundBottomRight(30);
+        pnlBtnGuardarCliente1.setRoundTopLeft(30);
+        pnlBtnGuardarCliente1.setRoundTopRight(30);
+        pnlBtnGuardarCliente1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBuscarCliente.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
+        btnBuscarCliente.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente.setText("CONSULTAR COMANDAS ACTIVAS");
+        btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarClienteMouseClicked(evt);
+            }
+        });
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 50));
+
+        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 360, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        app.mostrarPantallaRegistrarCliente();
+      
     }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        app.mostrarPantallaRegistrarCliente();
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        app.mostrarPantallaRegistrarCliente();
+    }//GEN-LAST:event_jLabel10MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        app.mostrarPantallaRegistrarCliente();
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
+        app.mostrarPantallaComandasActivas();
+    }//GEN-LAST:event_btnBuscarClienteMouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        app.mostrarPantallaRegistrarCliente();
+    }//GEN-LAST:event_jLabel13MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnBuscarCliente;
     private javax.swing.JLabel hora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -227,12 +398,13 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
+    private GUI.PanelRound panelRound1;
+    private GUI.PanelRound pnlBtnGuardarCliente1;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHeader1;
     private javax.swing.JTable tablaMesas;
@@ -250,10 +422,12 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     }
 
     public void calcularHora() {
-
-        LocalTime l = LocalDateTime.now().toLocalTime();
-        String horaFormateada = l.format(DateTimeFormatter.ofPattern("hh:mm a"));
-        hora.setText(horaFormateada);
+  Timer timer = new Timer(1000, e -> {
+            LocalTime horaActual = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            hora.setText(horaActual.format(formatter));
+        });
+        timer.start();
     }
 
 }

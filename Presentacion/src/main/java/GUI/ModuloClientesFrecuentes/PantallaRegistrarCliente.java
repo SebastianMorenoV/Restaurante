@@ -282,7 +282,7 @@ public class PantallaRegistrarCliente extends javax.swing.JPanel {
                 btnBuscarClienteMouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 50));
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 310, 50));
 
         add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 550, 320, 50));
 

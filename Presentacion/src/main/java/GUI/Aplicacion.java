@@ -23,17 +23,20 @@ import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
  * @author Sebastian Moreno
  */
 public class Aplicacion {
-    
-    private JFrame framePrincipal; // Ventana principal
-        // pantallas
+
+    //atributos de sesion
+    private String rol;
+    // Ventana principal
+    private JFrame framePrincipal;
+    // pantallas
     private MenuPrincipalRestaurante menuPrincipal;
+    private MenuSelector menuSelector;
     private PantallaRegistrarCliente registrarCliente;
     private PantallaConsultarClientes consultarCliente;
-    
-    
-        //Manejadores de BO
-    private IClienteBO clientesBO; 
-    
+    private PantallaComandasActivas comandasActivas;
+
+    //Manejadores de BO
+    private IClienteBO clientesBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -42,43 +45,52 @@ public class Aplicacion {
         framePrincipal.setLocationRelativeTo(null); // Centrar pantalla
 
         //inicializar pantallas
+        menuSelector = new MenuSelector(this);
         menuPrincipal = new MenuPrincipalRestaurante(this);
-        registrarCliente = new  PantallaRegistrarCliente(this);
+        registrarCliente = new PantallaRegistrarCliente(this);
         consultarCliente = new PantallaConsultarClientes(this);
-        
+        comandasActivas = new PantallaComandasActivas(this);
+
         //manejadores de bo
         clientesBO = ManejadorObjetosNegocio.crearClientesBO();
-        
-        
+
     }
-    
-    
-    public ClienteDTO registrarCliente(CrearClienteDTO cliente) throws NegocioException{
+
+    public ClienteDTO registrarCliente(CrearClienteDTO cliente) throws NegocioException {
         try {
             return clientesBO.registrarCliente(cliente);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-     public List<ClienteDTO> buscarClientes(ClienteDTO clienteFiltroDTO) throws NegocioException{
-      try {
+
+    public List<ClienteDTO> buscarClientes(ClienteDTO clienteFiltroDTO) throws NegocioException {
+        try {
             return clientesBO.buscarClientes(clienteFiltroDTO);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
-     }
-            
-            
+    }
+
     // Metodos para realizar cambios de pantalla
+    public void mostrarMenuSelector() {
+        cambiarPantalla(menuSelector);
+    }
+
     public void mostrarMenuPrincipal() {
         cambiarPantalla(menuPrincipal);
     }
-    
+
     public void mostrarPantallaRegistrarCliente() {
         cambiarPantalla(registrarCliente);
     }
-    public void mostrarPantallaConsultarCliente(){
+
+    public void mostrarPantallaConsultarCliente() {
         cambiarPantalla(consultarCliente);
+    }
+
+    public void mostrarPantallaComandasActivas() {
+        cambiarPantalla(comandasActivas);
     }
 
     // Cambiar de pantalla dentro del frame principal
@@ -90,4 +102,11 @@ public class Aplicacion {
         framePrincipal.setVisible(true);
     }
 
+    //Metodos para obtener datos necesarios de sesion
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+    public String getRol(){
+        return rol;
+    }
 }
