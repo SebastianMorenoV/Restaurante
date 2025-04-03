@@ -327,7 +327,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
     private void btnRegistrarIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarIngredienteMouseClicked
         // TODO add your handling code here:
-        //registrarIngrediente();
+        registrarIngrediente();
     }//GEN-LAST:event_btnRegistrarIngredienteMouseClicked
 
     private void bntModificarIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bntModificarIngredienteMouseClicked
@@ -364,31 +364,31 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 //
-//    public void registrarIngrediente() {
-//        String nombreIngrediente = inputNombre.getText().trim();
-//        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();
-//        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada); //seleccionamos la opcion dle combobox y la casteamos a UnidadMedida
-//        Integer stock = Integer.parseInt(inputStockInicial.getText().trim());
-//
-//        if (nombreIngrediente.isEmpty() || nombreIngrediente.equals("Nombre del ingrediente")) {
-//            JOptionPane.showMessageDialog(this, "Todos los campos (*) son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-//
-//        String ingredienteEntero = stock + " " + unidadMedida + " " + nombreIngrediente;
-//        CrearIngredienteDTO ingrediente = new CrearIngredienteDTO(nombreIngrediente, stock, unidadMedida);
-//
-//        try {
-//            app.registrarIngrediente(ingrediente);
-//            JOptionPane.showMessageDialog(this, "Ingrediente registrado exitosamente!\n ",
-//                    ingredienteEntero, JOptionPane.INFORMATION_MESSAGE);
-//            limpiarCampos();
-//        } catch (NegocioException ex) {
-//            JOptionPane.showMessageDialog(this, "Error al registrar el ingrediente: " + ex.getMessage(),
-//                    "Error en Registro", JOptionPane.ERROR_MESSAGE);
-//        }
-//
-//    }
+    public void registrarIngrediente() {
+        String nombreIngrediente = inputNombre.getText().trim();
+        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();
+        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada); //seleccionamos la opcion dle combobox y la casteamos a UnidadMedida
+        Integer stock = Integer.parseInt(inputStockInicial.getText().trim());
+
+        if (nombreIngrediente.isEmpty() || nombreIngrediente.equals("Nombre del ingrediente")) {
+            JOptionPane.showMessageDialog(this, "Todos los campos (*) son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String ingredienteEntero = stock + " " + unidadMedida + " " + nombreIngrediente;
+        CrearIngredienteDTO ingrediente = new CrearIngredienteDTO(nombreIngrediente, stock, unidadMedida);
+
+        try {
+            app.registrarIngrediente(ingrediente);
+            JOptionPane.showMessageDialog(this, "Ingrediente registrado exitosamente!\n ",
+                    ingredienteEntero, JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al registrar el ingrediente: " + ex.getMessage(),
+                    "Error en Registro", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
     
     public void actualizarStock(){
         //String nombreIngrediente = 
