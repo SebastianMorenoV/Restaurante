@@ -1,6 +1,7 @@
 BO\ProductoBO.class
 interfaces\IIngredienteBO.class
 Mapper\IngredientesMapper.class
+pruebas\PruebasIngrediente.class
 pruebas\PruebasCliente.class
 BO\IngredienteBO.class
 interfaces\IClienteBO.class

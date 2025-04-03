@@ -5,6 +5,7 @@
 package interfaces;
 
 import Entidades.Ingrediente;
+import Enums.UnidadMedida;
 import exception.PersistenciaException;
 import java.util.List;
 
@@ -23,6 +24,10 @@ public interface IIngredienteDAO {
     public Ingrediente actualizarIngrediente(Ingrediente ingrediente) throws PersistenciaException;
 
     public Ingrediente buscarPorId(Long id) throws PersistenciaException;
+    
+    public boolean existeIngrediente(String nombre, UnidadMedida unidadMedida) throws PersistenciaException;
+    
+    public Ingrediente buscarPorNombre(String nombre) throws PersistenciaException;
      
     
 }

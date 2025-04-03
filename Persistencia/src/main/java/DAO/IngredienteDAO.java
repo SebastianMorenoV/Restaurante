@@ -5,6 +5,7 @@
 package DAO;
 
 import Entidades.Ingrediente;
+import Enums.UnidadMedida;
 import conexion.Conexion;
 import exception.PersistenciaException;
 import interfaces.IIngredienteDAO;
@@ -114,4 +115,37 @@ public class IngredienteDAO implements IIngredienteDAO {
             em.close();
         }
     }
+
+    @Override
+    public boolean existeIngrediente(String nombre, UnidadMedida unidadMedida) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            Long count = em.createQuery(
+                    "SELECT COUNT(i) FROM Ingrediente i WHERE i.nombre = :nombre AND i.unidadMedida = :unidadMedida",
+                    Long.class)
+                    .setParameter("nombre", nombre)
+                    .setParameter("unidadMedida", unidadMedida)
+                    .getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al verificar existencia del ingrediente: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Ingrediente buscarPorNombre(String nombre) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            return em.createQuery("SELECT i FROM Ingrediente i WHERE i.nombre = :nombre", Ingrediente.class)
+                    .setParameter("nombre", nombre)
+                    .getSingleResult();
+        } catch (PersistenceException e) {
+            throw new PersistenciaException("Error al buscar el ingrediente por nombre: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
 }

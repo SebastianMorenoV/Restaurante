@@ -7,6 +7,7 @@ package interfaces;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.IngredienteDTO;
 import exception.NegocioException;
+import java.util.List;
 
 /**
  *
@@ -14,4 +15,11 @@ import exception.NegocioException;
  */
 public interface IIngredienteBO {
     public IngredienteDTO agregarIngrediente(CrearIngredienteDTO ingredienteDTO) throws NegocioException;
+    
+    public IngredienteDTO actualizarStockPorNombre(String nombre, int nuevoStock) throws NegocioException;
+    
+    public void eliminarIngrediente(Long id) throws NegocioException;
+    
+    public List<IngredienteDTO> obtenerTodos() throws NegocioException;
+    
 }
