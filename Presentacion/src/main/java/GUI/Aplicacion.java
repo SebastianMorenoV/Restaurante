@@ -11,6 +11,7 @@ import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import exception.NegocioException;
 import interfaces.IClienteBO;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -59,6 +60,13 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+     public List<ClienteDTO> buscarClientes(ClienteDTO clienteFiltroDTO) throws NegocioException{
+      try {
+            return clientesBO.buscarClientes(clienteFiltroDTO);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+     }
             
             
     // Metodos para realizar cambios de pantalla

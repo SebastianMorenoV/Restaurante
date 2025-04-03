@@ -31,7 +31,9 @@ public interface IClienteDAO {
 
     // Eliminar un cliente por ID
     public boolean eliminar(Long id) throws PersistenciaException;
-    
+
     public boolean existeTelefono(String telefono) throws PersistenciaException;
+
+    public List<Cliente> buscarClientes(Cliente clienteFiltro) throws PersistenciaException;
     // probablemente tenga que meter asociarClienteAComanda
 }

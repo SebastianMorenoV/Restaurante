@@ -6,6 +6,15 @@ package GUI.ModuloClientesFrecuentes;
 
 import GUI.Aplicacion;
 import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import DTOSalida.ClienteDTO;
+import exception.NegocioException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,9 +23,16 @@ import java.awt.Color;
 public class PantallaConsultarClientes extends javax.swing.JPanel {
 
     private Aplicacion app;
+
     public PantallaConsultarClientes(Aplicacion app) {
         this.app = app;
         initComponents();
+
+        agregarDocumentListener(inputNombre);
+        agregarDocumentListener(inputApellidoPaterno);
+        agregarDocumentListener(inputApellidoMaterno);
+        agregarDocumentListener(inputTelefono);
+        agregarDocumentListener(inputCorreo);
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +43,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         lblBusquedaCliente = new javax.swing.JLabel();
         lblFrecuente = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -53,7 +70,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaClientes = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -79,7 +96,15 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         lblFrecuente.setFont(new java.awt.Font("Segoe UI", 0, 100)); // NOI18N
         lblFrecuente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblFrecuente.setText("Frecuente");
+        lblFrecuente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblFrecuenteMouseClicked(evt);
+            }
+        });
         pnlHeader.add(lblFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 940, 110));
+
+        jLabel1.setText("jLabel1");
+        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 130, -1, -1));
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
@@ -120,9 +145,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputNombreFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputNombreFocusLost(evt);
-            }
         });
         pnlNombre.add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 420, 30));
 
@@ -149,9 +171,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputApellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputApellidoPaternoFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputApellidoPaternoFocusLost(evt);
             }
         });
         pnlApellidoPaterno.add(inputApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -191,9 +210,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputTelefonoFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputTelefonoFocusLost(evt);
-            }
         });
         pnlTelefono.add(inputTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 250, 30));
 
@@ -216,9 +232,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputCorreoFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputCorreoFocusLost(evt);
             }
         });
         pnlCorreo.add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 460, 30));
@@ -244,14 +257,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputApellidoMaternoFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputApellidoMaternoFocusLost(evt);
-            }
-        });
-        inputApellidoMaterno.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputApellidoMaternoMouseClicked(evt);
-            }
         });
         pnlApellidoMaterno.add(inputApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
 
@@ -274,9 +279,10 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         jLabel11.setText("TELEFONO:");
         add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 270, -1, -1));
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaClientes.setBackground(new java.awt.Color(255, 255, 255));
+        tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tablaClientes.setForeground(new java.awt.Color(0, 0, 0));
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -284,7 +290,8 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                 "Telefono", "Correo Electronico", "Nombre Completo", "Visitas", "Total Gastado", "Puntos"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tablaClientes.setRowHeight(30);
+        jScrollPane1.setViewportView(tablaClientes);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 400, 840, 250));
     }// </editor-fold>//GEN-END:initComponents
@@ -295,23 +302,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputNombreFocusGained
 
-    private void inputNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombreFocusLost
-        if (inputNombre.getText().trim().isEmpty()) {
-            inputNombre.setText("Ingresar nombre(s)");
-        }
-    }//GEN-LAST:event_inputNombreFocusLost
-
     private void inputApellidoPaternoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoPaternoFocusGained
         if (inputApellidoPaterno.getText().equals("Ingresar apellido")) {
             inputApellidoPaterno.setText("");
         }
     }//GEN-LAST:event_inputApellidoPaternoFocusGained
-
-    private void inputApellidoPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoPaternoFocusLost
-        if (inputApellidoPaterno.getText().trim().isEmpty()) {
-            inputApellidoPaterno.setText("Ingresar apellido");
-        }
-    }//GEN-LAST:event_inputApellidoPaternoFocusLost
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
         app.mostrarPantallaConsultarCliente();
@@ -323,23 +318,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputTelefonoFocusGained
 
-    private void inputTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTelefonoFocusLost
-        if (inputTelefono.getText().trim().isEmpty()) {
-            inputTelefono.setText("Ingresar telefono");
-        }
-    }//GEN-LAST:event_inputTelefonoFocusLost
-
     private void inputCorreoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputCorreoFocusGained
         if (inputCorreo.getText().equals("Correo Electronico (Opcional)")) {
             inputCorreo.setText("");
         }
     }//GEN-LAST:event_inputCorreoFocusGained
-
-    private void inputCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputCorreoFocusLost
-        if (inputCorreo.getText().trim().isEmpty()) {
-            inputCorreo.setText("Correo Electronico (Opcional)");
-        }
-    }//GEN-LAST:event_inputCorreoFocusLost
 
     private void inputApellidoMaternoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoMaternoFocusGained
         if (inputApellidoMaterno.getText().equals("Apellido Materno (Opcional)")) {
@@ -347,22 +330,13 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputApellidoMaternoFocusGained
 
-    private void inputApellidoMaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoMaternoFocusLost
-        if (inputApellidoMaterno.getText().trim().isEmpty()) {
-            inputApellidoMaterno.setText("Apellido Materno (Opcional)");
-        }
-    }//GEN-LAST:event_inputApellidoMaternoFocusLost
-
-    private void inputApellidoMaternoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputApellidoMaternoMouseClicked
-        if (inputApellidoMaterno.getText().equalsIgnoreCase("Ingresar nombre de usuario")) {
-            inputApellidoMaterno.setText("");
-            inputApellidoMaterno.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_inputApellidoMaternoMouseClicked
-
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         app.mostrarMenuPrincipal();
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void lblFrecuenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFrecuenteMouseClicked
+        realizarBusqueda();
+    }//GEN-LAST:event_lblFrecuenteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -372,6 +346,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     private javax.swing.JTextField inputCorreo;
     private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputTelefono;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -388,7 +363,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblBusquedaCliente;
     private javax.swing.JLabel lblFrecuente;
     private GUI.PanelRound pnlApellidoMaterno;
@@ -397,11 +371,74 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     private javax.swing.JPanel pnlHeader;
     private GUI.PanelRound pnlNombre;
     private GUI.PanelRound pnlTelefono;
+    private javax.swing.JTable tablaClientes;
     // End of variables declaration//GEN-END:variables
 
     //Metodos que acceden a la base de datos.
-    
-    public void buscarPorCampos(){
-        
+    // Método para agregar DocumentListener a los JTextFields
+    private void agregarDocumentListener(JTextField textField) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+        });
+    }
+
+    // Método para realizar la búsqueda en el clienteBO
+    private void realizarBusqueda() {
+        // Construir el nombre completo a partir de los campos de entrada
+        StringBuilder nombreCompleto = new StringBuilder(inputNombre.getText().trim());
+
+        if (!inputApellidoPaterno.getText().trim().isEmpty()) {
+            nombreCompleto.append(" ").append(inputApellidoPaterno.getText().trim());
+        }
+        if (!inputApellidoMaterno.getText().trim().isEmpty()
+                && !inputApellidoMaterno.getText().trim().contains("Ingresar apellido")) {
+            nombreCompleto.append(" ").append(inputApellidoMaterno.getText().trim());
+        }
+
+        // Crear el objeto ClienteDTO con el nombre completo
+        ClienteDTO clienteFiltro = new ClienteDTO();
+        clienteFiltro.setNombreCompleto(nombreCompleto.toString().trim()); // Evitar espacios extra
+        clienteFiltro.setTelefono(inputTelefono.getText().trim());
+
+        // Si el campo de correo está vacío, no lo establecemos (para que no filtre incorrectamente)
+        String correo = inputCorreo.getText().trim();
+        if (!correo.isEmpty()) {
+            clienteFiltro.setCorreo(correo);
+        }
+
+        // Realizar la búsqueda en el BO
+        List<ClienteDTO> clientesEncontrados;
+        try {
+            clientesEncontrados = app.buscarClientes(clienteFiltro);
+            // Actualizar la tabla con los resultados
+            actualizarTabla(clientesEncontrados);
+        } catch (NegocioException ex) {
+            Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    // Método para actualizar la tabla con los resultados de búsqueda
+    private void actualizarTabla(List<ClienteDTO> clientes) {
+        DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
+        model.setRowCount(0); // Limpiar tabla existente
+
+        // Llenar la tabla con los resultados
+        for (ClienteDTO cliente : clientes) {
+            model.addRow(new Object[]{cliente.getCorreo(), cliente.getTelefono(), cliente.getNombreCompleto(), cliente.getPuntos(), cliente.getTotalGastado(), cliente.getVisitasTotales()});
+        }
     }
 }

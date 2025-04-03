@@ -9,8 +9,10 @@ import Entidades.ClienteFrecuente;
 import conexion.Conexion;
 import exception.PersistenciaException;
 import interfaces.IClienteDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  * DAO del Modulo ClientesFrecuentes
@@ -158,7 +160,54 @@ public class ClienteDAO implements IClienteDAO {
             em.close();
         }
     }
-    
-    
+
+    @Override
+    public List<Cliente> buscarClientes(Cliente clienteFiltro) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        List<Cliente> clientes = new ArrayList<>();
+
+        try {
+            em.getTransaction().begin(); // INICIAR TRANSACCIÓN
+            // Asegurar que los cambios en la BD estén reflejados antes de la consulta
+            em.flush();
+            StringBuilder jpql = new StringBuilder("SELECT c FROM Cliente c WHERE 1=1");
+
+            if (clienteFiltro.getNombre() != null && !clienteFiltro.getNombre().trim().isEmpty()) {
+                jpql.append(" AND LOWER(c.nombre) LIKE :nombre");
+            }
+            if (clienteFiltro.getTelefono() != null && !clienteFiltro.getTelefono().trim().isEmpty()) {
+                jpql.append(" AND c.telefono LIKE :telefono");
+            }
+            if (clienteFiltro.getCorreo() != null && !clienteFiltro.getCorreo().trim().isEmpty()) {
+                jpql.append(" AND c.correo LIKE :correo");
+            }
+
+            TypedQuery<Cliente> query = em.createQuery(jpql.toString(), Cliente.class)
+                    .setHint("javax.persistence.cache.storeMode", "REFRESH"); // Evita caché esto lo tuve que hacer porque no encontraba los datos actualizados , se necesitaba refrescar la memoria.
+                   
+            if (clienteFiltro.getNombre() != null && !clienteFiltro.getNombre().trim().isEmpty()) {
+                query.setParameter("nombre", "%" + clienteFiltro.getNombre().toLowerCase() + "%");
+            }
+            if (clienteFiltro.getTelefono() != null && !clienteFiltro.getTelefono().trim().isEmpty()) {
+                query.setParameter("telefono", "%" + clienteFiltro.getTelefono() + "%");
+            }
+            if (clienteFiltro.getCorreo() != null && !clienteFiltro.getCorreo().trim().isEmpty()) {
+                query.setParameter("correo", "%" + clienteFiltro.getCorreo() + "%");
+            }
+
+            clientes = query.getResultList();
+
+            em.getTransaction().commit(); 
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // REVERTIR CAMBIOS SI HAY ERROR
+            }
+            throw new PersistenciaException("Error al buscar clientes: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+
+        return clientes;
+    }
 
 }

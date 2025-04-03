@@ -6,12 +6,14 @@ package BO;
 
 import DTOEntrada.CrearClienteDTO;
 import DTOSalida.ClienteDTO;
+import Entidades.Cliente;
 import Entidades.ClienteFrecuente;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IClienteBO;
 import interfaces.IClienteDAO;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +79,54 @@ public class ClienteBO implements IClienteBO {
             throw new NegocioException("Error al guardar el cliente." + ex.getMessage(), ex);
         }
 
+    }
+
+    public List<ClienteDTO> buscarClientes(ClienteDTO clienteFiltroDTO) throws NegocioException {
+        // Convertimos el DTO en una entidad Cliente
+        Cliente clienteFiltro = new Cliente();
+        clienteFiltro.setNombre(clienteFiltroDTO.getNombreCompleto()); // Solo se usa nombre completo
+        clienteFiltro.setTelefono(clienteFiltroDTO.getTelefono());
+        clienteFiltro.setCorreo(clienteFiltroDTO.getCorreo());
+
+        // Llamamos al método DAO para realizar la búsqueda
+        List<Cliente> clientes;
+        try {
+            clientes = clienteDAO.buscarClientes(clienteFiltro);
+
+            // Convertimos la lista de entidades Cliente a una lista de DTOs para la presentación
+            List<ClienteDTO> clientesDTO = new ArrayList<>();
+            for (Cliente cliente : clientes) {
+                ClienteDTO clienteDTO;
+
+                if (cliente instanceof ClienteFrecuente) {
+                    // Si es un ClienteFrecuente, castéalo y agrega los valores adicionales
+                    ClienteFrecuente clienteFrecuente = (ClienteFrecuente) cliente;
+                    clienteDTO = new ClienteDTO(
+                            cliente.getNombre(), // Nombre completo
+                            cliente.getTelefono(),
+                            cliente.getCorreo()
+                    );
+                    // Aquí agregamos los atributos adicionales de ClienteFrecuente
+                    clienteDTO.setPuntos(clienteFrecuente.getPuntosFidelidad());
+                    clienteDTO.setVisitasTotales(clienteFrecuente.getVisitas());
+                    clienteDTO.setTotalGastado(clienteFrecuente.getGastoAcumulado());
+                } else {
+                    // Si no es un ClienteFrecuente, simplemente se crea el DTO básico
+                    clienteDTO = new ClienteDTO(
+                            cliente.getNombre(), // Nombre completo
+                            cliente.getTelefono(),
+                            cliente.getCorreo()
+                    );
+                }
+
+                clientesDTO.add(clienteDTO);
+            }
+
+            return clientesDTO;
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ClienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Hubo un error buscando clientes: " + ex.getLocalizedMessage());
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ package DTOSalida;
  * @author Sebastian Moreno
  */
 public class ClienteDTO {
+
     private String nombreCompleto;
     private String correo;
     private String telefono;
@@ -26,6 +27,12 @@ public class ClienteDTO {
         this.visitasTotales = visitasTotales;
         this.totalGastado = totalGastado;
         this.puntos = puntos;
+    }
+
+    public ClienteDTO(String nombreCompleto, String correo, String telefono) {
+        this.nombreCompleto = nombreCompleto;
+        this.correo = correo;
+        this.telefono = telefono;
     }
 
     public String getNombreCompleto() {
@@ -75,6 +82,5 @@ public class ClienteDTO {
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
-    
-    
+
 }
