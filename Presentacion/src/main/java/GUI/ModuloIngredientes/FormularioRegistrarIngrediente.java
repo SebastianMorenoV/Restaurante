@@ -146,7 +146,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound1.setRoundTopRight(30);
 
         inputStockInicial.setBorder(null);
-        inputStockInicial.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        inputStockInicial.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         inputStockInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputStockInicialActionPerformed(evt);
@@ -179,7 +179,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound2.setRoundTopRight(30);
 
         inputNombre.setBorder(null);
-        inputNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        inputNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         inputNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputNombreActionPerformed(evt);
@@ -215,7 +215,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         cbxUnidades.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cbxUnidades.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GRAMOS", "PIEZAS", "MILILITROS" }));
         cbxUnidades.setBorder(null);
-        cbxUnidades.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxUnidades.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         cbxUnidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxUnidadesActionPerformed(evt);
@@ -264,6 +264,11 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelar.setText("Cancelar");
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRound4Layout = new javax.swing.GroupLayout(panelRound4);
         panelRound4.setLayout(panelRound4Layout);
@@ -337,6 +342,10 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         Integer nuevoStock = Integer.parseInt(nuevoStockStr.trim());
         
     }//GEN-LAST:event_bntModificarIngredienteMouseClicked
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        app.mostrarMenuPrincipal();
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

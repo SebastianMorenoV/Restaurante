@@ -43,7 +43,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         lblBusquedaCliente = new javax.swing.JLabel();
         lblFrecuente = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -102,9 +101,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             }
         });
         pnlHeader.add(lblFrecuente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 940, 110));
-
-        jLabel1.setText("jLabel1");
-        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 130, -1, -1));
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
@@ -346,7 +342,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     private javax.swing.JTextField inputCorreo;
     private javax.swing.JTextField inputNombre;
     private javax.swing.JTextField inputTelefono;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

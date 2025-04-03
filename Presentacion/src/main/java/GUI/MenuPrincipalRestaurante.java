@@ -52,6 +52,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         pnlHeader = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        pnlBtnGuardarCliente1 = new GUI.PanelRound();
+        btnBuscarCliente = new javax.swing.JLabel();
         pnlHeader1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -75,8 +77,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         panelRound1 = new GUI.PanelRound();
         jLabel11 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        pnlBtnGuardarCliente1 = new GUI.PanelRound();
-        btnBuscarCliente = new javax.swing.JLabel();
+        pnlBtnGuardarCliente2 = new GUI.PanelRound();
+        btnBuscarCliente1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setForeground(new java.awt.Color(216, 202, 179));
@@ -98,29 +100,35 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
         pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Playfair Display", 1, 100)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("Restaurante");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 15, -1, -1));
 
-        javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
-        pnlHeader.setLayout(pnlHeaderLayout);
-        pnlHeaderLayout.setHorizontalGroup(
-            pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(300, 300, 300))
-        );
-        pnlHeaderLayout.setVerticalGroup(
-            pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(153, 0, 0));
+        pnlBtnGuardarCliente1.setRoundBottomLeft(30);
+        pnlBtnGuardarCliente1.setRoundBottomRight(30);
+        pnlBtnGuardarCliente1.setRoundTopLeft(30);
+        pnlBtnGuardarCliente1.setRoundTopRight(30);
+        pnlBtnGuardarCliente1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnBuscarCliente.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
+        btnBuscarCliente.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente.setText("SALIR");
+        btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarClienteMouseClicked(evt);
+            }
+        });
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 60));
+
+        pnlHeader.add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 62, 182, 60));
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
@@ -177,6 +185,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("INGREDIENTE");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 180, 30));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
@@ -184,6 +197,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("REGISTRAR");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 140, 40));
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
@@ -267,6 +285,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/verdura.png"))); // NOI18N
         jLabel12.setText("jLabel12");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 70, -1));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/caja.png"))); // NOI18N
@@ -308,8 +331,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 590, 330));
 
         hora.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
-        hora.setText("jLabel11");
-        add(hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 180, 127, 36));
+        hora.setText("Hora");
+        add(hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(957, 180, 160, 36));
 
         panelRound1.setBackground(new java.awt.Color(255, 255, 255));
         panelRound1.setRoundBottomLeft(30);
@@ -330,28 +353,28 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel16.setBackground(new java.awt.Color(0, 0, 0));
         jLabel16.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
         jLabel16.setText("Rol : Administrador");
-        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 230, -1));
+        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 181, 230, 40));
 
-        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(255, 255, 255));
-        pnlBtnGuardarCliente1.setRoundBottomLeft(30);
-        pnlBtnGuardarCliente1.setRoundBottomRight(30);
-        pnlBtnGuardarCliente1.setRoundTopLeft(30);
-        pnlBtnGuardarCliente1.setRoundTopRight(30);
-        pnlBtnGuardarCliente1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlBtnGuardarCliente2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBtnGuardarCliente2.setRoundBottomLeft(30);
+        pnlBtnGuardarCliente2.setRoundBottomRight(30);
+        pnlBtnGuardarCliente2.setRoundTopLeft(30);
+        pnlBtnGuardarCliente2.setRoundTopRight(30);
+        pnlBtnGuardarCliente2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBuscarCliente.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnBuscarCliente.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnBuscarCliente.setText("CONSULTAR COMANDAS ACTIVAS");
-        btnBuscarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnBuscarCliente1.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
+        btnBuscarCliente1.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarCliente1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente1.setText("CONSULTAR COMANDAS ACTIVAS");
+        btnBuscarCliente1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarCliente1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarClienteMouseClicked(evt);
+                btnBuscarCliente1MouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 50));
+        pnlBtnGuardarCliente2.add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 40));
 
-        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 360, 50));
+        add(pnlBtnGuardarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 360, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -371,16 +394,33 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
-        app.mostrarPantallaComandasActivas();
+        app.mostrarMenuSelector();
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
         app.mostrarPantallaRegistrarCliente();
     }//GEN-LAST:event_jLabel13MouseClicked
 
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        app.mostrarPantallaRegistrarIngrediente();
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        app.mostrarPantallaRegistrarIngrediente();
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        app.mostrarPantallaRegistrarIngrediente();
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void btnBuscarCliente1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente1MouseClicked
+        app.mostrarPantallaComandasActivas();
+    }//GEN-LAST:event_btnBuscarCliente1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBuscarCliente;
+    private javax.swing.JLabel btnBuscarCliente1;
     private javax.swing.JLabel hora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -405,6 +445,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private GUI.PanelRound panelRound1;
     private GUI.PanelRound pnlBtnGuardarCliente1;
+    private GUI.PanelRound pnlBtnGuardarCliente2;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlHeader1;
     private javax.swing.JTable tablaMesas;

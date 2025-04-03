@@ -75,12 +75,26 @@ public class MenuSelector extends javax.swing.JPanel {
         pnlBotonEmpleado.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Mesero.png"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
         pnlBotonEmpleado.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 36)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("EMPLEADO");
-        pnlBotonEmpleado.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 60));
+        jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+        pnlBotonEmpleado.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 310));
 
         add(pnlBotonEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 270, 330, 310));
 
@@ -130,6 +144,16 @@ public class MenuSelector extends javax.swing.JPanel {
         app.setRol("Administrador");
         app.mostrarMenuPrincipal();
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        app.setRol("Mesero");
+        app.mostrarMenuMesero();
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        app.setRol("Mesero");
+        app.mostrarMenuMesero();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

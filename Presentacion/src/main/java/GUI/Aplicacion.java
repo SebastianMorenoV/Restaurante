@@ -35,6 +35,7 @@ public class Aplicacion {
     // pantallas
     private MenuPrincipalRestaurante menuPrincipal;
     private MenuSelector menuSelector;
+    private MenuMesero menuMesero;
     private PantallaRegistrarCliente registrarCliente;
     private PantallaConsultarClientes consultarCliente;
     private PantallaComandasActivas comandasActivas;
@@ -53,6 +54,7 @@ public class Aplicacion {
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
         menuPrincipal = new MenuPrincipalRestaurante(this);
+        menuMesero = new MenuMesero(this);
         registrarCliente = new PantallaRegistrarCliente(this);
         consultarCliente = new PantallaConsultarClientes(this);
         comandasActivas = new PantallaComandasActivas(this);
@@ -111,6 +113,9 @@ public class Aplicacion {
     
     public void mostrarPantallaRegistrarIngrediente(){
         cambiarPantalla(formularioIngrediente);
+    }
+    public void mostrarMenuMesero(){
+        cambiarPantalla(menuMesero);
     }
 
     // Cambiar de pantalla dentro del frame principal

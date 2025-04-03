@@ -137,7 +137,13 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        app.mostrarMenuPrincipal();
+        if(app.getRol().equals("Administrador")){
+             app.mostrarMenuPrincipal();
+        } else {
+            app.mostrarMenuMesero();
+        }
+        
+       
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
