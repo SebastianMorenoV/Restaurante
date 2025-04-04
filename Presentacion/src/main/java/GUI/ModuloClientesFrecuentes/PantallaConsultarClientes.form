@@ -63,13 +63,13 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="100" style="0"/>
+              <Font name="Playfair Display" size="100" style="1"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Busqueda de Cliente "/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="120" y="-10" width="940" height="110"/>
+              <AbsoluteConstraints x="90" y="-10" width="1020" height="110"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -79,7 +79,7 @@
               <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="100" style="0"/>
+              <Font name="Playfair Display" size="100" style="1"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Frecuente"/>

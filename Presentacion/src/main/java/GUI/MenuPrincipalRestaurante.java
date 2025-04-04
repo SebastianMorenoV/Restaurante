@@ -173,6 +173,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("REPORTE");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 130, 40));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
@@ -331,6 +336,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/documento.png"))); // NOI18N
         jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, -1, -1));
 
         add(pnlHeader1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 260, 520));
@@ -412,7 +422,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-
+        app.mostrarMenuReportes();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
@@ -463,6 +473,14 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private void btnBuscarCliente2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente2MouseClicked
         app.mostrarMenuSelector();
     }//GEN-LAST:event_btnBuscarCliente2MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        app.mostrarMenuReportes();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        app.mostrarMenuReportes();
+    }//GEN-LAST:event_jLabel15MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

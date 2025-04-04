@@ -43,6 +43,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         pnlBtnGuardarCliente1 = new GUI.PanelRound();
         btnBuscarCliente = new javax.swing.JLabel();
         lblHora = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -65,9 +66,9 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
         pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Playfair Display", 0, 120)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Playfair Display", 1, 120)); // NOI18N
         jLabel1.setText("Comandas activas");
-        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, -1, -1));
+        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaAtras.png"))); // NOI18N
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -109,7 +110,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 6, 980, 400));
 
-        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 1000, 410));
+        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 1000, 370));
 
         pnlBtnGuardarCliente1.setBackground(new java.awt.Color(255, 255, 255));
         pnlBtnGuardarCliente1.setRoundBottomLeft(30);
@@ -129,11 +130,15 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         });
         pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 300, 50));
 
-        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 620, 320, 50));
+        add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 320, 50));
 
         lblHora.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         lblHora.setText("Hora");
         add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 610, 180, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
+        jLabel5.setText("SELECCIONA UNA COMANDA");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 188, 410, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
@@ -154,6 +159,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBuscarCliente;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

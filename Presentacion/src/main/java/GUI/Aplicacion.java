@@ -13,6 +13,9 @@ import DTOSalida.MesaDTO;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloIngredientes.FormularioRegistrarIngrediente;
+import GUI.ModuloReportes.MenuReportes;
+import GUI.ModuloReportes.PantallaReporteClientes;
+import GUI.ModuloReportes.PantallaReporteComandas;
 import exception.NegocioException;
 import interfaces.IClienteBO;
 import interfaces.IIngredienteBO;
@@ -42,6 +45,9 @@ public class Aplicacion {
     private PantallaConsultarClientes consultarCliente;
     private PantallaComandasActivas comandasActivas;
     private FormularioRegistrarIngrediente formularioIngrediente;
+    private MenuReportes menuReportes;
+    private PantallaReporteComandas reporteComandas;
+    private PantallaReporteClientes reporteClientes;
 
     //Manejadores de BO
     private IClienteBO clientesBO;
@@ -67,6 +73,9 @@ public class Aplicacion {
         consultarCliente = new PantallaConsultarClientes(this);
         comandasActivas = new PantallaComandasActivas(this);
         formularioIngrediente = new FormularioRegistrarIngrediente(this);
+        menuReportes = new MenuReportes(this);
+        reporteComandas = new PantallaReporteComandas(this);
+        reporteClientes = new PantallaReporteClientes(this);
 
     }
 
@@ -102,22 +111,22 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    public IngredienteDTO actualizarStockIngrediente(Long id, int stock)throws NegocioException{
-        try{
+
+    public IngredienteDTO actualizarStockIngrediente(Long id, int stock) throws NegocioException {
+        try {
             return ingredientesBO.actualizarPorID(id, stock);
-        }catch (NegocioException ex) {
+        } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    public IngredienteDTO obtenerIngredientePorId(Long id) throws NegocioException{
-        try{
+
+    public IngredienteDTO obtenerIngredientePorId(Long id) throws NegocioException {
+        try {
             return ingredientesBO.obtenerPorId(id);
-        }catch(NegocioException ex){
+        } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
-    } 
+    }
 
     public List<IngredienteDTO> obtenerIngredientes() throws NegocioException {
         try {
@@ -169,6 +178,18 @@ public class Aplicacion {
 
     public void mostrarPantallaRegistrarIngrediente() {
         cambiarPantalla(formularioIngrediente);
+    }
+
+    public void mostrarMenuReportes() {
+        cambiarPantalla(menuReportes);
+    }
+
+    public void mostrarPantallaReporteComandas() {
+        cambiarPantalla(reporteComandas);
+    }
+
+    public void mostrarPantallaReporteClientes() {
+        cambiarPantalla(reporteClientes);
     }
 
     public void mostrarMenuMesero() {
