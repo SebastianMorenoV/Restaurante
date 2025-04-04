@@ -95,6 +95,14 @@ public class Aplicacion {
         }
     }
 
+    public List<ClienteDTO> buscarClienteReporte(ClienteDTO filtro) throws NegocioException {
+        try {
+            return clientesBO.buscarClienteReporte(filtro);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
     public IngredienteDTO registrarIngrediente(CrearIngredienteDTO ingrediente) throws NegocioException {
         try {
             return ingredientesBO.agregarIngrediente(ingrediente);

@@ -98,15 +98,47 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     @Override
-    public List<ClienteFrecuente> obtenerClientesFrecuentes() throws PersistenciaException {
+    public List<ClienteFrecuente> obtenerClientesFrecuentes(ClienteFrecuente filtro) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
+        List<ClienteFrecuente> clientes = new ArrayList<>();
+
         try {
-            return em.createQuery("SELECT c FROM ClienteFrecuente c", ClienteFrecuente.class).getResultList();
+            em.getTransaction().begin();
+            em.flush(); // Asegurar que los datos recientes estén reflejados
+
+            StringBuilder jpql = new StringBuilder("SELECT c FROM ClienteFrecuente c WHERE 1=1");
+
+            if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+                jpql.append(" AND LOWER(c.nombre) LIKE :nombre");
+            }
+            if (filtro.getVisitas() != null) { // Verifica si visitas NO es null
+                jpql.append(" AND c.visitas >= :visitas"); // Buscar clientes con al menos X visitas
+            }
+
+            TypedQuery<ClienteFrecuente> query = em.createQuery(jpql.toString(), ClienteFrecuente.class)
+                    .setHint("javax.persistence.cache.storeMode", "REFRESH");
+
+            if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+                query.setParameter("nombre", "%" + filtro.getNombre().toLowerCase() + "%");
+            }
+            if (filtro.getVisitas() != null) {
+                query.setParameter("visitas", filtro.getVisitas());
+            }
+            System.out.println("Visitas : "+filtro.getVisitas());
+
+            clientes = query.getResultList();
+            em.getTransaction().commit();
+
         } catch (Exception e) {
-            throw new PersistenciaException("Error al buscar todos los Clientes Frecuentes: " + e.getMessage());
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al buscar Clientes Frecuentes: " + e.getMessage(), e);
         } finally {
             em.close();
         }
+
+        return clientes;
     }
 
     @Override
@@ -184,7 +216,7 @@ public class ClienteDAO implements IClienteDAO {
 
             TypedQuery<Cliente> query = em.createQuery(jpql.toString(), Cliente.class)
                     .setHint("javax.persistence.cache.storeMode", "REFRESH"); // Evita caché esto lo tuve que hacer porque no encontraba los datos actualizados , se necesitaba refrescar la memoria.
-                   
+
             if (clienteFiltro.getNombre() != null && !clienteFiltro.getNombre().trim().isEmpty()) {
                 query.setParameter("nombre", "%" + clienteFiltro.getNombre().toLowerCase() + "%");
             }
@@ -197,7 +229,7 @@ public class ClienteDAO implements IClienteDAO {
 
             clientes = query.getResultList();
 
-            em.getTransaction().commit(); 
+            em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback(); // REVERTIR CAMBIOS SI HAY ERROR

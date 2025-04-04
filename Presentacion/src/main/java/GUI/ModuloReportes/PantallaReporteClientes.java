@@ -4,7 +4,17 @@
  */
 package GUI.ModuloReportes;
 
+import DTOSalida.ClienteDTO;
 import GUI.Aplicacion;
+import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
+import exception.NegocioException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +30,9 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
     public PantallaReporteClientes(Aplicacion app) {
         this.app = app;
         initComponents();
+
+        agregarDocumentListener(inputNombre);
+        agregarDocumentListener(inputVisitasMinimas);
     }
 
     /**
@@ -39,14 +52,14 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txtTitulo1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaReporteComandas = new javax.swing.JTable();
+        tablaReporteClientes = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         pnlNombre = new GUI.PanelRound();
         inputNombre = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         pnlApellidoPaterno = new GUI.PanelRound();
-        inputApellidoPaterno = new javax.swing.JTextField();
+        inputVisitasMinimas = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
@@ -116,10 +129,10 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
 
-        tablaReporteComandas.setBackground(new java.awt.Color(255, 255, 255));
-        tablaReporteComandas.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tablaReporteComandas.setForeground(new java.awt.Color(0, 0, 0));
-        tablaReporteComandas.setModel(new javax.swing.table.DefaultTableModel(
+        tablaReporteClientes.setBackground(new java.awt.Color(255, 255, 255));
+        tablaReporteClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tablaReporteClientes.setForeground(new java.awt.Color(0, 0, 0));
+        tablaReporteClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -127,8 +140,8 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
                 "Nombre", "No. visitas", "Total Gastado", "Puntos de Fidelidad", "Fecha de ultima comanda"
             }
         ));
-        tablaReporteComandas.setRowHeight(30);
-        jScrollPane1.setViewportView(tablaReporteComandas);
+        tablaReporteClientes.setRowHeight(30);
+        jScrollPane1.setViewportView(tablaReporteClientes);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 740, 310));
 
@@ -174,21 +187,21 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         pnlApellidoPaterno.setRoundTopRight(30);
         pnlApellidoPaterno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        inputApellidoPaterno.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputApellidoPaterno.setForeground(new java.awt.Color(0, 0, 0));
-        inputApellidoPaterno.setText("Visitas Minimas");
-        inputApellidoPaterno.setBorder(null);
-        inputApellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
+        inputVisitasMinimas.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
+        inputVisitasMinimas.setForeground(new java.awt.Color(0, 0, 0));
+        inputVisitasMinimas.setText("Visitas Minimas");
+        inputVisitasMinimas.setBorder(null);
+        inputVisitasMinimas.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                inputApellidoPaternoFocusGained(evt);
+                inputVisitasMinimasFocusGained(evt);
             }
         });
-        inputApellidoPaterno.addActionListener(new java.awt.event.ActionListener() {
+        inputVisitasMinimas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputApellidoPaternoActionPerformed(evt);
+                inputVisitasMinimasActionPerformed(evt);
             }
         });
-        pnlApellidoPaterno.add(inputApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 250, 30));
+        pnlApellidoPaterno.add(inputVisitasMinimas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 250, 30));
 
         add(pnlApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 300, 50));
 
@@ -215,25 +228,25 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_inputNombreFocusGained
 
-    private void inputApellidoPaternoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputApellidoPaternoFocusGained
-        if (inputApellidoPaterno.getText().equals("Visitas Minimas")) {
-            inputApellidoPaterno.setText("");
+    private void inputVisitasMinimasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputVisitasMinimasFocusGained
+        if (inputVisitasMinimas.getText().equals("Visitas Minimas")) {
+            inputVisitasMinimas.setText("");
         }
-    }//GEN-LAST:event_inputApellidoPaternoFocusGained
+    }//GEN-LAST:event_inputVisitasMinimasFocusGained
 
     private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNombreActionPerformed
 
-    private void inputApellidoPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputApellidoPaternoActionPerformed
+    private void inputVisitasMinimasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputVisitasMinimasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_inputApellidoPaternoActionPerformed
+    }//GEN-LAST:event_inputVisitasMinimasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnImprimirReporte;
-    private javax.swing.JTextField inputApellidoPaterno;
     private javax.swing.JTextField inputNombre;
+    private javax.swing.JTextField inputVisitasMinimas;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel4;
@@ -246,8 +259,67 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
     private GUI.PanelRound pnlBtnImprimirReporte;
     private javax.swing.JPanel pnlHeader;
     private GUI.PanelRound pnlNombre;
-    private javax.swing.JTable tablaReporteComandas;
+    private javax.swing.JTable tablaReporteClientes;
     private javax.swing.JLabel txtTitulo;
     private javax.swing.JLabel txtTitulo1;
     // End of variables declaration//GEN-END:variables
+
+    // Método para agregar DocumentListener a los JTextFields
+    private void agregarDocumentListener(JTextField textField) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+        });
+    }
+
+    // Método para realizar la búsqueda en el clienteBO
+    private void realizarBusqueda() {
+        // Construir el nombre completo a partir de los campos de entrada
+        StringBuilder nombreCompleto = new StringBuilder(inputNombre.getText().trim());
+        String visitasMinimas = "0";
+        if (!inputVisitasMinimas.getText().trim().isEmpty()) {
+            visitasMinimas = inputVisitasMinimas.getText().trim();
+        }
+        if (visitasMinimas.equals("Visitas Minimas")) {
+            visitasMinimas = "0";
+        }
+        // Crear el objeto ClienteDTO con el nombre completo
+        ClienteDTO clienteFiltro = new ClienteDTO();
+        clienteFiltro.setNombreCompleto(nombreCompleto.toString().trim()); // Evitar espacios extra
+        clienteFiltro.setVisitasTotales(Integer.parseInt(visitasMinimas));
+
+        // Realizar la búsqueda en el BO
+        List<ClienteDTO> clientesEncontrados = null;
+        try {
+            clientesEncontrados = app.buscarClienteReporte(clienteFiltro);
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // Actualizar la tabla con los resultados
+        actualizarTabla(clientesEncontrados);
+    }
+
+    // Método para actualizar la tabla con los resultados de búsqueda
+    private void actualizarTabla(List<ClienteDTO> clientes) {
+        DefaultTableModel model = (DefaultTableModel) tablaReporteClientes.getModel();
+        model.setRowCount(0); // Limpiar tabla existente
+
+        // Llenar la tabla con los resultados
+        for (ClienteDTO cliente : clientes) {
+            model.addRow(new Object[]{cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos()});
+        }
+    }
 }

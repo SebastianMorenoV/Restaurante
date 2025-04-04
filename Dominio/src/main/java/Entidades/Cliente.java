@@ -35,36 +35,49 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", nullable = false, length = 100 )
-    private String nombre;
+    @Column(name = "nombre", nullable = false, length = 50)
+    private String nombre; // poner apellidos
+
+    @Column(name = "apellidoPaterno", nullable = false, length = 50)
+    private String apellidoPaterno;
+    @Column(name = "apellidMaterno", nullable = true, length = 50)
+    private String apellidoMaterno;
+
     @Column(name = "telefono", nullable = false, length = 10, unique = true)
     private String telefono;
     @Column(name = "correo", nullable = true, length = 200)
     private String correo;
     @Column(name = "fechaRegistro")
     private LocalDate fechaRegistro;
-    @OneToMany(mappedBy = "cliente" ,cascade =  CascadeType.MERGE)// ver que onda con los huerfanos y con las cascadas.
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.MERGE)// ver que onda con los huerfanos y con las cascadas. // quitar la relacion bidireccional
     private List<Comanda> comandas;
 
     public Cliente() {
     }
 
-    public Cliente(Long id, String nombre, String telefono, String correo, LocalDate fechaRegistro, List<Comanda> comandas) {
+  
+
+    public Cliente(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correo, LocalDate fechaRegistro, List<Comanda> comandas) {
         this.id = id;
         this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.telefono = telefono;
         this.correo = correo;
         this.fechaRegistro = fechaRegistro;
         this.comandas = comandas;
     }
 
-    public Cliente(String nombre, String telefono, String correo, LocalDate fechaRegistro) {
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correo, LocalDate fechaRegistro) {
         this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.telefono = telefono;
         this.correo = correo;
         this.fechaRegistro = fechaRegistro;
     }
-
+    
+    
     public Long getId() {
         return id;
     }
@@ -79,6 +92,22 @@ public class Cliente implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public String getTelefono() {
@@ -117,7 +146,5 @@ public class Cliente implements Serializable {
     public String toString() {
         return "Cliente{" + "id=" + id + ", nombre=" + nombre + ", telefono=" + telefono + ", correo=" + correo + ", fechaRegistro=" + fechaRegistro + ", comandas=" + comandas + '}';
     }
-    
-    
 
 }

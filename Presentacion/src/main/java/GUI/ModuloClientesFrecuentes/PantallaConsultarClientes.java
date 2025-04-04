@@ -416,15 +416,15 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         }
 
         // Realizar la búsqueda en el BO
-        List<ClienteDTO> clientesEncontrados;
+        List<ClienteDTO> clientesEncontrados = null; //prueba
         try {
             clientesEncontrados = app.buscarClientes(clienteFiltro);
             // Actualizar la tabla con los resultados
-            actualizarTabla(clientesEncontrados);
+
         } catch (NegocioException ex) {
             Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        actualizarTabla(clientesEncontrados);
     }
 
     // Método para actualizar la tabla con los resultados de búsqueda
@@ -434,7 +434,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
 
         // Llenar la tabla con los resultados
         for (ClienteDTO cliente : clientes) {
-            model.addRow(new Object[]{cliente.getCorreo(), cliente.getTelefono(), cliente.getNombreCompleto(), cliente.getPuntos(), cliente.getTotalGastado(), cliente.getVisitasTotales()});
+            model.addRow(new Object[]{cliente.getCorreo(), cliente.getTelefono(), cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos()});
         }
     }
 

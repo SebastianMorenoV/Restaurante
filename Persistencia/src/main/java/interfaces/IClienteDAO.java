@@ -24,7 +24,7 @@ public interface IClienteDAO {
     public List<Cliente> obtenerTodos() throws PersistenciaException;
 
     // Obtener solo los clientes frecuentes
-    public List<ClienteFrecuente> obtenerClientesFrecuentes() throws PersistenciaException;
+    public List<ClienteFrecuente> obtenerClientesFrecuentes(ClienteFrecuente cliente) throws PersistenciaException;
 
     // Actualizar datos de un cliente
     public Cliente actualizarCliente(Cliente cliente) throws PersistenciaException;

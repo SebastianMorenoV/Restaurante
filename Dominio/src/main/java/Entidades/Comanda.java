@@ -8,6 +8,7 @@ import Enums.Estado;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -43,7 +44,7 @@ public class Comanda implements Serializable {
     @Column(name = "totalVenta", nullable = true)
     private double totalVenta;
 
-    @OneToMany(mappedBy = "comanda")
+    @OneToMany(mappedBy = "comanda" , cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST} , orphanRemoval = true) 
     private List<DetallesComanda> detallesComanda;
 
     @ManyToOne

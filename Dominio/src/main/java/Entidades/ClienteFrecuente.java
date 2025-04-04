@@ -23,39 +23,32 @@ import javax.persistence.Table;
 @DiscriminatorValue(value = "Frecuente")
 @Table(name = "ClientesFrecuentes")
 public class ClienteFrecuente extends Cliente {
-    @Column(name = "visitas" , nullable = false)
-    private int visitas;
+    @Column(name = "visitas" , nullable = false) // transient?
+    private Integer visitas;
     
     @Column(name = "gastoAcumulado" , nullable = false)
     private double gastoAcumulado;
     
     @Column(name = "puntosFidelidad" , nullable = false)
-    private int puntosFidelidad;
+    private Integer puntosFidelidad;
 
     public ClienteFrecuente() {
     }
 
-    public ClienteFrecuente(int visitas, double gastoAcumulado, int puntosFidelidad, String nombre, String telefono, String correo, LocalDate fechaRegistro) {
-        super(nombre, telefono, correo, fechaRegistro);
+   
+    
+    
+    //insertar constructores con apellido materno y paterno.
+   
+
+    public ClienteFrecuente(Integer visitas, double gastoAcumulado, Integer puntosFidelidad, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correo, LocalDate fechaRegistro) {
+        super(nombre, apellidoPaterno, apellidoMaterno, telefono, correo, fechaRegistro);
         this.visitas = visitas;
         this.gastoAcumulado = gastoAcumulado;
         this.puntosFidelidad = puntosFidelidad;
     }
-
-    public ClienteFrecuente(int visitas, double gastoAcumulado, int puntosFidelidad, Long id, String nombre, String telefono, String correo, LocalDate fechaRegistro, List<Comanda> comandas) {
-        super(id, nombre, telefono, correo, fechaRegistro, comandas);
-        this.visitas = visitas;
-        this.gastoAcumulado = gastoAcumulado;
-        this.puntosFidelidad = puntosFidelidad;
-    }
-
-    public int getVisitas() {
-        return visitas;
-    }
-
-    public void setVisitas(int visitas) {
-        this.visitas = visitas;
-    }
+    
+    
 
     public double getGastoAcumulado() {
         return gastoAcumulado;
@@ -65,13 +58,23 @@ public class ClienteFrecuente extends Cliente {
         this.gastoAcumulado = gastoAcumulado;
     }
 
-    public int getPuntosFidelidad() {
+    public Integer getVisitas() {
+        return visitas;
+    }
+
+    public void setVisitas(Integer visitas) {
+        this.visitas = visitas;
+    }
+
+    public Integer getPuntosFidelidad() {
         return puntosFidelidad;
     }
 
-    public void setPuntosFidelidad(int puntosFidelidad) {
+    public void setPuntosFidelidad(Integer puntosFidelidad) {
         this.puntosFidelidad = puntosFidelidad;
     }
+
+    
 
     @Override
     public String toString() {

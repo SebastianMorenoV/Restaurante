@@ -64,14 +64,17 @@ public class ClienteBO implements IClienteBO {
                 throw new NegocioException("El número de teléfono ya está registrado.");
             }
 
-            String cadenaNombre;
+            String apellidoMaterno = clienteDTO.getApellidoMaterno();
+            String correo = clienteDTO.getCorreoElectronico();
             if (clienteDTO.getApellidoMaterno().isBlank() || clienteDTO.getApellidoMaterno() == null) {
-                cadenaNombre = clienteDTO.getNombres() + " " + clienteDTO.getApellidoPaterno();
-            } else {
-                cadenaNombre = clienteDTO.getNombres() + " " + clienteDTO.getApellidoPaterno() + " " + clienteDTO.getApellidoMaterno();
+                apellidoMaterno = null;
             }
-            ClienteFrecuente cliente = new ClienteFrecuente(0, 0, 0, cadenaNombre, clienteDTO.getTelefono(), clienteDTO.getCorreoElectronico(), LocalDate.now());
+            if (clienteDTO.getCorreoElectronico().isBlank() || clienteDTO.getCorreoElectronico() == null) {
+                correo = null;
+            }
 
+            ClienteFrecuente cliente = new ClienteFrecuente(0, 0, 0, clienteDTO.getNombres(), clienteDTO.getApellidoPaterno(), apellidoMaterno, clienteDTO.getTelefono(), correo, LocalDate.now());
+            String cadenaNombre = clienteDTO.getNombres() + " " + clienteDTO.getApellidoPaterno() + " " + apellidoMaterno;
             clienteDAO.guardarClienteFrecuente(cliente);
             return new ClienteDTO(cadenaNombre, cliente.getCorreo(), cliente.getTelefono(), cliente.getPuntosFidelidad(), cliente.getGastoAcumulado(), cliente.getVisitas());
         } catch (PersistenciaException ex) {
@@ -97,14 +100,26 @@ public class ClienteBO implements IClienteBO {
             List<ClienteDTO> clientesDTO = new ArrayList<>();
             for (Cliente cliente : clientes) {
                 ClienteDTO clienteDTO;
+                String correo = "";
+                if (cliente.getCorreo() == null) {
+                    correo = "N/A";
+                } else {
+                    correo = cliente.getCorreo();
+                }
+                String nombreCompleto = "";
+                if (cliente.getApellidoMaterno() == null) {
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
+                } else {
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
+                }
 
                 if (cliente instanceof ClienteFrecuente) {
                     // Si es un ClienteFrecuente, castéalo y agrega los valores adicionales
                     ClienteFrecuente clienteFrecuente = (ClienteFrecuente) cliente;
                     clienteDTO = new ClienteDTO(
-                            cliente.getNombre(), // Nombre completo
+                            nombreCompleto, // Nombre completo
                             cliente.getTelefono(),
-                            cliente.getCorreo()
+                            correo
                     );
                     // Aquí agregamos los atributos adicionales de ClienteFrecuente
                     clienteDTO.setPuntos(clienteFrecuente.getPuntosFidelidad());
@@ -113,9 +128,9 @@ public class ClienteBO implements IClienteBO {
                 } else {
                     // Si no es un ClienteFrecuente, simplemente se crea el DTO básico
                     clienteDTO = new ClienteDTO(
-                            cliente.getNombre(), // Nombre completo
+                            nombreCompleto, // Nombre completo
                             cliente.getTelefono(),
-                            cliente.getCorreo()
+                            correo
                     );
                 }
 
@@ -130,8 +145,44 @@ public class ClienteBO implements IClienteBO {
     }
 
     @Override
-    public List<ClienteDTO> obtenerTodos(CrearClienteDTO clienteDTO) throws NegocioException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<ClienteDTO> buscarClienteReporte(ClienteDTO filtro) throws NegocioException {
+        try {
+            // Crear un ClienteFrecuente con los valores del DTO
+            ClienteFrecuente clienteAConsultar = new ClienteFrecuente();
+            clienteAConsultar.setNombre(filtro.getNombreCompleto());
+            System.out.println("Visitas desde bo : " + filtro.getVisitasTotales());
+            clienteAConsultar.setVisitas(filtro.getVisitasTotales());
+
+            // Obtener la lista de clientes frecuentes desde la base de datos
+            List<ClienteFrecuente> clientes = clienteDAO.obtenerClientesFrecuentes(clienteAConsultar);
+
+            // Convertimos la lista de ClienteFrecuente a ClienteDTO
+            List<ClienteDTO> clientesDTO = new ArrayList<>();
+            for (ClienteFrecuente cliente : clientes) {
+
+                String nombreCompleto = "";
+                if (cliente.getApellidoMaterno() == null) {
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
+                } else {
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
+                }
+                ClienteDTO clienteDTO = new ClienteDTO(
+                        nombreCompleto, // Nombre completo
+                        cliente.getVisitas(),
+                        cliente.getGastoAcumulado(),
+                        cliente.getPuntosFidelidad()
+                );
+                //aqui necesita ir la parte donde obtengo las cosas de la comanda.
+                // tambien se calcula la ultima fecha de comanda.
+
+                clientesDTO.add(clienteDTO);
+            }
+
+            return clientesDTO;
+
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al obtener clientes para el reporte: " + ex.getMessage(), ex);
+        }
     }
 
 }

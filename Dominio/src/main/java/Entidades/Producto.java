@@ -50,7 +50,7 @@ public class Producto implements Serializable {
     @OneToMany(mappedBy = "producto", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<IngredientesProducto> ingredientes;
 
-    @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch
+    @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch /*PUEDE SER UNIDIRECCIO NAL DICE LA PROFRE BRO😃*/
     private List<DetallesComanda> detallesComanda;
 
     public Producto() {

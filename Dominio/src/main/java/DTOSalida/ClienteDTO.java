@@ -4,24 +4,29 @@
  */
 package DTOSalida;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Sebastian Moreno
  */
 public class ClienteDTO {
 
-    private String nombreCompleto;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String correo;
     private String telefono;
-    private int visitasTotales;
+    private Integer visitasTotales;
     private double totalGastado;
-    private int puntos;
-
+    private Integer puntos;
+    private LocalDate ultimaComanda;
+    
     public ClienteDTO() {
     }
-
+    
     public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos) {
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombreCompleto;
         this.correo = correo;
         this.telefono = telefono;
         this.visitasTotales = visitasTotales;
@@ -30,17 +35,47 @@ public class ClienteDTO {
     }
 
     public ClienteDTO(String nombreCompleto, String correo, String telefono) {
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombreCompleto;
         this.correo = correo;
         this.telefono = telefono;
     }
+    // constructor para reporte de clientes sin comanda
+    public ClienteDTO(String nombreCompleto, int visitasTotales, double totalGastado, int puntos) {
+        this.nombre = nombreCompleto;
+        this.visitasTotales = visitasTotales;
+        this.totalGastado = totalGastado;
+        this.puntos = puntos;
+    }
+
+    public ClienteDTO(String nombreCompleto, Integer visitasTotales) {
+        this.nombre = nombre;
+        this.visitasTotales = visitasTotales;
+    }
+    
+    public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos, LocalDate ultimaComanda) {
+        this.nombre = nombreCompleto;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.visitasTotales = visitasTotales;
+        this.totalGastado = totalGastado;
+        this.puntos = puntos;
+        this.ultimaComanda = ultimaComanda;
+    }
+
+    public LocalDate getUltimaComanda() {
+        return ultimaComanda;
+    }
+
+    public void setUltimaComanda(LocalDate ultimaComanda) {
+        this.ultimaComanda = ultimaComanda;
+    }
 
     public String getNombreCompleto() {
-        return nombreCompleto;
+        return nombre;
     }
 
     public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+        this.nombre = nombreCompleto;
     }
 
     public String getCorreo() {
