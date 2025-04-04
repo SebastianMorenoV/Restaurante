@@ -15,14 +15,13 @@ public class IngredientesProductoDTO {
 
     private Long id;
     private Integer cantidad;
-    private Ingrediente ingrediente;
-    private Producto producto;
+    private IngredienteDTO ingrediente;
+    private ProductoDTO producto;
 
     public IngredientesProductoDTO() {
     }
 
-    public IngredientesProductoDTO(Long id, Integer cantidad, Ingrediente ingrediente, Producto producto) {
-        this.id = id;
+    public IngredientesProductoDTO(Integer cantidad, IngredienteDTO ingrediente, ProductoDTO producto) {
         this.cantidad = cantidad;
         this.ingrediente = ingrediente;
         this.producto = producto;
@@ -44,19 +43,19 @@ public class IngredientesProductoDTO {
         this.cantidad = cantidad;
     }
 
-    public Ingrediente getIngrediente() {
+    public IngredienteDTO getIngrediente() {
         return ingrediente;
     }
 
-    public void setIngrediente(Ingrediente ingrediente) {
+    public void setIngrediente(IngredienteDTO ingrediente) {
         this.ingrediente = ingrediente;
     }
 
-    public Producto getProducto() {
+    public ProductoDTO getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setProducto(ProductoDTO producto) {
         this.producto = producto;
     }
 

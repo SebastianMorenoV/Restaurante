@@ -4,26 +4,78 @@
  */
 package interfaces;
 
+import DTOSalida.ProductoDTO;
 import Entidades.Producto;
 import Enums.ProductoActivo;
+import exception.PersistenciaException;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 /**
  *
  * @author SDavidLedesma
  */
 public interface IProductoDAO {
-
-    public Producto crear(Producto producto) throws PersistenceException;
-
-    public Producto findById(Long id) throws PersistenceException;
-
-    public List<Producto> findAll() throws PersistenceException;
-
-    public Producto actualizar(Producto producto) throws PersistenceException;
-
-    public Producto cambiarEstado(Producto producto, ProductoActivo estadoProducto) throws PersistenceException;
-
-    public Producto EncontrarPorNombre(String nombre) throws PersistenceException;
+    
+    /**
+     * 
+     * @param nombre
+     * @return
+     * @throws PersistenciaException 
+     */
+   // public boolean existeNombre (String nombre) throws PersistenciaException;
+    
+    /**
+     * guarda un producto y lo persiste en la  base de datos
+     * @param producto
+     * @return
+     * @throws PersistenciaException 
+     */
+    public Producto guardarProducto(Producto producto) throws PersistenciaException;
+    
+    /**
+     *  actualiza un producto y lo persiste en la base de datos
+     * @param producto
+     * @return
+     * @throws PersistenciaException 
+     */
+    public Producto actualizarProducto(Producto producto) throws PersistenciaException;
+    
+    /**
+     * obtiene un producto en base al id
+     * @param id
+     * @return
+     * @throws PersistenciaException 
+     */
+    public Producto obtenerProductoPorId(Long id) throws PersistenciaException;
+    
+    
+    /**
+     * busca un producto 
+     * @param filtro
+     * @return
+     * @throws PersistenciaException 
+     */
+    public List<Producto> buscarProductos (ProductoDTO filtro) throws PersistenciaException;
+    
+    
+    /**
+     * 
+     * @return
+     * @throws PersistenciaException 
+     */
+    public List<Producto> obtenerTodos() throws PersistenciaException;
+    
+    
+    /**
+     * habilita/deshabilita el producto
+     * @param id
+     * @param nuevoEstado
+     * @return
+     * @throws PersistenciaException 
+     */
+    public boolean cambiarEstado(Long id, ProductoActivo nuevoEstado) throws PersistenciaException;
+    
+    
+    
+    
 }

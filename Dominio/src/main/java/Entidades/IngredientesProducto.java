@@ -6,6 +6,7 @@ package Entidades;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ import javax.persistence.Table;
  * @author Admin
  */
 @Entity
-@Table(name = "Ingrediente_Producto")
+@Table(name = "Ingredientes_Producto")
 public class IngredientesProducto implements Serializable {
 
     @Id
@@ -31,7 +32,7 @@ public class IngredientesProducto implements Serializable {
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    @ManyToOne //uso de fetch.lazy????
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private Producto producto;
 

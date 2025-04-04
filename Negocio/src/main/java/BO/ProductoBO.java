@@ -4,82 +4,180 @@
  */
 package BO;
 
-import DAO.ComandaDAO;
-import DAO.IngredienteDAO;
-import DAO.ProductoDAO;
 import DTOSalida.ProductoDTO;
 import Entidades.Producto;
 import Enums.ProductoActivo;
-import static Mapper.ProductoMapper.convertirADTO;
 import exception.NegocioException;
+import exception.PersistenciaException;
+import interfaces.IProductoBO;
+import interfaces.IProductoDAO;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author SDavidLedesma
  */
-public class ProductoBO {
+public class ProductoBO implements IProductoBO {
 
-    private ProductoDAO productoDAO;
-    private IngredienteDAO ingredienteDAO;
-    private ComandaDAO comandaDAO;
+    private final IProductoDAO productoDAO;
 
-    public ProductoBO() {
-        this.productoDAO = new ProductoDAO();
-        this.ingredienteDAO = new IngredienteDAO();
-        this.comandaDAO = new ComandaDAO();
+    public ProductoBO(IProductoDAO productoDAO) {
+        this.productoDAO = productoDAO;
     }
 
-    // falta agregar la lista dfe ingredientes  y de comandas
-    // agrega un nuevo producto validadno que  no exista ya con el mismo nombre
-    public void agregarProducto(ProductoDTO productoDTO) throws NegocioException {
-        if (productoDAO.EncontrarPorNombre(productoDTO.getNombre()) != null) {
-            throw new NegocioException("El producto ya existe");
-        }
-        Producto producto = new Producto(
-                productoDTO.getNombre(),
-                productoDTO.getPrecio(),
-                productoDTO.getTipo(),
-                productoDTO.getProductoActivo() != null ? productoDTO.getProductoActivo() : ProductoActivo.Habilitado // valor por defecto
-        );
-        productoDAO.crear(producto);
-    }
-
-    //obtiene el producto por id y lo convierte en DTO
-    public ProductoDTO obtenerProducto(Long id) {
-        Producto producto = productoDAO.findById(id);
-        return (producto != null) ? convertirADTO(producto) : null;
-    }
-
-    //Lista todos los productos registrados
-    public List<ProductoDTO> listaProductos() {
-        List<Producto> productos = productoDAO.findAll();
-        return productos.stream().map(Mapper.ProductoMapper::convertirADTO).collect(Collectors.toList());
-    }
-
-    //actualiza el producti, valida nombre duplicados
-    public void actualizarProducti(ProductoDTO productoDTO) throws NegocioException {
-        Producto productoExistente = productoDAO.findById(productoDTO.getId());
-        if (productoExistente == null) {
-            throw new NegocioException("Producto no encontrado");
-        }
-        Producto productoNombreIgual = productoDAO.EncontrarPorNombre(productoDTO.getNombre());
-        if (productoNombreIgual != null && !productoNombreIgual.getId().equals(productoDTO.getId())) {
-            throw new NegocioException("El nombre del producto ya existe");
+    @Override
+    public ProductoDTO registrarProducto(ProductoDTO productoDTO) throws NegocioException {
+        // Validaciones básicas
+        if (productoDTO.getNombre() == null || productoDTO.getNombre().isBlank()) {
+            throw new NegocioException("El nombre del producto no puede estar vacío.");
         }
 
-        productoExistente.setNombre(productoDTO.getNombre());
-        productoExistente.setPrecio(productoDTO.getPrecio());
-        productoExistente.setTipo(productoDTO.getTipo());
-        productoExistente.setProductoActivo(productoDTO.getProductoActivo());
+        if (productoDTO.getPrecio() <= 0) {
+            throw new NegocioException("El precio debe ser mayor a cero.");
+        }
+
+        try {
+            Producto producto = new Producto();
+            producto.setNombre(productoDTO.getNombre());
+            producto.setPrecio(productoDTO.getPrecio());
+            producto.setTipo(productoDTO.getTipo());
+            producto.setProductoActivo(ProductoActivo.Habilitado); // Por defecto se guarda activo
+
+            productoDAO.guardarProducto(producto);
+
+            return new ProductoDTO(
+                    producto.getId(),
+                    producto.getNombre(),
+                    producto.getPrecio(),
+                    producto.getTipo(),
+                    producto.getProductoActivo()
+            );
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ProductoBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Error al registrar el producto: " + ex.getMessage(), ex);
+        }
     }
 
-    /** cambiar a deshabilitar
-     * // elimina un producto por id public void eliminarProducto(Long id)
-     * throws NegocioException { Producto producto = productoDAO.findById(id);
-     * if (producto == null) { throw new NegocioException("Produco no
-     * encontrado"); } productoDAO.eliminar(producto); }
-    *
+    @Override
+    public ProductoDTO actualizarProducto(ProductoDTO productoDTO) throws NegocioException {
+        if (productoDTO.getId() <= 0) {
+            throw new NegocioException("El ID del producto no es válido.");
+        }
+
+        try {
+            Producto productoExistente = productoDAO.obtenerProductoPorId(productoDTO.getId());
+
+            if (productoExistente == null) {
+                throw new NegocioException("No se encontró el producto con ID " + productoDTO.getId());
+            }
+
+            productoExistente.setNombre(productoDTO.getNombre());
+            productoExistente.setPrecio(productoDTO.getPrecio());
+            productoExistente.setTipo(productoDTO.getTipo());
+
+            Producto actualizado = productoDAO.actualizarProducto(productoExistente);
+
+            return new ProductoDTO(
+                    actualizado.getId(),
+                    actualizado.getNombre(),
+                    actualizado.getPrecio(),
+                    actualizado.getTipo(),
+                    actualizado.getProductoActivo()
+            );
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ProductoBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Error al actualizar el producto: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void habilitar_deshabilitar_producto(int idProducto, ProductoActivo nuevoEstado) throws NegocioException {
+        try {
+            boolean actualizado = productoDAO.cambiarEstado((long) idProducto, nuevoEstado);
+            if (!actualizado) {
+                throw new NegocioException("No se pudo cambiar el estado del producto con ID " + idProducto);
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ProductoBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Error al cambiar el estado del producto: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public List<ProductoDTO> buscarProductos(ProductoDTO filtro) throws NegocioException {
+        try {
+            // Obtener productos desde el DAO
+            List<Producto> productos = productoDAO.buscarProductos(filtro);
+
+            // Convertir manualmente a ProductoDTO
+            List<ProductoDTO> productosDTO = new ArrayList<>();
+            for (Producto producto : productos) {
+                ProductoDTO dto = new ProductoDTO();
+                dto.setId(producto.getId());
+                dto.setNombre(producto.getNombre());
+                dto.setPrecio(producto.getPrecio());
+                dto.setTipo(producto.getTipo());
+                dto.setProductoActivo(producto.getProductoActivo());
+                productosDTO.add(dto);
+            }
+
+            return productosDTO;
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(ProductoBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Error al buscar productos: " + ex.getMessage(), ex);
+        }
+    }
+    
+    /**
+     * @Override
+public List<Producto> buscarProductos(ProductoDTO filtro) throws PersistenciaException {
+    EntityManager em = Conexion.crearConexion();
+    List<Producto> productos = new ArrayList<>();
+
+    try {
+        em.getTransaction().begin();
+        em.flush();
+
+        StringBuilder jpql = new StringBuilder("SELECT p FROM Producto p WHERE 1=1");
+
+        if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+            jpql.append(" AND LOWER(p.nombre) LIKE :nombre");
+        }
+        if (filtro.getTipo() != null) {
+            jpql.append(" AND p.tipo = :tipo");
+        }
+        if (filtro.getProductoActivo() != null) {
+            jpql.append(" AND p.productoActivo = :productoActivo");
+        }
+
+        TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class)
+                .setHint("javax.persistence.cache.storeMode", "REFRESH");
+
+        if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+            query.setParameter("nombre", "%" + filtro.getNombre().toLowerCase() + "%");
+        }
+        if (filtro.getTipo() != null) {
+            query.setParameter("tipo", filtro.getTipo());
+        }
+        if (filtro.getProductoActivo() != null) {
+            query.setParameter("productoActivo", filtro.getProductoActivo());
+        }
+
+        productos = query.getResultList();
+        em.getTransaction().commit();
+    } catch (Exception e) {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+        throw new PersistenciaException("Error al buscar productos: " + e.getMessage(), e);
+    } finally {
+        em.close();
+    }
+
+    return productos;
+}
      */
 }

@@ -7,6 +7,7 @@ package Entidades;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
  * @author Sebastian Moreno
  */
 @Entity
-@Table(name = "detalllesComanda")
+@Table(name = "detallesComanda")
 public class DetallesComanda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,11 +29,11 @@ public class DetallesComanda implements Serializable {
     private Long id;
 
     // atributo Producto aqui
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comanda_id", nullable = false) // revisar las cascadas.
     private Comanda comanda;
 
@@ -42,10 +43,10 @@ public class DetallesComanda implements Serializable {
     @Column(name = "precioUnitario", nullable = false)
     private double precioUnitario;
 
-    @Column(name = "comentarios", nullable = true , length = 250)
+    @Column(name = "comentarios", nullable = true, length = 250)
     private String comentarios;
 
-    @Column(name = "importeTotal", nullable = true)
+    @Column(name = "importeTotal", nullable = false)
     private double importeTotal;
 
     public DetallesComanda() {
@@ -122,7 +123,5 @@ public class DetallesComanda implements Serializable {
     public String toString() {
         return "DetallesComanda{" + "id=" + id + ", producto=" + producto + ", comanda=" + comanda + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", comentarios=" + comentarios + ", importeTotal=" + importeTotal + '}';
     }
-
-    
 
 }

@@ -19,8 +19,8 @@ public class ProductoDTO {
     private double precio;
     private Tipo tipo;
     private ProductoActivo productoActivo;
-    private List<IngredienteDTO> ingredientes;
-    private List<ComandaDTO> comandas;
+    private List<IngredientesProductoDTO> ingredienteProducto;
+    private List<DetallesComandaDTO> detalleComandas;
 
     public ProductoDTO() {
     }
@@ -32,13 +32,6 @@ public class ProductoDTO {
         this.productoActivo = productoActivo;
     }
 
-    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo) {
-        this.id = id;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.tipo = tipo;
-    }
-
     public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo) {
         this.id = id;
         this.nombre = nombre;
@@ -46,38 +39,26 @@ public class ProductoDTO {
         this.tipo = tipo;
         this.productoActivo = productoActivo;
     }
+    
+    
 
-    public ProductoDTO(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredienteDTO> ingredientes, List<ComandaDTO> comandas) {
+    public ProductoDTO(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProductoDTO> ingredienteProducto, List<DetallesComandaDTO> detalleComandas) {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
         this.productoActivo = productoActivo;
-        this.ingredientes = ingredientes;
-        this.comandas = comandas;
+        this.ingredienteProducto = ingredienteProducto;
+        this.detalleComandas = detalleComandas;
     }
 
-    public List<IngredienteDTO> getIngredientes() {
-        return ingredientes;
-    }
-
-    public void setIngredientes(List<IngredienteDTO> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
-
-    public List<ComandaDTO> getComandas() {
-        return comandas;
-    }
-
-    public void setComandas(List<ComandaDTO> comandas) {
-        this.comandas = comandas;
-    }
-
-    public ProductoActivo getProductoActivo() {
-        return productoActivo;
-    }
-
-    public void setProductoActivo(ProductoActivo productoActivo) {
+    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProductoDTO> ingredienteProducto, List<DetallesComandaDTO> detalleComandas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
         this.productoActivo = productoActivo;
+        this.ingredienteProducto = ingredienteProducto;
+        this.detalleComandas = detalleComandas;
     }
 
     public Long getId() {
@@ -112,9 +93,33 @@ public class ProductoDTO {
         this.tipo = tipo;
     }
 
+    public ProductoActivo getProductoActivo() {
+        return productoActivo;
+    }
+
+    public void setProductoActivo(ProductoActivo productoActivo) {
+        this.productoActivo = productoActivo;
+    }
+
+    public List<IngredientesProductoDTO> getIngredienteProducto() {
+        return ingredienteProducto;
+    }
+
+    public void setIngredienteProducto(List<IngredientesProductoDTO> ingredienteProducto) {
+        this.ingredienteProducto = ingredienteProducto;
+    }
+
+    public List<DetallesComandaDTO> getDetalleComandas() {
+        return detalleComandas;
+    }
+
+    public void setDetalleComandas(List<DetallesComandaDTO> detalleComandas) {
+        this.detalleComandas = detalleComandas;
+    }
+
     @Override
     public String toString() {
-        return "ProductoDTO{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tipo=" + tipo + '}';
+        return "ProductoDTO{" + "id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tipo=" + tipo + ", productoActivo=" + productoActivo + ", ingredienteProducto=" + ingredienteProducto + ", detalleComandas=" + detalleComandas + '}';
     }
 
 }
