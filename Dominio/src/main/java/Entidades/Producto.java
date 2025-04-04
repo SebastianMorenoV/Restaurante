@@ -43,7 +43,7 @@ public class Producto implements Serializable {
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @Column(name = "Habilitado/Deshabilitado")
+    @Column(name = "Habilitado_Deshabilitado")
     @Enumerated(EnumType.STRING)
     private ProductoActivo productoActivo;
 

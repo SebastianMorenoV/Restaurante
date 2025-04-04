@@ -119,7 +119,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         pnlBtnGuardarCliente3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnBuscarCliente2.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnBuscarCliente2.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscarCliente2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscarCliente2.setText("SALIR");
         btnBuscarCliente2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -150,7 +149,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         pnlBtnInsertarMesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnInsertarMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnInsertarMesas.setForeground(new java.awt.Color(0, 0, 0));
         btnInsertarMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnInsertarMesas.setText("INSERTAR MESAS");
         btnInsertarMesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -204,7 +202,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("REGISTRAR");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 140, 40));
+        pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 150, 40));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
         jLabel6.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
@@ -240,7 +238,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
                 jLabel8MouseClicked(evt);
             }
         });
-        pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 140, 40));
+        pnlHeader1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 150, 40));
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
@@ -252,7 +250,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
                 jLabel9MouseClicked(evt);
             }
         });
-        pnlHeader1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 140, 30));
+        pnlHeader1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 150, 30));
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Plus Jakarta Sans", 1, 24)); // NOI18N
@@ -345,7 +343,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         add(pnlHeader1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 260, 520));
 
-        tablaMesas.setBackground(new java.awt.Color(255, 255, 255));
         tablaMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 36)); // NOI18N
         tablaMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +398,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         pnlBtnGuardarCliente2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnBuscarCliente1.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnBuscarCliente1.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscarCliente1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscarCliente1.setText("CONSULTAR COMANDAS ACTIVAS");
         btnBuscarCliente1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

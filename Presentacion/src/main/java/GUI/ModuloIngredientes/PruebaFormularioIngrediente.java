@@ -17,8 +17,16 @@ public class PruebaFormularioIngrediente {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+
         Aplicacion app = new Aplicacion();
-        app.mostrarPantallaRegistrarIngrediente();
+        
+//        //Registar un ingrediente
+//        app.mostrarPantallaRegistrarIngrediente();
+        
+        //Consultar ingredientes
+        app.mostrarPantallaConsultarIngredientes();
+        
+        
     }
     
 }

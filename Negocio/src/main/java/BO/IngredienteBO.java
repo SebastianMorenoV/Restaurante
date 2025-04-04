@@ -11,6 +11,7 @@ import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IIngredienteBO;
 import interfaces.IIngredienteDAO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -135,6 +136,37 @@ public class IngredienteBO implements IIngredienteBO {
         } catch (PersistenciaException ex) {
             Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
             throw new NegocioException("Error al obtener el ingrediente: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public List<IngredienteDTO> buscarIngredientes(IngredienteDTO ingredienteFiltroDTO) throws NegocioException {
+        // Convertimos el DTO en una entidad Ingrediente
+        Ingrediente ingredienteFiltro = new Ingrediente();
+        ingredienteFiltro.setNombre(ingredienteFiltroDTO.getNombre());
+        ingredienteFiltro.setUnidadMedida(ingredienteFiltroDTO.getUnidadMedida());
+
+        // Llamamos al método DAO para realizar la búsqueda
+        List<Ingrediente> ingredientes;
+        try {
+            ingredientes = ingredientesDAO.buscarIngredientes(ingredienteFiltro);
+
+            // Convertimos la lista de entidades Ingrediente a una lista de DTOs para la presentación
+            List<IngredienteDTO> ingredientesDTO = new ArrayList<>();
+            for (Ingrediente ingrediente : ingredientes) {
+                IngredienteDTO ingredienteDTO = new IngredienteDTO(
+                        ingrediente.getId(),
+                        ingrediente.getNombre(),
+                        ingrediente.getStock(),
+                        ingrediente.getUnidadMedida()
+                );
+                ingredientesDTO.add(ingredienteDTO);
+            }
+
+            return ingredientesDTO;
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(IngredienteBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("Hubo un error buscando ingredientes: " + ex.getLocalizedMessage());
         }
     }
 

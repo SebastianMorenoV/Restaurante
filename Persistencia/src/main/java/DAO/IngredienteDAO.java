@@ -9,9 +9,11 @@ import Enums.UnidadMedida;
 import conexion.Conexion;
 import exception.PersistenciaException;
 import interfaces.IIngredienteDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -146,6 +148,51 @@ public class IngredienteDAO implements IIngredienteDAO {
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public List<Ingrediente> buscarIngredientes(Ingrediente ingredienteFiltro) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        List<Ingrediente> ingredientes = new ArrayList<>();
+
+        try {
+            em.getTransaction().begin(); // iniciar transacción
+            em.flush(); // asegurar que los cambios estén reflejados antes de la consulta
+
+            StringBuilder jpql = new StringBuilder("SELECT i FROM Ingrediente i WHERE 1=1");
+
+            if (ingredienteFiltro.getNombre() != null && !ingredienteFiltro.getNombre().trim().isEmpty()) {
+                jpql.append(" AND LOWER(i.nombre) LIKE :nombre");
+            }
+
+            if (ingredienteFiltro.getUnidadMedida() != null) {
+                jpql.append(" AND i.unidadMedida = :unidadMedida");
+            }
+
+            TypedQuery<Ingrediente> query = em.createQuery(jpql.toString(), Ingrediente.class)
+                    .setHint("javax.persistence.cache.storeMode", "REFRESH"); // evitar cache
+
+            if (ingredienteFiltro.getNombre() != null && !ingredienteFiltro.getNombre().trim().isEmpty()) {
+                query.setParameter("nombre", "%" + ingredienteFiltro.getNombre().toLowerCase() + "%");
+            }
+
+            if (ingredienteFiltro.getUnidadMedida() != null) {
+                query.setParameter("unidadMedida", ingredienteFiltro.getUnidadMedida()); // no necesita LIKE porque es un ENUM
+            }
+
+            ingredientes = query.getResultList();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // revertir cambios en caso de error
+            }
+            throw new PersistenciaException("Error al buscar ingredientes: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+
+        return ingredientes;
     }
 
 }

@@ -482,7 +482,8 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
     }
 
-    //Falta cargar datos en tabla y eliminar ingrediente de la tabla con doble click
+    //Falta validarIngredienteEnProducto
+    
     private void configurarTablaIngredientes() {
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},

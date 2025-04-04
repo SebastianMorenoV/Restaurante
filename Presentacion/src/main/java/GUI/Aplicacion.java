@@ -13,6 +13,7 @@ import DTOSalida.MesaDTO;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloIngredientes.FormularioRegistrarIngrediente;
+import GUI.ModuloIngredientes.PantallaConsultarIngredientes;
 import GUI.ModuloReportes.MenuReportes;
 import GUI.ModuloReportes.PantallaReporteClientes;
 import GUI.ModuloReportes.PantallaReporteComandas;
@@ -48,6 +49,7 @@ public class Aplicacion {
     private MenuReportes menuReportes;
     private PantallaReporteComandas reporteComandas;
     private PantallaReporteClientes reporteClientes;
+    private PantallaConsultarIngredientes consultarIngredientes;
 
     //Manejadores de BO
     private IClienteBO clientesBO;
@@ -76,6 +78,7 @@ public class Aplicacion {
         menuReportes = new MenuReportes(this);
         reporteComandas = new PantallaReporteComandas(this);
         reporteClientes = new PantallaReporteClientes(this);
+        consultarIngredientes = new PantallaConsultarIngredientes(this);
 
     }
 
@@ -147,6 +150,14 @@ public class Aplicacion {
         }
     }
 
+    public List<IngredienteDTO> buscarIngredientes(IngredienteDTO ingredienteFiltroDTO) throws NegocioException {
+        try {
+            return ingredientesBO.buscarIngredientes(ingredienteFiltroDTO);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
     public boolean insertMasivoMesas() throws NegocioException {
         try {
             return mesasBO.insertMasivoMesas();
@@ -198,6 +209,10 @@ public class Aplicacion {
 
     public void mostrarPantallaReporteClientes() {
         cambiarPantalla(reporteClientes);
+    }
+
+    public void mostrarPantallaConsultarIngredientes() {
+        cambiarPantalla(consultarIngredientes);
     }
 
     public void mostrarMenuMesero() {

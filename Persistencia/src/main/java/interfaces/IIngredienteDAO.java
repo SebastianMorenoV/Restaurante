@@ -28,6 +28,8 @@ public interface IIngredienteDAO {
     public boolean existeIngrediente(String nombre, UnidadMedida unidadMedida) throws PersistenciaException;
     
     public Ingrediente buscarPorNombre(String nombre) throws PersistenciaException;
+    
+    public List<Ingrediente> buscarIngredientes(Ingrediente ingredienteFiltro) throws PersistenciaException;
      
     
 }

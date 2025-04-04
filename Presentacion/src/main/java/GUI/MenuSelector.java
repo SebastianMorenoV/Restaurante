@@ -132,7 +132,7 @@ public class MenuSelector extends javax.swing.JPanel {
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setFont(new java.awt.Font("Playfair Display", 0, 80)); // NOI18N
         jLabel5.setText("Soy...");
-        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 200, 110));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 210, 110));
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnlBotonAdministradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonAdministradorMouseClicked

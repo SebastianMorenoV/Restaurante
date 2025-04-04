@@ -24,4 +24,6 @@ public interface IIngredienteBO {
     
     public IngredienteDTO obtenerPorId(Long id) throws NegocioException ;
     
+    public List<IngredienteDTO> buscarIngredientes(IngredienteDTO ingredienteFiltroDTO) throws NegocioException ;
+    
 }
