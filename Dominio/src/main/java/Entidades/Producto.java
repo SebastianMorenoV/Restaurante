@@ -26,7 +26,7 @@ import javax.persistence.UniqueConstraint;
  * @author Admin
  */
 @Entity
-@Table(name = "Productos", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"})) // indica que solo un producto puede tener un nombre y no repetirse
+@Table(name = "Producto", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"})) // indica que solo un producto puede tener un nombre y no repetirse
 public class Producto implements Serializable {
 
     @Id
@@ -150,6 +150,7 @@ public class Producto implements Serializable {
         this.detallesComanda = detallesComanda;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

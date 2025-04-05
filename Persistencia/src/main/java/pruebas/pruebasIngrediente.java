@@ -25,12 +25,12 @@ public class pruebasIngrediente {
         IIngredienteDAO ingredienteDAO = IngredienteDAO.getInstanceDAO();
 
 //        //Agregar un ingrediente
-//        try {
-//            Ingrediente ingrediente = new Ingrediente(1L, "Queso parmesano", 20, UnidadMedida.GRAMOS);
-//            ingredienteDAO.guardarIngrediente(ingrediente);
-//        } catch (PersistenciaException ex) {
-//            ex.printStackTrace();
-//        }
+        try {
+            Ingrediente ingrediente = new Ingrediente(1L, "Queso parmesano", 20, UnidadMedida.GRAMOS);
+            ingredienteDAO.guardarIngrediente(ingrediente);
+        } catch (PersistenciaException ex) {
+            ex.printStackTrace();
+        }
 //
 //        try {
 //            Ingrediente ingrediente = new Ingrediente(2L, "Tomate", 13, UnidadMedida.PIEZAS);

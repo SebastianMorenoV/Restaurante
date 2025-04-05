@@ -5,6 +5,7 @@
 package interfaces;
 
 import DTOSalida.ProductoDTO;
+import Entidades.Ingrediente;
 import Entidades.Producto;
 import Enums.ProductoActivo;
 import exception.PersistenciaException;
@@ -75,7 +76,12 @@ public interface IProductoDAO {
      */
     public boolean cambiarEstado(Long id, ProductoActivo nuevoEstado) throws PersistenciaException;
     
-    
-    
+    /**
+     * 
+     * @param nombre
+     * @return
+     * @throws PersistenciaException 
+     */
+   // public Ingrediente buscarIngredientePorNombre(String nombre) throws PersistenciaException;
     
 }

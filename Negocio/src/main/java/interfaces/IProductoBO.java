@@ -46,4 +46,6 @@ public interface IProductoBO {
      * @throws NegocioException 
      */
     public List<ProductoDTO> buscarProductos(ProductoDTO filtro) throws NegocioException;
+    
+    
 }

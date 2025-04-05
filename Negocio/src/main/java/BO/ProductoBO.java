@@ -4,13 +4,21 @@
  */
 package BO;
 
+import DAO.ComandaDAO;
+import DAO.DetallesComandaDAO;
+import DAO.IngredienteDAO;
+import DAO.IngredientesProductoDAO;
+import DAO.ProductoDAO;
 import DTOSalida.ProductoDTO;
+import Entidades.Comanda;
+import Entidades.DetallesComanda;
+import Entidades.Ingrediente;
+import Entidades.IngredientesProducto;
 import Entidades.Producto;
 import Enums.ProductoActivo;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IProductoBO;
-import interfaces.IProductoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,10 +30,18 @@ import java.util.logging.Logger;
  */
 public class ProductoBO implements IProductoBO {
 
-    private final IProductoDAO productoDAO;
+    private final ProductoDAO productoDAO;
+    private final IngredienteDAO ingredienteDAO;
+    private final IngredientesProductoDAO ingredientesProductoDAO;
+    private final ComandaDAO comandaDAO;
+    private final DetallesComandaDAO detallesComandaDAO;
 
-    public ProductoBO(IProductoDAO productoDAO) {
-        this.productoDAO = productoDAO;
+    public ProductoBO() {
+        this.productoDAO = new ProductoDAO();
+        this.ingredienteDAO = new IngredienteDAO();
+        this.ingredientesProductoDAO = new IngredientesProductoDAO();
+        this.comandaDAO = new ComandaDAO();
+        this.detallesComandaDAO = new DetallesComandaDAO();
     }
 
     @Override
@@ -130,54 +146,79 @@ public class ProductoBO implements IProductoBO {
             throw new NegocioException("Error al buscar productos: " + ex.getMessage(), ex);
         }
     }
-    
-    /**
-     * @Override
-public List<Producto> buscarProductos(ProductoDTO filtro) throws PersistenciaException {
-    EntityManager em = Conexion.crearConexion();
-    List<Producto> productos = new ArrayList<>();
 
-    try {
-        em.getTransaction().begin();
-        em.flush();
+    public void agregarIngredienteAProducto(Long productoId, Long ingredienteId, Integer cantidad) throws Exception {
+        Producto producto = productoDAO.obtenerProductoPorId(productoId);
+        Ingrediente ingrediente = ingredienteDAO.buscarPorId(ingredienteId);
 
-        StringBuilder jpql = new StringBuilder("SELECT p FROM Producto p WHERE 1=1");
-
-        if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
-            jpql.append(" AND LOWER(p.nombre) LIKE :nombre");
-        }
-        if (filtro.getTipo() != null) {
-            jpql.append(" AND p.tipo = :tipo");
-        }
-        if (filtro.getProductoActivo() != null) {
-            jpql.append(" AND p.productoActivo = :productoActivo");
+        if (producto == null || ingrediente == null) {
+            throw new Exception("Producto o Ingrediente no encontrado");
         }
 
-        TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class)
-                .setHint("javax.persistence.cache.storeMode", "REFRESH");
+        IngredientesProducto nuevo = new IngredientesProducto();
+        nuevo.setProducto(producto);
+        nuevo.setIngrediente(ingrediente);
+        nuevo.setCantidad(cantidad);
 
-        if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
-            query.setParameter("nombre", "%" + filtro.getNombre().toLowerCase() + "%");
-        }
-        if (filtro.getTipo() != null) {
-            query.setParameter("tipo", filtro.getTipo());
-        }
-        if (filtro.getProductoActivo() != null) {
-            query.setParameter("productoActivo", filtro.getProductoActivo());
-        }
-
-        productos = query.getResultList();
-        em.getTransaction().commit();
-    } catch (Exception e) {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
-        throw new PersistenciaException("Error al buscar productos: " + e.getMessage(), e);
-    } finally {
-        em.close();
+        ingredientesProductoDAO.insertar(nuevo);
     }
 
-    return productos;
-}
+    public void crearYGuardarDetalleComanda(Long productoId, Long comandaId, int cantidad, String comentarios) {
+        try {
+            Producto producto = productoDAO.obtenerProductoPorId(productoId);
+            Comanda comanda = comandaDAO.obtenerComandaPorId(comandaId);
+
+            if (producto == null || comanda == null) {
+                System.out.println("Producto o Comanda no encontrados.");
+                return;
+            }
+
+            DetallesComanda detalle = new DetallesComanda();
+            detalle.setProducto(producto);
+            detalle.setComanda(comanda);
+            detalle.setCantidad(cantidad);
+            detalle.setPrecioUnitario(producto.getPrecio());
+            detalle.setImporteTotal(producto.getPrecio() * cantidad);
+            detalle.setComentarios(comentarios);
+
+            detallesComandaDAO.guardar(detalle);
+            System.out.println("Detalle de comanda guardado correctamente.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @Override public List<Producto> buscarProductos(ProductoDTO filtro)
+     * throws PersistenciaException { EntityManager em =
+     * Conexion.crearConexion(); List<Producto> productos = new ArrayList<>();
+     *
+     * try { em.getTransaction().begin(); em.flush();
+     *
+     * StringBuilder jpql = new StringBuilder("SELECT p FROM Producto p WHERE
+     * 1=1");
+     *
+     * if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+     * jpql.append(" AND LOWER(p.nombre) LIKE :nombre"); } if (filtro.getTipo()
+     * != null) { jpql.append(" AND p.tipo = :tipo"); } if
+     * (filtro.getProductoActivo() != null) { jpql.append(" AND p.productoActivo
+     * = :productoActivo"); }
+     *
+     * TypedQuery<Producto> query = em.createQuery(jpql.toString(),
+     * Producto.class) .setHint("javax.persistence.cache.storeMode", "REFRESH");
+     *
+     * if (filtro.getNombre() != null && !filtro.getNombre().trim().isEmpty()) {
+     * query.setParameter("nombre", "%" + filtro.getNombre().toLowerCase() +
+     * "%"); } if (filtro.getTipo() != null) { query.setParameter("tipo",
+     * filtro.getTipo()); } if (filtro.getProductoActivo() != null) {
+     * query.setParameter("productoActivo", filtro.getProductoActivo()); }
+     *
+     * productos = query.getResultList(); em.getTransaction().commit(); } catch
+     * (Exception e) { if (em.getTransaction().isActive()) {
+     * em.getTransaction().rollback(); } throw new PersistenciaException("Error
+     * al buscar productos: " + e.getMessage(), e); } finally { em.close(); }
+     *
+     * return productos; }
      */
 }

@@ -100,7 +100,7 @@ public class ProductoDAO implements IProductoDAO {
                 jpql.append(" AND p.tipo = :tipo");
             }
             if (filtro.getProductoActivo() != null) {
-                jpql.append(" AND p.Habilitado_Deshabilitado = :Habilitado_Deshabilitado");
+                jpql.append(" AND p.productoActivo = :estatus");
             }
 
             TypedQuery<Producto> query = em.createQuery(jpql.toString(), Producto.class)
@@ -110,7 +110,7 @@ public class ProductoDAO implements IProductoDAO {
                 query.setParameter("nombre", "%" + filtro.getNombre().toLowerCase() + "%");
             }
             if (filtro.getTipo() != null) {
-                query.setParameter("categoria", filtro.getTipo());
+                query.setParameter("tipo", filtro.getTipo());
             }
             if (filtro.getProductoActivo() != null) {
                 query.setParameter("estatus", filtro.getProductoActivo());
@@ -163,4 +163,23 @@ public class ProductoDAO implements IProductoDAO {
             em.close();
         }
     }
+
+    /**
+     * @Override public Ingrediente buscarIngredientePorNombre(String nombre)
+     * throws PersistenciaException { EntityManager em =
+     * Conexion.crearConexion(); try { TypedQuery<Ingrediente> query =
+     * em.createQuery( "SELECT i FROM Ingrediente i WHERE i.nombre = :nombre",
+     * Ingrediente.class); query.setParameter("nombre", nombre); return
+     * query.getSingleResult(); } catch (Exception e) { throw new
+     * PersistenciaException("No se encontró el ingrediente con nombre: " +
+     * nombre); } }
+     *
+     * public void guardarProductoConIngredientes(Producto producto,
+     * List<IngredientesProducto> ingredientesProductoList) { EntityManager em =
+     * Conexion.crearConexion(); em.getTransaction().begin();
+     * em.persist(producto); for (IngredientesProducto ip :
+     * ingredientesProductoList) { em.persist(ip); em.getTransaction().commit();
+     * } }
+    * *
+     */
 }

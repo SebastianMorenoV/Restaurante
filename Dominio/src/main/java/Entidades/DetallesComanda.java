@@ -71,6 +71,16 @@ public class DetallesComanda implements Serializable {
         this.importeTotal = importeTotal;
     }
 
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    
+    
     public Comanda getComanda() {
         return comanda;
     }
