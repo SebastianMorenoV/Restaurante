@@ -361,6 +361,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             }
         });
         tablaMesas.setRowHeight(80);
+        tablaMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMesasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMesas);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 590, 330));
@@ -477,6 +482,17 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
         app.mostrarMenuReportes();
     }//GEN-LAST:event_jLabel15MouseClicked
+
+    private void tablaMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMesasMouseClicked
+        if (evt.getClickCount() == 2) { // Doble clic
+            int fila = tablaMesas.getSelectedRow();
+            String mesa = String.valueOf(tablaMesas.getValueAt(fila, 0));
+            app.setMesa(mesa);
+            app.reconstruirPantallaComanda();
+            app.mostrarPantallaComanda();
+
+        }
+    }//GEN-LAST:event_tablaMesasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

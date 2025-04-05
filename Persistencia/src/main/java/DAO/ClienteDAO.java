@@ -124,7 +124,6 @@ public class ClienteDAO implements IClienteDAO {
             if (filtro.getVisitas() != null) {
                 query.setParameter("visitas", filtro.getVisitas());
             }
-            System.out.println("Visitas : "+filtro.getVisitas());
 
             clientes = query.getResultList();
             em.getTransaction().commit();

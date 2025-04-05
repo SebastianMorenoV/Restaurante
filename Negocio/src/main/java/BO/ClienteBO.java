@@ -108,9 +108,9 @@ public class ClienteBO implements IClienteBO {
                 }
                 String nombreCompleto = "";
                 if (cliente.getApellidoMaterno() == null) {
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
-                } else {
                     nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
+                } else {
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
                 }
 
                 if (cliente instanceof ClienteFrecuente) {
@@ -150,7 +150,6 @@ public class ClienteBO implements IClienteBO {
             // Crear un ClienteFrecuente con los valores del DTO
             ClienteFrecuente clienteAConsultar = new ClienteFrecuente();
             clienteAConsultar.setNombre(filtro.getNombreCompleto());
-            System.out.println("Visitas desde bo : " + filtro.getVisitasTotales());
             clienteAConsultar.setVisitas(filtro.getVisitasTotales());
 
             // Obtener la lista de clientes frecuentes desde la base de datos
@@ -162,9 +161,10 @@ public class ClienteBO implements IClienteBO {
 
                 String nombreCompleto = "";
                 if (cliente.getApellidoMaterno() == null) {
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
-                } else {
                     nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
+                } else {
+                    
+                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
                 }
                 ClienteDTO clienteDTO = new ClienteDTO(
                         nombreCompleto, // Nombre completo

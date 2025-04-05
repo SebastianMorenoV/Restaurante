@@ -12,6 +12,7 @@ import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
+import GUI.ModuloComandas.PantallaComanda;
 import GUI.ModuloIngredientes.FormularioRegistrarIngrediente;
 import GUI.ModuloIngredientes.PantallaConsultarIngredientes;
 import GUI.ModuloReportes.MenuReportes;
@@ -36,6 +37,7 @@ public class Aplicacion {
 
     //atributos de sesion
     private String rol;
+    private String mesa;
     // Ventana principal
     private JFrame framePrincipal;
     // pantallas
@@ -50,6 +52,7 @@ public class Aplicacion {
     private PantallaReporteComandas reporteComandas;
     private PantallaReporteClientes reporteClientes;
     private PantallaConsultarIngredientes consultarIngredientes;
+    private PantallaComanda comanda;
 
     //Manejadores de BO
     private IClienteBO clientesBO;
@@ -79,6 +82,7 @@ public class Aplicacion {
         reporteComandas = new PantallaReporteComandas(this);
         reporteClientes = new PantallaReporteClientes(this);
         consultarIngredientes = new PantallaConsultarIngredientes(this);
+        comanda = new PantallaComanda(this);
 
     }
 
@@ -190,6 +194,10 @@ public class Aplicacion {
     public void mostrarPantallaConsultarCliente() {
         cambiarPantalla(consultarCliente);
     }
+    
+    public void mostrarPantallaComanda(){
+         cambiarPantalla(comanda);
+    }
 
     public void mostrarPantallaComandasActivas() {
         cambiarPantalla(comandasActivas);
@@ -223,6 +231,11 @@ public class Aplicacion {
         menuMesero = new MenuMesero(this);
 
     }
+    
+    public void reconstruirPantallaComanda() {
+        comanda = new PantallaComanda(this);
+
+    }
 
     // Cambiar de pantalla dentro del frame principal
     private void cambiarPantalla(JPanel nuevaPantalla) {
@@ -241,4 +254,12 @@ public class Aplicacion {
     public String getRol() {
         return rol;
     }
+    
+    public void setMesa(String  mesa){
+        this.mesa = mesa;
+    }
+    public String getMesa(){
+        return mesa;
+    }
+    
 }
