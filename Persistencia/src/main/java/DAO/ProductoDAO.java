@@ -4,6 +4,7 @@
  */
 package DAO;
 
+import DTOSalida.IngredienteDTO;
 import DTOSalida.ProductoDTO;
 import interfaces.IProductoDAO;
 import Entidades.Producto;
@@ -13,6 +14,7 @@ import exception.PersistenciaException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -164,6 +166,29 @@ public class ProductoDAO implements IProductoDAO {
         }
     }
 
+    // creo que se me borro este metodo xxd unu
+    @Override
+    public List<IngredienteDTO> obtenerIngredientesPorProducto(String producto) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Producto buscarPorNombre(String nombre) throws PersistenceException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            TypedQuery<Producto> query = em.createQuery(
+                    "SELECT p FROM ProductoEntity p WHERE LOWER(p.nombre) = :nombre",
+                    Producto.class
+            );
+            query.setParameter("nombre", nombre.toLowerCase());
+            List<Producto> resultados = query.getResultList();
+            return resultados.isEmpty() ? null : resultados.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * @Override public Ingrediente buscarIngredientePorNombre(String nombre)
      * throws PersistenciaException { EntityManager em =
@@ -179,7 +204,6 @@ public class ProductoDAO implements IProductoDAO {
      * Conexion.crearConexion(); em.getTransaction().begin();
      * em.persist(producto); for (IngredientesProducto ip :
      * ingredientesProductoList) { em.persist(ip); em.getTransaction().commit();
-     * } }
-    * *
+     * } } *
      */
 }

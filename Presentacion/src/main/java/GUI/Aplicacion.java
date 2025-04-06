@@ -4,12 +4,12 @@
  */
 package GUI;
 
-import BO.ClienteBO;
 import DTOEntrada.CrearClienteDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
+import Entidades.Producto;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloComandas.PantallaComanda;
@@ -22,9 +22,8 @@ import exception.NegocioException;
 import interfaces.IClienteBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
+import interfaces.IProductoBO;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
@@ -58,6 +57,7 @@ public class Aplicacion {
     private IClienteBO clientesBO;
     private IIngredienteBO ingredientesBO;
     private IMesaBO mesasBO;
+    private IProductoBO productoBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -177,6 +177,18 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+    
+  /** esta en proceso
+    //Metodos de producto
+    public ProductoDTO buscarProductoPorNombre(String nomber) throws NegocioException{
+        try{
+            return productoBO.obtenerPorNombre(nomber);
+        }catch(NegocioException e){
+            throw new NegocioException(e.getMessage());
+        }
+    }
+    **/
+    
 
     // Metodos para realizar cambios de pantalla
     public void mostrarMenuSelector() {

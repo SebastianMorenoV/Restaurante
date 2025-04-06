@@ -5,6 +5,7 @@
 package interfaces;
 
 import DTOSalida.ProductoDTO;
+import Entidades.Producto;
 import Enums.ProductoActivo;
 import exception.NegocioException;
 import java.util.List;
@@ -47,5 +48,11 @@ public interface IProductoBO {
      */
     public List<ProductoDTO> buscarProductos(ProductoDTO filtro) throws NegocioException;
     
-    
+    /**
+     * 
+     * @param nombre
+     * @return
+     * @throws NegocioException 
+     */
+    public ProductoDTO obtenerPorNombre(String nombre) throws NegocioException;
 }
