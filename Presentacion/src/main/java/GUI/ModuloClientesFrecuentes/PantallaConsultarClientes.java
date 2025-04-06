@@ -14,6 +14,7 @@ import exception.NegocioException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -134,7 +135,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         pnlNombre.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputNombre.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputNombre.setForeground(new java.awt.Color(0, 0, 0));
         inputNombre.setText("Ingresar nombre(s)");
         inputNombre.setBorder(null);
         inputNombre.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -161,7 +161,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         pnlApellidoPaterno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputApellidoPaterno.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputApellidoPaterno.setForeground(new java.awt.Color(0, 0, 0));
         inputApellidoPaterno.setText("Ingresar apellido");
         inputApellidoPaterno.setBorder(null);
         inputApellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -199,7 +198,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         pnlTelefono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputTelefono.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputTelefono.setForeground(new java.awt.Color(0, 0, 0));
         inputTelefono.setText("Ingresar telefono");
         inputTelefono.setBorder(null);
         inputTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -222,7 +220,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         pnlCorreo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputCorreo.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputCorreo.setForeground(new java.awt.Color(0, 0, 0));
         inputCorreo.setText("Correo Electronico (Opcional)");
         inputCorreo.setBorder(null);
         inputCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -246,7 +243,6 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         pnlApellidoMaterno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         inputApellidoMaterno.setFont(new java.awt.Font("Roboto", 0, 15)); // NOI18N
-        inputApellidoMaterno.setForeground(new java.awt.Color(0, 0, 0));
         inputApellidoMaterno.setText("Apellido Materno (Opcional)");
         inputApellidoMaterno.setBorder(null);
         inputApellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -275,9 +271,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         jLabel11.setText("TELEFONO:");
         add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 270, -1, -1));
 
-        tablaClientes.setBackground(new java.awt.Color(255, 255, 255));
         tablaClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tablaClientes.setForeground(new java.awt.Color(0, 0, 0));
         tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -285,8 +279,21 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             new String [] {
                 "Telefono", "Correo Electronico", "Nombre Completo", "Visitas", "Total Gastado", "Puntos"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaClientes.setRowHeight(30);
+        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaClientes);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 400, 840, 250));
@@ -334,6 +341,37 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     private void lblFrecuenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFrecuenteMouseClicked
         realizarBusqueda();
     }//GEN-LAST:event_lblFrecuenteMouseClicked
+
+    private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+        if (evt.getClickCount() == 2 && app.isSiguienteComanda()) { // Doble clic
+            int fila = tablaClientes.getSelectedRow();
+
+            if (fila != -1) {
+                String telefono = String.valueOf(tablaClientes.getValueAt(fila, 0));
+                String correo = String.valueOf(tablaClientes.getValueAt(fila, 1));
+                String nombre = String.valueOf(tablaClientes.getValueAt(fila, 2));
+                String visitas = String.valueOf(tablaClientes.getValueAt(fila, 3));
+                String totalGastado = String.valueOf(tablaClientes.getValueAt(fila, 4));
+                String puntos = String.valueOf(tablaClientes.getValueAt(fila, 5));
+
+                String mensaje = "¿Deseas seleccionar este cliente?\n\n" + "Nombre completo: " + nombre + "\n" + "Teléfono: " + telefono + "\n"
+                        + "Correo: " + correo + "\n" + "Visitas: " + visitas + "\n" + "Total gastado: $" + totalGastado + "\n"
+                        + "Puntos acumulados: " + puntos;
+
+                int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmar selección", JOptionPane.YES_NO_OPTION);
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    app.setClienteSeleccionado("Cliente : " + nombre); // O puedes usar un ID si lo manejas
+                    app.reconstruirPantallaComanda();
+                    app.setSiguienteComanda(false);
+                    
+                    // talvez aqui tenga que setear ese dato en algun lado , diferente. porque si se reconstruye y no lo muestra
+                    // habra problemas.
+                    app.mostrarPantallaComanda();
+                }
+            }
+        }
+    }//GEN-LAST:event_tablaClientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

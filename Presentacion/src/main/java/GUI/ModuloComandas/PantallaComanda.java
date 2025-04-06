@@ -25,6 +25,7 @@ public class PantallaComanda extends javax.swing.JPanel {
         initComponents();
         mostrarFecha();
         obtenerMesa();
+        cargarCliente();
 
     }
 
@@ -39,25 +40,37 @@ public class PantallaComanda extends javax.swing.JPanel {
 
         pnlHeader = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        pnlBtnInsertarMesas = new GUI.PanelRound();
-        btnInsertarMesas = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         pnlBtnGuardarCliente1 = new GUI.PanelRound();
         btnBuscarCliente = new javax.swing.JLabel();
         pnlBtnGuardarCliente2 = new GUI.PanelRound();
         btnBuscarCliente2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        lblHora = new javax.swing.JLabel();
         icnTiempo = new javax.swing.JLabel();
+        lblHora = new javax.swing.JLabel();
+        pnlBtnInsertarMesas3 = new GUI.PanelRound();
+        btnInsertarMesas3 = new javax.swing.JLabel();
+        pnlBtnInsertarMesas1 = new GUI.PanelRound();
+        btnInsertarMesas1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btnBuscarCliente3 = new javax.swing.JLabel();
+        pnlBtnInsertarMesas = new GUI.PanelRound();
+        btnInsertarMesas = new javax.swing.JLabel();
         panelRound1 = new GUI.PanelRound();
+        btnBuscarCliente4 = new javax.swing.JLabel();
+        btnBuscarCliente5 = new javax.swing.JLabel();
+        btnBuscarCliente6 = new javax.swing.JLabel();
+        btnBuscarCliente7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaReporteClientes = new javax.swing.JTable();
         btnBuscarCliente1 = new javax.swing.JLabel();
+        pnlBtnInsertarMesas2 = new GUI.PanelRound();
+        btnInsertarMesas2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -72,36 +85,11 @@ public class PantallaComanda extends javax.swing.JPanel {
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnlHeader.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, -1, -1));
 
-        pnlBtnInsertarMesas.setBackground(new java.awt.Color(51, 204, 0));
-        pnlBtnInsertarMesas.setRoundBottomLeft(30);
-        pnlBtnInsertarMesas.setRoundBottomRight(30);
-        pnlBtnInsertarMesas.setRoundTopLeft(30);
-        pnlBtnInsertarMesas.setRoundTopRight(30);
-        pnlBtnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnlBtnInsertarMesasMouseClicked(evt);
-            }
-        });
-        pnlBtnInsertarMesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnInsertarMesas.setFont(new java.awt.Font("Plus Jakarta Sans", 0, 18)); // NOI18N
-        btnInsertarMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnInsertarMesas.setText("ASINAR CLIENTE");
-        btnInsertarMesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMesasMouseClicked(evt);
-            }
-        });
-        pnlBtnInsertarMesas.add(btnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 240, 60));
-
-        pnlHeader.add(pnlBtnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 110, 260, 60));
-
         jLabel1.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         jLabel1.setText("Mesa : ");
         pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 200, -1));
 
-        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(204, 102, 0));
+        pnlBtnGuardarCliente1.setBackground(new java.awt.Color(216, 202, 179));
         pnlBtnGuardarCliente1.setRoundBottomLeft(30);
         pnlBtnGuardarCliente1.setRoundBottomRight(30);
         pnlBtnGuardarCliente1.setRoundTopLeft(30);
@@ -122,14 +110,14 @@ public class PantallaComanda extends javax.swing.JPanel {
 
         pnlHeader.add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 410, -1));
 
-        pnlBtnGuardarCliente2.setBackground(new java.awt.Color(204, 102, 0));
+        pnlBtnGuardarCliente2.setBackground(new java.awt.Color(216, 202, 179));
         pnlBtnGuardarCliente2.setRoundBottomLeft(30);
         pnlBtnGuardarCliente2.setRoundBottomRight(30);
         pnlBtnGuardarCliente2.setRoundTopLeft(30);
         pnlBtnGuardarCliente2.setRoundTopRight(30);
         pnlBtnGuardarCliente2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBuscarCliente2.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente2.setBackground(new java.awt.Color(216, 202, 179));
         btnBuscarCliente2.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
         btnBuscarCliente2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnBuscarCliente2.setText("ESTADO : ABIERTA");
@@ -152,7 +140,59 @@ public class PantallaComanda extends javax.swing.JPanel {
         });
         pnlHeader.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
+        icnTiempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tiempo.png"))); // NOI18N
+        pnlHeader.add(icnTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 40, -1, -1));
+
+        lblHora.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        pnlHeader.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 30, 180, 40));
+
+        pnlBtnInsertarMesas3.setBackground(new java.awt.Color(150, 147, 133));
+        pnlBtnInsertarMesas3.setRoundBottomLeft(30);
+        pnlBtnInsertarMesas3.setRoundBottomRight(30);
+        pnlBtnInsertarMesas3.setRoundTopLeft(30);
+        pnlBtnInsertarMesas3.setRoundTopRight(30);
+        pnlBtnInsertarMesas3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlBtnInsertarMesas3MouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInsertarMesas3.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
+        btnInsertarMesas3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnInsertarMesas3.setText("ASINAR CLIENTE");
+        btnInsertarMesas3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInsertarMesas3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMesas3MouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas3.add(btnInsertarMesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 260, 50));
+
+        pnlHeader.add(pnlBtnInsertarMesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 120, 280, 50));
+
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
+
+        pnlBtnInsertarMesas1.setBackground(new java.awt.Color(214, 14, 14));
+        pnlBtnInsertarMesas1.setRoundBottomLeft(30);
+        pnlBtnInsertarMesas1.setRoundBottomRight(30);
+        pnlBtnInsertarMesas1.setRoundTopLeft(30);
+        pnlBtnInsertarMesas1.setRoundTopRight(30);
+        pnlBtnInsertarMesas1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInsertarMesas1.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
+        btnInsertarMesas1.setForeground(new java.awt.Color(255, 255, 255));
+        btnInsertarMesas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnInsertarMesas1.setText("CANCELADA");
+        btnInsertarMesas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInsertarMesas1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMesas1MouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas1.add(btnInsertarMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 50));
+
+        add(pnlBtnInsertarMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 610, 250, 50));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -169,23 +209,74 @@ public class PantallaComanda extends javax.swing.JPanel {
 
         add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
-        lblHora.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
-        add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 610, 180, 40));
-
-        icnTiempo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tiempo.png"))); // NOI18N
-        add(icnTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 620, -1, -1));
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image (1).png"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, -1, 110));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/deshacer (2).png"))); // NOI18N
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
         jLabel2.setText("IMAGEN COMIDAD");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 158, -1, -1));
 
-        jLabel3.setText("BOTON AGREGAR");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, -1, -1));
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jLabel2)
+                .addContainerGap(79, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(109, 109, 109)
+                .addComponent(jLabel2)
+                .addContainerGap(125, Short.MAX_VALUE))
+        );
 
-        jLabel5.setText("BTNReiniciar");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 260, 250));
+
+        btnBuscarCliente3.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente3.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
+        btnBuscarCliente3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBuscarCliente3.setText("Vista Previa :");
+        btnBuscarCliente3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarCliente3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente3MouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnBuscarCliente3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 180, 20));
+
+        pnlBtnInsertarMesas.setBackground(new java.awt.Color(150, 147, 133));
+        pnlBtnInsertarMesas.setRoundBottomLeft(30);
+        pnlBtnInsertarMesas.setRoundBottomRight(30);
+        pnlBtnInsertarMesas.setRoundTopLeft(30);
+        pnlBtnInsertarMesas.setRoundTopRight(30);
+        pnlBtnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlBtnInsertarMesasMouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInsertarMesas.setFont(new java.awt.Font("Product Sans Infanity", 0, 24)); // NOI18N
+        btnInsertarMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnInsertarMesas.setText("GUARDAR COMANDA");
+        btnInsertarMesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMesasMouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas.add(btnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 50));
+
+        jPanel1.add(pnlBtnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 260, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 180, 330, 520));
 
@@ -195,7 +286,56 @@ public class PantallaComanda extends javax.swing.JPanel {
         panelRound1.setRoundTopLeft(20);
         panelRound1.setRoundTopRight(20);
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 480, 140));
+
+        btnBuscarCliente4.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente4.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        btnBuscarCliente4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBuscarCliente4.setText("Propina Sugerida(15%):");
+        btnBuscarCliente4.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        btnBuscarCliente4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente4MouseClicked(evt);
+            }
+        });
+        panelRound1.add(btnBuscarCliente4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 370, 30));
+
+        btnBuscarCliente5.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente5.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        btnBuscarCliente5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBuscarCliente5.setText("Subtotal:");
+        btnBuscarCliente5.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        btnBuscarCliente5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente5MouseClicked(evt);
+            }
+        });
+        panelRound1.add(btnBuscarCliente5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 370, 30));
+
+        btnBuscarCliente6.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente6.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        btnBuscarCliente6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBuscarCliente6.setText("Total:");
+        btnBuscarCliente6.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        btnBuscarCliente6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente6MouseClicked(evt);
+            }
+        });
+        panelRound1.add(btnBuscarCliente6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 370, 20));
+
+        btnBuscarCliente7.setBackground(new java.awt.Color(204, 102, 0));
+        btnBuscarCliente7.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        btnBuscarCliente7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBuscarCliente7.setText("IVA:");
+        btnBuscarCliente7.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        btnBuscarCliente7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarCliente7MouseClicked(evt);
+            }
+        });
+        panelRound1.add(btnBuscarCliente7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 370, 30));
+
+        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 520, 140));
 
         tablaReporteClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaReporteClientes.setModel(new javax.swing.table.DefaultTableModel(
@@ -217,11 +357,11 @@ public class PantallaComanda extends javax.swing.JPanel {
         tablaReporteClientes.setRowHeight(30);
         jScrollPane1.setViewportView(tablaReporteClientes);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 740, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 780, 310));
 
         btnBuscarCliente1.setBackground(new java.awt.Color(204, 102, 0));
         btnBuscarCliente1.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
-        btnBuscarCliente1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnBuscarCliente1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnBuscarCliente1.setText("MARCAR COMO :");
         btnBuscarCliente1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBuscarCliente1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -229,11 +369,32 @@ public class PantallaComanda extends javax.swing.JPanel {
                 btnBuscarCliente1MouseClicked(evt);
             }
         });
-        add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 280, 50));
+        add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, -1, 30));
+
+        pnlBtnInsertarMesas2.setBackground(new java.awt.Color(51, 204, 0));
+        pnlBtnInsertarMesas2.setRoundBottomLeft(30);
+        pnlBtnInsertarMesas2.setRoundBottomRight(30);
+        pnlBtnInsertarMesas2.setRoundTopLeft(30);
+        pnlBtnInsertarMesas2.setRoundTopRight(30);
+        pnlBtnInsertarMesas2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInsertarMesas2.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
+        btnInsertarMesas2.setForeground(new java.awt.Color(255, 255, 255));
+        btnInsertarMesas2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnInsertarMesas2.setText("ENTREGADA");
+        btnInsertarMesas2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInsertarMesas2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInsertarMesas2MouseClicked(evt);
+            }
+        });
+        pnlBtnInsertarMesas2.add(btnInsertarMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 50));
+
+        add(pnlBtnInsertarMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 250, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertarMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesasMouseClicked
-        app.mostrarPantallaRegistrarCliente();
+
     }//GEN-LAST:event_btnInsertarMesasMouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
@@ -256,12 +417,57 @@ public class PantallaComanda extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlBtnInsertarMesasMouseClicked
 
+    private void btnBuscarCliente4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarCliente4MouseClicked
+
+    private void btnBuscarCliente5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente5MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarCliente5MouseClicked
+
+    private void btnBuscarCliente6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente6MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarCliente6MouseClicked
+
+    private void btnBuscarCliente7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarCliente7MouseClicked
+
+    private void btnBuscarCliente3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarCliente3MouseClicked
+
+    private void btnInsertarMesas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas1MouseClicked
+
+    }//GEN-LAST:event_btnInsertarMesas1MouseClicked
+
+    private void btnInsertarMesas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInsertarMesas2MouseClicked
+
+    private void btnInsertarMesas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas3MouseClicked
+        app.setSiguienteComanda(true);
+        app.mostrarPantallaConsultarCliente();
+    }//GEN-LAST:event_btnInsertarMesas3MouseClicked
+
+    private void pnlBtnInsertarMesas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBtnInsertarMesas3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlBtnInsertarMesas3MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBuscarCliente;
     private javax.swing.JLabel btnBuscarCliente1;
     private javax.swing.JLabel btnBuscarCliente2;
+    private javax.swing.JLabel btnBuscarCliente3;
+    private javax.swing.JLabel btnBuscarCliente4;
+    private javax.swing.JLabel btnBuscarCliente5;
+    private javax.swing.JLabel btnBuscarCliente6;
+    private javax.swing.JLabel btnBuscarCliente7;
     private javax.swing.JLabel btnInsertarMesas;
+    private javax.swing.JLabel btnInsertarMesas1;
+    private javax.swing.JLabel btnInsertarMesas2;
+    private javax.swing.JLabel btnInsertarMesas3;
     private javax.swing.JLabel icnTiempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -271,12 +477,16 @@ public class PantallaComanda extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHora;
     private GUI.PanelRound panelRound1;
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
     private GUI.PanelRound pnlBtnInsertarMesas;
+    private GUI.PanelRound pnlBtnInsertarMesas1;
+    private GUI.PanelRound pnlBtnInsertarMesas2;
+    private GUI.PanelRound pnlBtnInsertarMesas3;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JTable tablaReporteClientes;
     // End of variables declaration//GEN-END:variables
@@ -293,5 +503,22 @@ public class PantallaComanda extends javax.swing.JPanel {
             lblHora.setText(horaActual.format(formatter));
         });
         timer.start();
+    }
+
+    public void cargarCliente() {
+        String cliente = app.getClienteSeleccionado();
+        if (cliente == null) {
+            btnBuscarCliente.setText("CLIENTE : SIN ESPECIFICAR");
+        } else {
+            // Eliminar el prefijo y obtener solo el nombre completo
+            String nombreCompleto = cliente.replace("Cliente :", "").trim();
+            String[] partes = nombreCompleto.split("\\s+");
+
+            String nombre = partes[0];
+            String apellidoPaterno = (partes.length > 1) ? partes[1] : "";
+            String inicialApellidoMaterno = (partes.length > 2) ? " " + partes[2].charAt(0) + "." : "";
+
+            btnBuscarCliente.setText("CLIENTE : " + nombre + " " + apellidoPaterno + inicialApellidoMaterno);
+        }
     }
 }

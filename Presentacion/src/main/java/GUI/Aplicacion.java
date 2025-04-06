@@ -38,6 +38,9 @@ public class Aplicacion {
     //atributos de sesion
     private String rol;
     private String mesa;
+    private String clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
+    private boolean siguienteComanda;
+    
     // Ventana principal
     private JFrame framePrincipal;
     // pantallas
@@ -261,5 +264,22 @@ public class Aplicacion {
     public String getMesa(){
         return mesa;
     }
+
+    public String getClienteSeleccionado() {
+        return clienteSeleccionado;
+    }
+
+    public void setClienteSeleccionado(String clienteSeleccionado) {
+        this.clienteSeleccionado = clienteSeleccionado;
+    }
+
+    public boolean isSiguienteComanda() {
+        return siguienteComanda;
+    }
+
+    public void setSiguienteComanda(boolean siguienteComanda) {
+        this.siguienteComanda = siguienteComanda;
+    }
+    
     
 }

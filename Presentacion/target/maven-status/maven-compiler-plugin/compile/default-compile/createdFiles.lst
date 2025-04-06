@@ -1,3 +1,4 @@
+GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$10.class
 GUI\ModuloReportes\PantallaReporteClientes$6.class
 GUI\ModuloReportes\MenuReportes$4.class
 com\carniceria\presentacion\Main.class
@@ -7,6 +8,7 @@ GUI\ModuloIngredientes\FormularioRegistrarIngrediente$2.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$2.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$4.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$5.class
+GUI\ModuloComandas\PantallaComanda$11.class
 GUI\ModuloReportes\PantallaReporteClientes$3.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$2.class
 GUI\MenuPrincipalRestaurante$13.class
@@ -14,6 +16,7 @@ GUI\ModuloReportes\PantallaReporteClientes.class
 GUI\MenuPrincipalRestaurante$9.class
 GUI\ModuloComandas\PantallaComanda$2.class
 GUI\ModuloReportes\MenuReportes$1.class
+GUI\ModuloComandas\PantallaComanda$13.class
 GUI\ModuloComandas\PantallaComanda$5.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$3.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$4.class
@@ -26,6 +29,7 @@ GUI\ModuloIngredientes\PruebaFormularioIngrediente.class
 GUI\MenuMesero$3.class
 GUI\Aplicacion.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$9.class
+GUI\ModuloComandas\PantallaComanda$14.class
 GUI\PantallaComandasActivas$1.class
 GUI\ModuloReportes\PantallaReporteClientes$5.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$5.class
@@ -50,6 +54,7 @@ GUI\ModuloReportes\MenuReportes$5.class
 GUI\ModuloReportes\PantallaReporteClientes$7.class
 GUI\ModuloComandas\PantallaComanda$6.class
 GUI\MenuSelector$1.class
+GUI\ModuloComandas\PantallaComanda$12.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$2.class
 GUI\MenuMesero.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$1.class
@@ -60,7 +65,9 @@ GUI\ModuloReportes\PantallaReporteClientes$4.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$3.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente.class
 GUI\ModuloReportes\PantallaReporteComandas.class
+GUI\ModuloComandas\PantallaComanda$9.class
 GUI\MenuPrincipalRestaurante$2.class
+GUI\ModuloComandas\PantallaComanda$15.class
 GUI\PanelRound.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$1.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$4.class
@@ -71,6 +78,8 @@ GUI\ModuloReportes\PantallaReporteClientes$1.class
 GUI\ModuloReportes\MenuReportes$2.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$7.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes.class
+GUI\ModuloComandas\PantallaComanda$8.class
+GUI\ModuloComandas\PantallaComanda$16.class
 GUI\ModuloComandas\PantallaComanda.class
 GUI\MenuPrincipalRestaurante$10.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$7.class
@@ -85,9 +94,11 @@ GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$7.class
 GUI\ModuloReportes\MenuReportes$3.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente.class
 GUI\MenuSelector.class
+GUI\ModuloComandas\PantallaComanda$10.class
 GUI\ModuloComandas\PantallaComanda$1.class
 GUI\ModuloComandas\PantallaComanda$7.class
 GUI\MenuMesero$1.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$6.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$8.class
+GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$11.class
 GUI\MenuPrincipalRestaurante$11.class
