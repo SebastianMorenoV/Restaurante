@@ -77,13 +77,22 @@ public class IngredienteDAO implements IIngredienteDAO {
             if (ingrediente == null) {
                 throw new PersistenciaException("No se encontró el ingrediente con ID: " + id);
             }
-            em.getTransaction().begin();
+
+            IngredientesProductoDAO ipDAO = IngredientesProductoDAO.getInstanceDAO();
+            if (ipDAO.existeIngredienteEnProductos(ingrediente)) {
+                throw new PersistenciaException("Este ingrediente esta asociado a uno o mas productos.");
+            }
+
+            em.getTransaction().begin(); // ← solo después de validaciones
             em.remove(ingrediente);
             em.getTransaction().commit();
             return true;
 
         } catch (Exception e) {
-            em.getTransaction().rollback();
+            // Solo hacer rollback si la transacción está activa
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
             throw new PersistenciaException("No se pudo eliminar el ingrediente: " + e.getMessage());
         } finally {
             em.close();

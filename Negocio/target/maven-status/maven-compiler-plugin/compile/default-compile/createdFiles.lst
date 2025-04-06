@@ -1,11 +1,10 @@
 BO\MesaBO.class
-Mapper\IngredientesMapper.class
+pruebas\pruebasProducto.class
 pruebas\PruebasIngrediente.class
 BO\IngredienteBO.class
 interfaces\IClienteBO.class
-Mapper\ComandasMapper.class
+interfaces\IProductoBO.class
 exception\NegocioException.class
-Mapper\ProductoMapper.class
 BO\ClienteBO.class
 manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.class
 BO\ProductoBO.class
