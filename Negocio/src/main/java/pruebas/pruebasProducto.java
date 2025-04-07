@@ -15,8 +15,8 @@ public class pruebasProducto {
 
     public static void main(String[] args) throws NegocioException {
         // Instanciamos ProductoBO para acceder a sus métodos
-        ProductoBO productoBO = new ProductoBO();
-        
+        //ProductoBO productoBO = new ProductoBO();
+       /** 
         try{
             productoBO.crearYGuardarDetalleComanda(1L, 1L, 3, "sin cebolla");
         } catch(Exception e){

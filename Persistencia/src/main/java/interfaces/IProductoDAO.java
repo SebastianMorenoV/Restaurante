@@ -76,12 +76,16 @@ public interface IProductoDAO {
      */
     public boolean cambiarEstado(Long id, ProductoActivo nuevoEstado) throws PersistenciaException;
     
+  
+   // public Ingrediente buscarIngredientePorNombre(String nombre) throws PersistenciaException;
+    
     /**
      * 
      * @param nombre
      * @return
      * @throws PersistenciaException 
      */
-   // public Ingrediente buscarIngredientePorNombre(String nombre) throws PersistenciaException;
+    public Producto buscarProductoPorNombre(String nombre) throws PersistenciaException;
+
     
 }

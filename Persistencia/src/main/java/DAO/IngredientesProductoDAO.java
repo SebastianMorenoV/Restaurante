@@ -71,5 +71,22 @@ public class IngredientesProductoDAO {
             em.close();
         }
     }
+    
+    public List<IngredientesProducto> obtenerPorProductoId(Long idProducto) throws PersistenciaException {
+    EntityManager em = Conexion.crearConexion();
+    try {
+        TypedQuery<IngredientesProducto> query = em.createQuery(
+            "SELECT ip FROM IngredientesProducto ip WHERE ip.producto.id = :idProducto", IngredientesProducto.class);
+        query.setParameter("idProducto", idProducto);
+        return query.getResultList();
+    } catch (Exception e) {
+        throw new PersistenciaException("Error al obtener los ingredientes del producto con ID: " + idProducto, e);
+    } finally {
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
+    }
+}
+
 
 }

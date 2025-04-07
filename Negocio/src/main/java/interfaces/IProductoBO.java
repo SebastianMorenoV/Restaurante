@@ -4,9 +4,11 @@
  */
 package interfaces;
 
+import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
 import Enums.ProductoActivo;
 import exception.NegocioException;
+import exception.PersistenciaException;
 import java.util.List;
 
 /**
@@ -47,5 +49,21 @@ public interface IProductoBO {
      */
     public List<ProductoDTO> buscarProductos(ProductoDTO filtro) throws NegocioException;
     
+    
+    /**
+     * 
+     * @param nombre
+     * @return
+     * @throws NegocioException 
+     */
+    public ProductoDTO buscarProductoPorNombre(String nombre) throws NegocioException;
+
+    /**
+     * 
+     * @param idProducto
+     * @return
+     * @throws PersistenciaException 
+     */
+    public List<IngredientesProductoDTO> getIngredientesProducto(Long idProducto) throws NegocioException;
     
 }

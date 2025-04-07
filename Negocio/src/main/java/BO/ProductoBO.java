@@ -8,7 +8,8 @@ import DAO.ComandaDAO;
 import DAO.DetallesComandaDAO;
 import DAO.IngredienteDAO;
 import DAO.IngredientesProductoDAO;
-import DAO.ProductoDAO;
+import DTOSalida.IngredienteDTO;
+import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
@@ -19,6 +20,7 @@ import Enums.ProductoActivo;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IProductoBO;
+import interfaces.IProductoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,18 +32,15 @@ import java.util.logging.Logger;
  */
 public class ProductoBO implements IProductoBO {
 
-    private final ProductoDAO productoDAO;
-    private final IngredienteDAO ingredienteDAO;
-    private final IngredientesProductoDAO ingredientesProductoDAO;
-    private final ComandaDAO comandaDAO;
-    private final DetallesComandaDAO detallesComandaDAO;
+    private IProductoDAO productoDAO;
+    private final IngredienteDAO ingredienteDAO = new IngredienteDAO();
+    private final IngredientesProductoDAO ingredientesProductoDAO = new IngredientesProductoDAO();
+    private final ComandaDAO comandaDAO = new ComandaDAO();
+    private final DetallesComandaDAO detallesComandaDAO = new DetallesComandaDAO();
 
-    public ProductoBO() {
-        this.productoDAO = new ProductoDAO();
-        this.ingredienteDAO = new IngredienteDAO();
-        this.ingredientesProductoDAO = new IngredientesProductoDAO();
-        this.comandaDAO = new ComandaDAO();
-        this.detallesComandaDAO = new DetallesComandaDAO();
+//cambiar constructor con las instancais dentro en caso de problema 
+    public ProductoBO(IProductoDAO productoDAO) {
+        this.productoDAO = productoDAO;
     }
 
     @Override
@@ -184,8 +183,64 @@ public class ProductoBO implements IProductoBO {
             detallesComandaDAO.guardar(detalle);
             System.out.println("Detalle de comanda guardado correctamente.");
 
-        } catch (Exception e) {
+        } catch (PersistenciaException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<IngredientesProductoDTO> getIngredientesProducto(Long idProducto) throws NegocioException {
+        try {
+            List<IngredientesProducto> lista = ingredientesProductoDAO.obtenerPorProductoId(idProducto);
+            List<IngredientesProductoDTO> listaDTO = new ArrayList<>();
+
+            for (IngredientesProducto ip : lista) {
+                IngredienteDTO ingredienteDTO = new IngredienteDTO();
+                ingredienteDTO.setId(ip.getIngrediente().getId());
+                ingredienteDTO.setNombre(ip.getIngrediente().getNombre());
+                ingredienteDTO.setUnidadMedida(ip.getIngrediente().getUnidadMedida());
+
+                ProductoDTO productoDTO = new ProductoDTO();
+                productoDTO.setId(ip.getProducto().getId());
+                productoDTO.setNombre(ip.getProducto().getNombre());
+                productoDTO.setPrecio(ip.getProducto().getPrecio());
+                productoDTO.setTipo(ip.getProducto().getTipo());
+                productoDTO.setProductoActivo(ip.getProducto().getProductoActivo());
+
+                IngredientesProductoDTO dto = new IngredientesProductoDTO();
+                dto.setId(ip.getId());
+                dto.setCantidad(ip.getCantidad());
+                dto.setIngrediente(ingredienteDTO);
+                dto.setProducto(productoDTO);
+
+                listaDTO.add(dto);
+            }
+
+            return listaDTO;
+
+        } catch (Exception e) {
+            throw new NegocioException("Error al obtener ingredientes del producto", e);
+        }
+    }
+
+    @Override
+    public ProductoDTO buscarProductoPorNombre(String nombre) throws NegocioException {
+        try {
+            Producto producto = productoDAO.buscarProductoPorNombre(nombre);
+
+            if (producto == null) {
+                return null;
+            }
+
+            return new ProductoDTO(
+                    producto.getId(),
+                    producto.getNombre(),
+                    producto.getPrecio(),
+                    producto.getTipo(),
+                    producto.getProductoActivo()
+            );
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al buscar el producto por nombre", ex);
         }
     }
 

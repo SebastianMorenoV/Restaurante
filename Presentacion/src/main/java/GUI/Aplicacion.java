@@ -4,12 +4,14 @@
  */
 package GUI;
 
-import BO.ClienteBO;
+import DAO.IngredientesProductoDAO;
 import DTOEntrada.CrearClienteDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
+import DTOSalida.ProductoDTO;
+import Entidades.IngredientesProducto;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloComandas.PantallaComanda;
@@ -22,9 +24,9 @@ import exception.NegocioException;
 import interfaces.IClienteBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
+import interfaces.IProductoBO;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
@@ -40,7 +42,7 @@ public class Aplicacion {
     private String mesa;
     private String clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
     private boolean siguienteComanda;
-    
+
     // Ventana principal
     private JFrame framePrincipal;
     // pantallas
@@ -61,6 +63,7 @@ public class Aplicacion {
     private IClienteBO clientesBO;
     private IIngredienteBO ingredientesBO;
     private IMesaBO mesasBO;
+    private IProductoBO productoBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -72,6 +75,7 @@ public class Aplicacion {
         clientesBO = ManejadorObjetosNegocio.crearClientesBO();
         ingredientesBO = ManejadorObjetosNegocio.crearIngredientesBO();
         mesasBO = ManejadorObjetosNegocio.crearMesasBO();
+        productoBO = ManejadorObjetosNegocio.crearProductosBO();
 
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
@@ -181,6 +185,32 @@ public class Aplicacion {
         }
     }
 
+    public List<IngredientesProducto> getIngredientesProductoPorIdProducto(Long idProducto) throws Exception {
+        return IngredientesProductoDAO.getInstanceDAO()
+                .obtenerTodos()
+                .stream()
+                .filter(ip -> ip.getProducto().getId().equals(idProducto))
+                .toList();
+    }
+
+    public List<ProductoDTO> buscarProductos(ProductoDTO filtro) throws NegocioException {
+        return productoBO.buscarProductos(filtro);
+    }
+
+ 
+
+    public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws NegocioException {
+        ProductoDTO filtro = new ProductoDTO();
+        filtro.setNombre(nombreProducto);
+
+        List<ProductoDTO> productos = productoBO.buscarProductos(filtro);
+        if (!productos.isEmpty()) {
+            return productos.get(0); // Si hay más de uno, retornamos el primero
+        }
+        return null;
+    }
+
+   
     // Metodos para realizar cambios de pantalla
     public void mostrarMenuSelector() {
         cambiarPantalla(menuSelector);
@@ -197,9 +227,9 @@ public class Aplicacion {
     public void mostrarPantallaConsultarCliente() {
         cambiarPantalla(consultarCliente);
     }
-    
-    public void mostrarPantallaComanda(){
-         cambiarPantalla(comanda);
+
+    public void mostrarPantallaComanda() {
+        cambiarPantalla(comanda);
     }
 
     public void mostrarPantallaComandasActivas() {
@@ -234,7 +264,7 @@ public class Aplicacion {
         menuMesero = new MenuMesero(this);
 
     }
-    
+
     public void reconstruirPantallaComanda() {
         comanda = new PantallaComanda(this);
 
@@ -257,11 +287,12 @@ public class Aplicacion {
     public String getRol() {
         return rol;
     }
-    
-    public void setMesa(String  mesa){
+
+    public void setMesa(String mesa) {
         this.mesa = mesa;
     }
-    public String getMesa(){
+
+    public String getMesa() {
         return mesa;
     }
 
@@ -280,6 +311,5 @@ public class Aplicacion {
     public void setSiguienteComanda(boolean siguienteComanda) {
         this.siguienteComanda = siguienteComanda;
     }
-    
-    
+
 }

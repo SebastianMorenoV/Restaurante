@@ -13,6 +13,7 @@ import exception.PersistenciaException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
@@ -164,6 +165,24 @@ public class ProductoDAO implements IProductoDAO {
         }
     }
 
+    @Override
+    public Producto buscarProductoPorNombre(String nombre) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+
+        try {
+            TypedQuery<Producto> query = em.createQuery(
+                    "SELECT p FROM Producto p WHERE LOWER(p.nombre) = :nombre", Producto.class);
+            query.setParameter("nombre", nombre.toLowerCase());
+
+            return query.getSingleResult(); // Lanza excepción si no encuentra
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar producto por nombre", e);
+        } finally {
+            em.close();
+        }
+    }
     /**
      * @Override public Ingrediente buscarIngredientePorNombre(String nombre)
      * throws PersistenciaException { EntityManager em =
@@ -179,7 +198,6 @@ public class ProductoDAO implements IProductoDAO {
      * Conexion.crearConexion(); em.getTransaction().begin();
      * em.persist(producto); for (IngredientesProducto ip :
      * ingredientesProductoList) { em.persist(ip); em.getTransaction().commit();
-     * } }
-    * *
+     * } } *
      */
 }
