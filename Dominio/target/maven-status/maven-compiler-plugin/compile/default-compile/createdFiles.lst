@@ -14,6 +14,7 @@ Enums\Estado.class
 Entidades\DetallesComanda.class
 com\carniceria\dominio\Dominio.class
 DTOSalida\ClienteDTO.class
+DTOSalida\DetallesComandaDTO.class
 Enums\Tipo.class
 DTOEntrada\CrearIngredienteDTO.class
 DTOSalida\MesaDTO.class

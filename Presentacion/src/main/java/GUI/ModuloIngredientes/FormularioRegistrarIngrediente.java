@@ -78,12 +78,13 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
                                 JOptionPane.showMessageDialog(null, "Ingrediente eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                                 cargarDatosTabla();
                             } catch (NegocioException ex) {
-                                Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
+                                //Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex); lo dejo o no?
+                                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error al eliminar ingrediente", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     }
                 }
-                
+
             }
         });
 
@@ -385,7 +386,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione un ingrediente a modificar", "Error", JOptionPane.ERROR_MESSAGE);
-            return; 
+            return;
         }
 
         Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
@@ -399,16 +400,12 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         if (nuevoStockStr != null && !nuevoStockStr.trim().isEmpty()) {
             try {
                 int nuevoStock = Integer.parseInt(nuevoStockStr.trim());
-
-                // Aquí puedes agregar la llamada al método de la lógica de negocio para actualizar el stock
                 app.actualizarStockIngrediente(id, nuevoStock);
+                cargarDatosTabla();// cargar la tabla con datos actualizados
 
-                // Refrescar la tabla después de modificar
-                cargarDatosTabla();
-
-                JOptionPane.showMessageDialog(this, "Stock modificado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Stock modificado con exito.", "Exito", JOptionPane.INFORMATION_MESSAGE);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un numero valido.", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (NegocioException ex) {
                 Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Error al modificar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -448,17 +445,25 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 //
     public void registrarIngrediente() {
         String nombreIngrediente = inputNombre.getText().trim();
-        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();//seleccionamos la opcion dle combobox y la casteamos a un string
-        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada); //ahora convertimos el String a un UnidadMedida
-        Integer stock = Integer.parseInt(inputStockInicial.getText().trim());
+        String unidadSeleccionada = (String) cbxUnidades.getSelectedItem();
+        String stockTexto = inputStockInicial.getText().trim();//primero lo manejamos como texto por si esta vacio que suelte un error
 
-        if (nombreIngrediente.isEmpty() || nombreIngrediente.equals("Nombre del ingrediente")) {
-            JOptionPane.showMessageDialog(this, "Todos los campos (*) son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (nombreIngrediente.isEmpty() || stockTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        String ingredienteEntero = stock + " " + unidadMedida + " " + nombreIngrediente;
+        Integer stock;
+        try {
+            stock = Integer.parseInt(stockTexto);//aca ya es un int y ya se puede validar si es valido o no
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El stock debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        UnidadMedida unidadMedida = UnidadMedida.valueOf(unidadSeleccionada);//aca 
         CrearIngredienteDTO ingrediente = new CrearIngredienteDTO(nombreIngrediente, stock, unidadMedida);
+        String ingredienteEntero = stock + " " + unidadMedida + " " + nombreIngrediente;
 
         try {
             app.registrarIngrediente(ingrediente);
@@ -471,7 +476,6 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al registrar el ingrediente: " + ex.getMessage(),
                     "Error en Registro", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     public void eliminarIngrediente() {
@@ -483,7 +487,6 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
     }
 
     //Falta validarIngredienteEnProducto
-    
     private void configurarTablaIngredientes() {
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},
@@ -491,7 +494,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Hace que todas las celdas sean no editables
+                return false; // hace que todas las celdas sean no editables
             }
         };
 
@@ -502,7 +505,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         try {
             List<IngredienteDTO> ingredientes = app.obtenerIngredientes();
             DefaultTableModel model = (DefaultTableModel) tableIngredientes.getModel();
-            model.setRowCount(0); // Limpiar tabla existente
+            model.setRowCount(0); // limpiar tabla existente
 
             for (IngredienteDTO ingrediente : ingredientes) {
                 model.addRow(new Object[]{ingrediente.getId(), ingrediente.getNombre(), ingrediente.getUnidadMedida(), ingrediente.getStock()});
@@ -513,7 +516,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         }
     }
 
-    //Auxiliares
+    //aux
     public void limpiarCampos() {
         inputNombre.setText("");
         inputStockInicial.setText("");

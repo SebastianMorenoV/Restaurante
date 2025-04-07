@@ -4,10 +4,13 @@
  */
 package DAO;
 
+import Entidades.Ingrediente;
 import Entidades.IngredientesProducto;
 import conexion.Conexion;
 import exception.PersistenciaException;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -41,4 +44,32 @@ public class IngredientesProductoDAO {
             throw e;
         }
     }
+
+    public List<IngredientesProducto> obtenerTodos() throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            TypedQuery<IngredientesProducto> query = em.createQuery("SELECT ip FROM IngredientesProducto ip", IngredientesProducto.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al obtener los ingredientes del producto.", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    public boolean existeIngredienteEnProductos(Ingrediente ingrediente) {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            String jpql = "SELECT COUNT(ip) FROM IngredientesProducto ip WHERE ip.ingrediente = :ingrediente";
+            Long count = em.createQuery(jpql, Long.class)
+                    .setParameter("ingrediente", ingrediente)
+                    .getSingleResult();
+            return count > 0;
+        } finally {
+            em.close();
+        }
+    }
+
 }

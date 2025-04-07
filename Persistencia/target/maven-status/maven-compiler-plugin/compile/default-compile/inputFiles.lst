@@ -1,3 +1,4 @@
+C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IComandaDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IClienteDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ComandaDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
@@ -5,10 +6,14 @@ C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\interface
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngrediente.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IIngredienteDAO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngredienteProducto.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasProducto.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredienteDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasCliente.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ProductoDAO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\DetallesComandaDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ClienteDAO.java
+C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredientesProductoDAO.java
 C:\Users\Admin\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IProductoDAO.java
