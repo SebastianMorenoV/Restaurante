@@ -19,7 +19,6 @@ import Enums.ProductoActivo;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IProductoBO;
-import interfaces.IProductoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,20 +30,20 @@ import java.util.logging.Logger;
  */
 public class ProductoBO implements IProductoBO {
 
-    private IProductoDAO productossDAO;
-    
-    private final ProductoDAO productoDAO = new ProductoDAO();
-    private final IngredienteDAO ingredienteDAO = new IngredienteDAO();
-    private final IngredientesProductoDAO ingredientesProductoDAO = new IngredientesProductoDAO();
-    private final ComandaDAO comandaDAO = new ComandaDAO();
-    private final DetallesComandaDAO detallesComandaDAO = new DetallesComandaDAO();
+    private final ProductoDAO productoDAO;
+    private final IngredienteDAO ingredienteDAO;
+    private final IngredientesProductoDAO ingredientesProductoDAO;
+    private final ComandaDAO comandaDAO;
+    private final DetallesComandaDAO detallesComandaDAO;
 
-    // igual si no funciona nomaa hago el constructor vacio y hago la instancia deentro del constructor 
-
-    public ProductoBO(IProductoDAO productossDAO){
-        this.productossDAO = productossDAO;
+    public ProductoBO() {
+        this.productoDAO = new ProductoDAO();
+        this.ingredienteDAO = new IngredienteDAO();
+        this.ingredientesProductoDAO = new IngredientesProductoDAO();
+        this.comandaDAO = new ComandaDAO();
+        this.detallesComandaDAO = new DetallesComandaDAO();
     }
-    
+
     @Override
     public ProductoDTO registrarProducto(ProductoDTO productoDTO) throws NegocioException {
         // Validaciones básicas
@@ -188,21 +187,6 @@ public class ProductoBO implements IProductoBO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    //fata terminar, lo usare para la tabla de presentacion
-    @Override
-    public ProductoDTO obtenerPorNombre(String nombre) throws NegocioException {
-        try{
-            Producto producto = productoDAO.buscarPorNombre(nombre);
-            if (producto == null) {
-                return null;
-            }
-            
-        }catch(Exception e){
-            throw new NegocioException("Error al buscar el producto por nombre: "+ e.getMessage());
-        }
-        return null;
     }
 
     /**

@@ -4,13 +4,12 @@
  */
 package interfaces;
 
-import DTOSalida.IngredienteDTO;
 import DTOSalida.ProductoDTO;
+import Entidades.Ingrediente;
 import Entidades.Producto;
 import Enums.ProductoActivo;
 import exception.PersistenciaException;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 /**
  *
@@ -77,20 +76,12 @@ public interface IProductoDAO {
      */
     public boolean cambiarEstado(Long id, ProductoActivo nuevoEstado) throws PersistenciaException;
     
-   /**
-    * 
-    * @param producto
-    * @return
-    * @throws PersistenceException 
-    */
-    public List<IngredienteDTO> obtenerIngredientesPorProducto(String producto) throws PersistenceException;
-        
     /**
      * 
      * @param nombre
      * @return
-     * @throws PersistenceException 
+     * @throws PersistenciaException 
      */
-    public Producto buscarPorNombre(String nombre) throws PersistenceException;
+   // public Ingrediente buscarIngredientePorNombre(String nombre) throws PersistenciaException;
     
 }
