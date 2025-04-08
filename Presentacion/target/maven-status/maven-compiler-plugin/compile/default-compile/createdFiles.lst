@@ -25,6 +25,7 @@ GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$3.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$4.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$4.class
 GUI\MenuPrincipalRestaurante$14.class
+GUI\ModuloComandas\PruebaHacerComanda.class
 GUI\MenuSelector$3.class
 GUI\MenuPrincipalRestaurante$6.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$8.class
@@ -49,6 +50,7 @@ GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$8.class
 GUI\MenuPrincipalRestaurante$12.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$6.class
 GUI\MenuPrincipalRestaurante$5.class
+GUI\ModuloComandas\PantallaComanda$18.class
 GUI\MenuPrincipalRestaurante$8.class
 GUI\ModuloComandas\PantallaComanda$3.class
 GUI\PantallaComandasActivas$2.class
@@ -102,6 +104,7 @@ GUI\ModuloReportes\PantallaReporteComandas$1.class
 GUI\Productos\BuscarProducto.class
 GUI\ModuloReportes\PantallaReporteClientes$2.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$7.class
+GUI\ModuloComandas\PantallaComanda$17.class
 GUI\ModuloReportes\MenuReportes$3.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente.class
 GUI\MenuSelector.class

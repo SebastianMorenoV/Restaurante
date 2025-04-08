@@ -1,0 +1,56 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="reporteClientesFrecuentes" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5c72520-dcb9-429b-b4ba-02f6f14ab90f">
+	<query language="sql"><![CDATA[]]></query>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="visitas" class="java.lang.Integer"/>
+	<field name="gastoAcumulado" class="java.lang.Double"/>
+	<field name="puntosFidelidad" class="java.lang.Integer"/>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="887e6a2a-4fde-4e28-939c-c00b165e7e4e" x="90" y="30" width="365" height="30" fontSize="22.0">
+			<text><![CDATA[Reporte de Clientes Frecuentes]]></text>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="99a10dac-48ab-4de9-b518-f1243f5cc0a0" x="290" y="31" width="100" height="30">
+			<text><![CDATA[gastoAcumulado]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44560ac6-39a1-4046-9740-1d819e7eb502"/>
+		</element>
+		<element kind="staticText" uuid="1c21e98a-9f99-4635-9aad-96ad4450d1ad" x="160" y="31" width="100" height="30">
+			<text><![CDATA[visitas]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6359bf34-ecd3-4a0e-b9ce-80760e9c2fbc"/>
+		</element>
+		<element kind="staticText" uuid="a0de3690-5606-49ff-a073-0892b887ed18" x="40" y="31" width="100" height="30">
+			<text><![CDATA[nombre]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="201fc810-fe40-4a99-a13b-d4566fc16a9e"/>
+		</element>
+		<element kind="staticText" uuid="cbf37e3f-d4c3-44c4-8b45-39476863c2f7" x="410" y="30" width="100" height="30">
+			<text><![CDATA[puntosFidelidad]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="400e44d1-ea74-408d-91ac-a5e13fb52340"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="7c148b6a-da1b-4093-b9bc-e1a0b85fef25" x="40" y="30" width="100" height="30">
+				<expression><![CDATA[$F{nombre}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="201fc810-fe40-4a99-a13b-d4566fc16a9e"/>
+			</element>
+			<element kind="textField" uuid="f290ec3c-f72a-4b54-a206-b28f7c902887" x="160" y="30" width="100" height="30">
+				<expression><![CDATA[$F{visitas}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6359bf34-ecd3-4a0e-b9ce-80760e9c2fbc"/>
+			</element>
+			<element kind="textField" uuid="238600a2-d73b-45d3-a061-f0b04f48a6ca" x="290" y="30" width="100" height="30">
+				<expression><![CDATA[$F{gastoAcumulado}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44560ac6-39a1-4046-9740-1d819e7eb502"/>
+			</element>
+			<element kind="textField" uuid="74b90fa9-8d63-4d5f-b1be-8b2b8b1df98b" x="410" y="30" width="100" height="30">
+				<expression><![CDATA[$F{puntosFidelidad}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="400e44d1-ea74-408d-91ac-a5e13fb52340"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
