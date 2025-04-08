@@ -661,13 +661,17 @@ public class PantallaComanda extends javax.swing.JPanel {
     
     public void guardarComanda(){
         CrearComandaDTO comandaDTO = new CrearComandaDTO();
-      
+     
         comandaDTO.setEstado(Estado.Abierta);
         comandaDTO.setFechaHora(LocalDateTime.now());
         comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
+        comandaDTO.setTotalVenta(200.00);
         try{
-            app.guardarComanda(comandaDTO);    
+            app.guardarComanda(comandaDTO);  
+            JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            app.mostrarMenuPrincipal();
         }catch(NegocioException ex){
+            JOptionPane.showMessageDialog(this, "Error en la comanda", "Error", JOptionPane.INFORMATION_MESSAGE);
             ex.printStackTrace();
         }
         

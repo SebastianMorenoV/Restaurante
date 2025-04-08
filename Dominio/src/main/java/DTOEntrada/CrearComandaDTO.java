@@ -4,6 +4,7 @@
  */
 package DTOEntrada;
 
+import Enums.Estado;
 import java.time.LocalDateTime;
 
 /**
@@ -13,13 +14,13 @@ import java.time.LocalDateTime;
 public class CrearComandaDTO {
     private LocalDateTime fechaHora;
     private Integer numeroMesa;
-    private Enum estado;
+    private Estado estado;
     private double totalVenta;
 
     public CrearComandaDTO() {
     }
 
-    public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Enum estado, double totalVenta) {
+    public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta) {
         this.fechaHora = fechaHora;
         this.numeroMesa = numeroMesa;
         this.estado = estado;
@@ -42,11 +43,11 @@ public class CrearComandaDTO {
         this.numeroMesa = numeroMesa;
     }
 
-    public Enum getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(Enum estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 

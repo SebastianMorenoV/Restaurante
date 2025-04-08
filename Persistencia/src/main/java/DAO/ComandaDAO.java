@@ -54,7 +54,7 @@ public class ComandaDAO implements IComandaDAO {
             }
             return comanda;
         } catch (Exception e) {
-            throw new PersistenciaException("Error al buscar Comanda por ID: " + e.getMessage());
+            throw new PersistenciaException("Error al regisstrar comanda " + e.getMessage());
         } finally {
             em.close();
         }
@@ -69,4 +69,24 @@ public class ComandaDAO implements IComandaDAO {
     //metodo para crear el formato del folio
     
     
+    @Override
+    public int obtenerUltimoConsecutivo() throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+
+        try {
+            // Consulta para obtener el ID más alto de las comandas registradas
+            Long ultimoConsecutivo = em.createQuery(
+                    "SELECT MAX(c.id) FROM Comanda c", Long.class
+            ).getSingleResult();
+
+            // Si no existe ningún registro en la base de datos, comenzamos con 0
+            return (ultimoConsecutivo != null) ? ultimoConsecutivo.intValue() : 0;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al obtener el último consecutivo: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+
+
 }

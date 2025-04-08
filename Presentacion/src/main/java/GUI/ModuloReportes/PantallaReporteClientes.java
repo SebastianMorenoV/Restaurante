@@ -323,7 +323,6 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
             // Generar reporte
             ReporteService reporteService = new ReporteService();
             Map<String, Object> parametros = new HashMap<>();
-            parametros.put("titulo", "Clientes Frecuentes");
 
             reporteService.generarReporteClientesFrecuentes(clientes, parametros);
 

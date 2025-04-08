@@ -16,6 +16,7 @@ import interfaces.IComandaBO;
 import interfaces.IComandaDAO;
 import interfaces.IMesaDAO;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -38,18 +39,23 @@ public class ComandaBO implements IComandaBO {
         }
 
         try {
-            // Crear entidad Comanda desde DTO
             Comanda comanda = new Comanda();
             comanda.setFechaHora(LocalDateTime.now());
-            comanda.setEstado(Estado.Abierta); // esto se va a cambiar
-            //comanda.setMesa(obtenerMesaPorId()); // buscar mesa como?
-            double total = calcularTotal(comanda.getDetallesComanda());
-            comanda.setTotalVenta(total);
+            comanda.setEstado(comandaDTO.getEstado()); // esto se va a cambiar
+            Mesa mesa = new Mesa();
+            mesa.setId(comandaDTO.getNumeroMesa().longValue());
+            mesa.setNumMesa(comandaDTO.getNumeroMesa());
+            comanda.setMesa(mesa);
+            //Setea la comanda inicialmente en 0
+            comanda.setTotalVenta(0.00);
 
-            // Generar folio (opcional, puedes cambiarlo)
-            comanda.setFolio("CMD-" + System.currentTimeMillis());
+            int numeroConsecutivo = obtenerSiguienteNumeroConsecutivo();
+            String folio = generarFolio(LocalDateTime.now(),numeroConsecutivo);
+            System.out.println(folio);
+            
+            comanda.setFolio(folio);
 
-            // Registrar en base de datos
+            // Registrar en la bd
             Comanda comandaRegistrada = comandaDAO.registrarComanda(comanda);
 
             // Retornar DTO de salida
@@ -72,5 +78,27 @@ public class ComandaBO implements IComandaBO {
                 .mapToDouble(d -> d.getPrecioUnitario() * d.getCantidad())
                 .sum();
     }
+
+    private String generarFolio(LocalDateTime fecha, int numeroConsecutivo) {
+        // Formatear la fecha como YYYYMMDD
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String fechaFormateada = fecha.format(formatter);
+
+        // Formatear el número consecutivo a tres dígitos con ceros a la izquierda
+        String consecutivoFormateado = String.format("%03d", numeroConsecutivo);
+
+        // Combinar los valores para formar el folio
+        return "OB-" + fechaFormateada + "-" + consecutivoFormateado;
+    }
+    
+    private int obtenerSiguienteNumeroConsecutivo() throws PersistenciaException {
+        // Lógica para obtener el número consecutivo único desde la base de datos o almacenamiento
+        // Ejemplo simplificado:
+        int ultimoNumero = comandaDAO.obtenerUltimoConsecutivo(); // Recuperar el último número usado
+        return ultimoNumero + 1;
+    }
+
+
+
 
 }

@@ -18,6 +18,7 @@ public interface IComandaDAO {
      public Comanda registrarComanda(Comanda comanda)throws PersistenciaException;
      
      public Comanda actualizarComanda(Comanda comandaActualizar)throws PersistenciaException;
+     public int obtenerUltimoConsecutivo() throws PersistenciaException;    
      
      
 }
