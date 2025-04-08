@@ -214,8 +214,7 @@ public class Aplicacion {
         return productoBO.buscarProductos(filtro);
     }
 
-<<<<<<< HEAD
-=======
+
     //Comanda
     public ComandaDTO guardarComanda(CrearComandaDTO comandaDTO) throws NegocioException {
         try {
@@ -225,7 +224,7 @@ public class Aplicacion {
         }
     }
 
->>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6
+
     /**
      *
      * public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws

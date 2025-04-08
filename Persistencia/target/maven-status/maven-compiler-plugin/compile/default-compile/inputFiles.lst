@@ -1,42 +1,20 @@
-<<<<<<< HEAD
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\ClienteDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\ComandaDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\DetallesComandaDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\IngredienteDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\IngredientesProductoDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\DAO\ProductoDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\interfaces\IClienteDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\interfaces\IComandaDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\interfaces\IIngredienteDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\interfaces\IMesaDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\interfaces\IProductoDAO.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\pruebas\pruebasCliente.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngrediente.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngredienteProducto.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
-C:\Users\SDavidLedesma\Desktop\alamos\Restaurante\Persistencia\src\main\java\pruebas\pruebasProducto.java
-=======
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngrediente.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasComanda.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IClienteDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ClienteDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IIngredienteDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasCliente.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngredienteProducto.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ComandaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IComandaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ProductoDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IMesaDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredienteDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IProductoDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredientesProductoDAO.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasProducto.java
-C:\Users\Lap-064\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\DetallesComandaDAO.java
->>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IProductoDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasComanda.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\DetallesComandaDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\conexion\Conexion.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngrediente.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\MesaDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ComandaDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\exception\PersistenciaException.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasIngredienteProducto.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredienteDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IMesaDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\IngredientesProductoDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ProductoDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IComandaDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasProducto.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IIngredienteDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\interfaces\IClienteDAO.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasCliente.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\pruebas\pruebasMesa.java
+C:\Users\Sebastian Moreno\Documents\GitHub\Restaurante\Persistencia\src\main\java\DAO\ClienteDAO.java

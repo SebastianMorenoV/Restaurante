@@ -562,6 +562,9 @@
             </Property>
             <Property name="rowHeight" type="int" value="80"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaMesasMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$10.class
 GUI\ModuloReportes\PantallaReporteClientes$6.class
 GUI\ModuloReportes\MenuReportes$4.class
@@ -14,14 +13,15 @@ GUI\ModuloComandas\PantallaComanda$11.class
 GUI\ModuloReportes\PantallaReporteClientes$3.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$2.class
 GUI\MenuPrincipalRestaurante$13.class
-GUI\Productos\RegistroProducto.class
+GUI\Productos\RegistroProducto$2.class
 GUI\ModuloReportes\PantallaReporteClientes.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$16.class
-GUI\Productos\BuscarProducto.class
+GUI\Productos\BuscarProducto$2.class
 GUI\MenuPrincipalRestaurante$9.class
 GUI\ModuloComandas\PantallaComanda$2.class
+GUI\MenuPrincipalRestaurante$16.class
 GUI\ModuloReportes\PantallaReporteClientes$11.class
-GUI\Productos\RegistroProducto.class
+GUI\Productos\RegistroProducto$5.class
 GUI\ModuloReportes\MenuReportes$1.class
 GUI\ModuloComandas\PantallaComanda$13.class
 GUI\ModuloComandas\PantallaComanda$5.class
@@ -119,8 +119,6 @@ GUI\ModuloReportes\PantallaReporteClientes$9.class
 GUI\MenuMesero$1.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$6.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$8.class
+reportes\ReporteService.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$11.class
 GUI\MenuPrincipalRestaurante$11.class
-=======
-reportes\ReporteService.class
->>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6

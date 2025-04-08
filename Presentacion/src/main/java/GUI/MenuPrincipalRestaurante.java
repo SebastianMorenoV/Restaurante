@@ -366,6 +366,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             }
         });
         tablaMesas.setRowHeight(80);
+        tablaMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMesasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMesas);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 590, 330));
