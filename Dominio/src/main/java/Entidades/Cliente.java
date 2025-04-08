@@ -43,7 +43,7 @@ public class Cliente implements Serializable {
     @Column(name = "apellidMaterno", nullable = true, length = 50)
     private String apellidoMaterno;
 
-    @Column(name = "telefono", nullable = false, length = 10, unique = true)
+    @Column(name = "telefono", nullable = false, length = 255, unique = true) // TAMAÑO PARA GUARDAR CADENAS ENCRIPTADAS.
     private String telefono;
     @Column(name = "correo", nullable = true, length = 200)
     private String correo;

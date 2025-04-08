@@ -29,7 +29,15 @@ public class ClienteBO implements IClienteBO {
     public ClienteBO(IClienteDAO clienteDAO) {
         this.clienteDAO = clienteDAO;
     }
-
+    /**
+     * Metodo para registrar un cliente en la base de datos.
+     * Este metodo valida los datos pasados en su parametro encapsulados.
+     * Este metodo valida que no existan telefonos iguales en la base de datos antes de registrar el cliente.
+     * Registra los clientes inicialmente con 0 puntos, 0 visitas y 0 de gasto acumulado.
+     * @param clienteDTO los datos de un cliente encapsulados en un DTO.
+     * @return El cliente DTO insertado.
+     * @throws NegocioException Si alguno de los campos estan mal, Si no tiene los parametros solicitados. Si existe algun otro error.
+     */
     @Override
     public ClienteDTO registrarCliente(CrearClienteDTO clienteDTO) throws NegocioException {
 
@@ -83,11 +91,21 @@ public class ClienteBO implements IClienteBO {
         }
 
     }
-
+    /**
+     * Metodo que busca clientes parcialente por Nombre,Apellidos,Telefono y correo
+     * Delega logica de busqueda a la capa DAO , crea una lista DTO de cliente con los datos obtenidos.
+     * Dependiendo de los datos obtenidos presenta solo los que obtuvo desde la BD.
+     * Detecta si es una instacia de ClienteFrecuente y construye el DTO con puntos , de lo cocntrario un DTO sin puntos.
+     * @param clienteFiltroDTO el Cliente pasado de parametro por la presentacion.
+     * @return la lista de ClienteDTO obtenida desde la base de datos.
+     * @throws NegocioException  Si existe un error buscando los clientes en el proceso.
+     */
     public List<ClienteDTO> buscarClientes(ClienteDTO clienteFiltroDTO) throws NegocioException {
         // Convertimos el DTO en una entidad Cliente
         Cliente clienteFiltro = new Cliente();
-        clienteFiltro.setNombre(clienteFiltroDTO.getNombreCompleto()); // Solo se usa nombre completo
+        clienteFiltro.setNombre(clienteFiltroDTO.getNombre());
+        clienteFiltro.setApellidoPaterno(clienteFiltroDTO.getApellidoPaterno());
+        clienteFiltro.setApellidoMaterno(clienteFiltroDTO.getApellidoMaterno());
         clienteFiltro.setTelefono(clienteFiltroDTO.getTelefono());
         clienteFiltro.setCorreo(clienteFiltroDTO.getCorreo());
 
@@ -106,18 +124,20 @@ public class ClienteBO implements IClienteBO {
                 } else {
                     correo = cliente.getCorreo();
                 }
-                String nombreCompleto = "";
+                String apellidoMaterno = "";
                 if (cliente.getApellidoMaterno() == null) {
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
+                    apellidoMaterno = " ";
                 } else {
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
+                    apellidoMaterno = cliente.getApellidoMaterno();
                 }
 
                 if (cliente instanceof ClienteFrecuente) {
                     // Si es un ClienteFrecuente, castéalo y agrega los valores adicionales
                     ClienteFrecuente clienteFrecuente = (ClienteFrecuente) cliente;
                     clienteDTO = new ClienteDTO(
-                            nombreCompleto, // Nombre completo
+                            cliente.getNombre(),
+                            cliente.getApellidoPaterno(),
+                            apellidoMaterno,
                             cliente.getTelefono(),
                             correo
                     );
@@ -128,12 +148,13 @@ public class ClienteBO implements IClienteBO {
                 } else {
                     // Si no es un ClienteFrecuente, simplemente se crea el DTO básico
                     clienteDTO = new ClienteDTO(
-                            nombreCompleto, // Nombre completo
+                            cliente.getNombre(),
+                            cliente.getApellidoPaterno(),
+                            apellidoMaterno,
                             cliente.getTelefono(),
                             correo
                     );
                 }
-
                 clientesDTO.add(clienteDTO);
             }
 
@@ -143,38 +164,50 @@ public class ClienteBO implements IClienteBO {
             throw new NegocioException("Hubo un error buscando clientes: " + ex.getLocalizedMessage());
         }
     }
-
+    /**
+     * Metodo que busca existencias de clientes dependiendo de un limite de visitas y nombres de el cliente.
+     * 
+     * @param filtro El ClienteDTO con los nombres y minimo de visitas a buscar
+     * Este metodo delega su funcionalidad hacia la DAO que es la que se encarga de obtener las existencias.
+     * Si el apellido obtenido es nulo entoncces no lo muestra como resultado en la lista.
+     * @return Una lista de clientesDTO con los datos puntos,dias,gastoacumulado y fecha de su ultima comanda para cada cliente que corresponda.
+     * @throws NegocioException 
+     */
     @Override
     public List<ClienteDTO> buscarClienteReporte(ClienteDTO filtro) throws NegocioException {
         try {
             // Crear un ClienteFrecuente con los valores del DTO
             ClienteFrecuente clienteAConsultar = new ClienteFrecuente();
-            clienteAConsultar.setNombre(filtro.getNombreCompleto());
+            clienteAConsultar.setNombre(filtro.getNombre());
+            clienteAConsultar.setApellidoPaterno(filtro.getApellidoPaterno());
+            clienteAConsultar.setApellidoMaterno(filtro.getApellidoMaterno()); // Corregir el apellido materno
             clienteAConsultar.setVisitas(filtro.getVisitasTotales());
 
-            // Obtener la lista de clientes frecuentes desde la base de datos
+            // Llamar al DAO para obtener la lista de clientes frecuentes con los filtros
             List<ClienteFrecuente> clientes = clienteDAO.obtenerClientesFrecuentes(clienteAConsultar);
 
             // Convertimos la lista de ClienteFrecuente a ClienteDTO
             List<ClienteDTO> clientesDTO = new ArrayList<>();
             for (ClienteFrecuente cliente : clientes) {
 
-                String nombreCompleto = "";
-                if (cliente.getApellidoMaterno() == null) {
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " ";
-                } else {
-                    
-                    nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno();
+                // Crear el nombre completo con los apellidos si están disponibles
+                String nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno();
+                if (cliente.getApellidoMaterno() != null) {
+                    nombreCompleto += " " + cliente.getApellidoMaterno();
                 }
+
+                // Crear el DTO para cada cliente
                 ClienteDTO clienteDTO = new ClienteDTO(
                         nombreCompleto, // Nombre completo
                         cliente.getVisitas(),
                         cliente.getGastoAcumulado(),
                         cliente.getPuntosFidelidad()
                 );
-                //aqui necesita ir la parte donde obtengo las cosas de la comanda.
-                // tambien se calcula la ultima fecha de comanda.
 
+                // Aquí puedes agregar la lógica adicional, como obtener la última fecha de comanda, si es necesario
+                //logicaClienteComanda
+                
+                // Agregar el clienteDTO a la lista
                 clientesDTO.add(clienteDTO);
             }
 

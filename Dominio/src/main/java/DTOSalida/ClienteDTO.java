@@ -21,10 +21,10 @@ public class ClienteDTO {
     private double totalGastado;
     private Integer puntos;
     private LocalDate ultimaComanda;
-    
+
     public ClienteDTO() {
     }
-    
+
     public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos) {
         this.nombre = nombreCompleto;
         this.correo = correo;
@@ -39,6 +39,7 @@ public class ClienteDTO {
         this.correo = correo;
         this.telefono = telefono;
     }
+
     // constructor para reporte de clientes sin comanda
     public ClienteDTO(String nombreCompleto, int visitasTotales, double totalGastado, int puntos) {
         this.nombre = nombreCompleto;
@@ -51,7 +52,7 @@ public class ClienteDTO {
         this.nombre = nombre;
         this.visitasTotales = visitasTotales;
     }
-    
+
     public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos, LocalDate ultimaComanda) {
         this.nombre = nombreCompleto;
         this.correo = correo;
@@ -61,6 +62,29 @@ public class ClienteDTO {
         this.puntos = puntos;
         this.ultimaComanda = ultimaComanda;
     }
+
+    public ClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono, Integer visitasTotales, double totalGastado, Integer puntos) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.telefono = telefono;
+        this.visitasTotales = visitasTotales;
+        this.totalGastado = totalGastado;
+        this.puntos = puntos;
+    }
+
+    public ClienteDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.telefono = telefono;
+    }
+    
+    
+    
+    
 
     public LocalDate getUltimaComanda() {
         return ultimaComanda;
@@ -116,6 +140,29 @@ public class ClienteDTO {
 
     public void setPuntos(int puntos) {
         this.puntos = puntos;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
 }

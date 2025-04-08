@@ -237,7 +237,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     }
 
     private void cargarIngredientesEnTabla(Long idProducto) {
-        try {
+        /*try {
             List<IngredientesProductoDTO> lista = app.getIngredientesProducto(idProducto); // desde ProductoBO
 
             limpiarTablaIngredientes();
@@ -250,7 +250,7 @@ public class RegistroProducto extends javax.swing.JPanel {
             }
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar ingredientes: " + ex.getMessage());
-        }
+        }*/
     }
     
     private void limpiarTablaIngredientes() {
