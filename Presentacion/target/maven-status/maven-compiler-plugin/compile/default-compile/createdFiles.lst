@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$10.class
 GUI\ModuloReportes\PantallaReporteClientes$6.class
 GUI\ModuloReportes\MenuReportes$4.class
@@ -120,3 +121,6 @@ GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$6.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$8.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$11.class
 GUI\MenuPrincipalRestaurante$11.class
+=======
+reportes\ReporteService.class
+>>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6

@@ -10,4 +10,6 @@ manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.class
 BO\ProductoBO.class
 interfaces\IIngredienteBO.class
 pruebas\PruebasCliente.class
+BO\ComandaBO.class
 interfaces\IMesaBO.class
+interfaces\IComandaBO.class

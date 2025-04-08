@@ -9,9 +9,12 @@ import GUI.Aplicacion;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import exception.NegocioException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
@@ -19,6 +22,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import reportes.ReporteService;
 
 /**
  *
@@ -284,6 +289,47 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_icnVolverMouseClicked
 
     private void btnImprimirReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimirReporteMouseClicked
+        try {
+            // Obtener datos desde los inputs
+            String nombre = inputNombres.getText().trim();
+            String apellidoPaterno = inputApellidoPaterno.getText().trim();
+            String apellidoMaterno = inputApellidoMaterno.getText().trim();
+            String visitasTexto = inputVisitasMinimas.getText().trim();
+
+            int visitasMinimas = 0;
+            if (!visitasTexto.isEmpty() && !visitasTexto.equalsIgnoreCase("Visitas Minimas")) {
+                try {
+                    visitasMinimas = Integer.parseInt(visitasTexto);
+                } catch (NumberFormatException e) {
+                    visitasMinimas = 0;
+                }
+            }
+
+            // Crear filtro
+            ClienteDTO clienteFiltro = new ClienteDTO();
+            clienteFiltro.setNombre(nombre);
+            clienteFiltro.setApellidoPaterno(apellidoPaterno);
+            clienteFiltro.setApellidoMaterno(apellidoMaterno);
+            clienteFiltro.setVisitasTotales(visitasMinimas);
+
+            // Consultar
+            List<ClienteDTO> clientes = app.buscarClienteReporte(clienteFiltro);
+
+            if (clientes == null || clientes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron clientes para el reporte.", "Sin datos", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Generar reporte
+            ReporteService reporteService = new ReporteService();
+            Map<String, Object> parametros = new HashMap<>();
+
+            reporteService.generarReporteClientesFrecuentes(clientes, parametros);
+
+        } catch (NegocioException | JRException ex) {
+            Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnImprimirReporteMouseClicked
 

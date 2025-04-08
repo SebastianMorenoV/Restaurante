@@ -2,38 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DTOSalida;
+package DTOEntrada;
 
+import Enums.Estado;
 import java.time.LocalDateTime;
 
 /**
  *
- * @author Sebastian Moreno
+ * @author Admin
  */
-public class ComandaDTO {
-
-    private String folio;
+public class CrearComandaDTO {
     private LocalDateTime fechaHora;
     private Integer numeroMesa;
-    private Enum estado;
+    private Estado estado;
     private double totalVenta;
 
-    
-    
-    public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Enum estado, double totalVenta) {
-        this.folio = folio;
+    public CrearComandaDTO() {
+    }
+
+    public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta) {
         this.fechaHora = fechaHora;
         this.numeroMesa = numeroMesa;
         this.estado = estado;
         this.totalVenta = totalVenta;
-    }
-
-    public String getFolio() {
-        return folio;
-    }
-
-    public void setFolio(String folio) {
-        this.folio = folio;
     }
 
     public LocalDateTime getFechaHora() {
@@ -52,11 +43,11 @@ public class ComandaDTO {
         this.numeroMesa = numeroMesa;
     }
 
-    public Enum getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(Enum estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
@@ -67,14 +58,6 @@ public class ComandaDTO {
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
-
-    @Override
-    public String toString() {
-        return "ComandaDTO{" + "folio=" + folio + ", fechaHora=" + fechaHora + ", numeroMesa=" + numeroMesa + ", estado=" + estado + ", totalVenta=" + totalVenta + '}';
-    }
     
     
-    
-    
-
 }

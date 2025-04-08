@@ -14,8 +14,13 @@
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/restaurante?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+<<<<<<< HEAD
       <property name="javax.persistence.jdbc.password" value="Inunanash1"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+=======
+      <property name="javax.persistence.jdbc.password" value="itson"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+>>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6
     </properties>
   </persistence-unit>
 </persistence>

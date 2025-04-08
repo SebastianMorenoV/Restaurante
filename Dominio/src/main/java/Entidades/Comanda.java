@@ -33,8 +33,11 @@ public class Comanda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name ="folio", nullable = false, length = 15)
+    private String folio;
 
-    @Column(name = "fechaHora")
+    @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
     @Column(name = "estado")
@@ -58,8 +61,9 @@ public class Comanda implements Serializable {
     public Comanda() {
     }
 
-    public Comanda(Long id, LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
+    public Comanda(Long id, String folio, LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
         this.id = id;
+        this.folio = folio;
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.totalVenta = totalVenta;
@@ -68,13 +72,15 @@ public class Comanda implements Serializable {
         this.mesa = mesa;
     }
 
-    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta) {
+    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta, Mesa mesa) {
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.totalVenta = totalVenta;
+        this.mesa = mesa;
     }
 
-    public Comanda(LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
+    public Comanda(String folio, LocalDateTime fechaHora, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda, Cliente cliente, Mesa mesa) {
+        this.folio = folio;
         this.fechaHora = fechaHora;
         this.estado = estado;
         this.totalVenta = totalVenta;
@@ -82,6 +88,8 @@ public class Comanda implements Serializable {
         this.cliente = cliente;
         this.mesa = mesa;
     }
+
+    
 
     public Mesa getMesa() {
         return mesa;
@@ -142,10 +150,20 @@ public class Comanda implements Serializable {
         this.id = id;
     }
 
+    public String getFolio() {
+        return folio;
+    }
+
+    public void setFolio(String folio) {
+        this.folio = folio;
+    }
+
     @Override
     public String toString() {
-        return "Comanda{" + "id=" + id + ", fechaHora=" + fechaHora + ", estado=" + estado + ", totalVenta=" + totalVenta + ", detallesComanda=" + detallesComanda + ", cliente=" + cliente + ", mesa=" + mesa + '}';
+        return "Comanda{" + "id=" + id + ", folio=" + folio + ", fechaHora=" + fechaHora + ", estado=" + estado + ", totalVenta=" + totalVenta + ", detallesComanda=" + detallesComanda + ", cliente=" + cliente + ", mesa=" + mesa + '}';
     }
+
+
 
     
 

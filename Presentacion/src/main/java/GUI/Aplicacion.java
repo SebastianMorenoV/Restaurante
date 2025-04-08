@@ -6,8 +6,10 @@ package GUI;
 
 import DAO.IngredientesProductoDAO;
 import DTOEntrada.CrearClienteDTO;
+import DTOEntrada.CrearComandaDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
+import DTOSalida.ComandaDTO;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
@@ -24,6 +26,7 @@ import GUI.Productos.BuscarProducto;
 import GUI.Productos.RegistroProducto;
 import exception.NegocioException;
 import interfaces.IClienteBO;
+import interfaces.IComandaBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
 import interfaces.IProductoBO;
@@ -67,6 +70,7 @@ public class Aplicacion {
     private IIngredienteBO ingredientesBO;
     private IMesaBO mesasBO;
     private IProductoBO productoBO;
+    private IComandaBO comandaBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -79,6 +83,7 @@ public class Aplicacion {
         ingredientesBO = ManejadorObjetosNegocio.crearIngredientesBO();
         mesasBO = ManejadorObjetosNegocio.crearMesasBO();
         productoBO = ManejadorObjetosNegocio.crearProductosBO();
+        comandaBO = ManejadorObjetosNegocio.crearComandaBO();
 
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
@@ -209,6 +214,18 @@ public class Aplicacion {
         return productoBO.buscarProductos(filtro);
     }
 
+<<<<<<< HEAD
+=======
+    //Comanda
+    public ComandaDTO guardarComanda(CrearComandaDTO comandaDTO) throws NegocioException {
+        try {
+            return comandaBO.registrarComanda(comandaDTO);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+>>>>>>> f0a8c873ee78cfbb118989b840d8e817704346e6
     /**
      *
      * public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws
