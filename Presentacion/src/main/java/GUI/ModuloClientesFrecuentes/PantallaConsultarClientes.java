@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,12 +29,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     public PantallaConsultarClientes(Aplicacion app) {
         this.app = app;
         initComponents();
-
-        agregarDocumentListener(inputNombre);
-        agregarDocumentListener(inputApellidoPaterno);
-        agregarDocumentListener(inputApellidoMaterno);
-        agregarDocumentListener(inputTelefono);
-        agregarDocumentListener(inputCorreo);
+        cargarMetodosAuxiliares();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,6 +138,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                 inputNombreFocusGained(evt);
             }
         });
+        inputNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputNombreKeyTyped(evt);
+            }
+        });
         pnlNombre.add(inputNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 420, 30));
 
         add(pnlNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 490, 50));
@@ -166,6 +167,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputApellidoPaterno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputApellidoPaternoFocusGained(evt);
+            }
+        });
+        inputApellidoPaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputApellidoPaternoKeyTyped(evt);
             }
         });
         pnlApellidoPaterno.add(inputApellidoPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -205,6 +211,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                 inputTelefonoFocusGained(evt);
             }
         });
+        inputTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputTelefonoKeyTyped(evt);
+            }
+        });
         pnlTelefono.add(inputTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 250, 30));
 
         add(pnlTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 310, 290, 50));
@@ -225,6 +236,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputCorreoFocusGained(evt);
+            }
+        });
+        inputCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputCorreoKeyTyped(evt);
             }
         });
         pnlCorreo.add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 460, 30));
@@ -248,6 +264,11 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputApellidoMaterno.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 inputApellidoMaternoFocusGained(evt);
+            }
+        });
+        inputApellidoMaterno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputApellidoMaternoKeyTyped(evt);
             }
         });
         pnlApellidoMaterno.add(inputApellidoMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 320, 30));
@@ -364,7 +385,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                     app.setClienteSeleccionado("Cliente : " + nombre); // O puedes usar un ID si lo manejas
                     app.reconstruirPantallaComanda();
                     app.setSiguienteComanda(false);
-                    
+
                     // talvez aqui tenga que setear ese dato en algun lado , diferente. porque si se reconstruye y no lo muestra
                     // habra problemas.
                     app.mostrarPantallaComanda();
@@ -372,6 +393,40 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_tablaClientesMouseClicked
+
+    private void inputNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputNombreKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }    }//GEN-LAST:event_inputNombreKeyTyped
+
+    private void inputApellidoPaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputApellidoPaternoKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_inputApellidoPaternoKeyTyped
+
+    private void inputCorreoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputCorreoKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_inputCorreoKeyTyped
+
+    private void inputApellidoMaternoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputApellidoMaternoKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_inputApellidoMaternoKeyTyped
+
+    private void inputTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTelefonoKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_inputTelefonoKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -431,38 +486,44 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
 
     // Método para realizar la búsqueda en el clienteBO
     private void realizarBusqueda() {
-        // Construir el nombre completo a partir de los campos de entrada
-        StringBuilder nombreCompleto = new StringBuilder(inputNombre.getText().trim());
-
-        if (!inputApellidoPaterno.getText().trim().isEmpty()) {
-            nombreCompleto.append(" ").append(inputApellidoPaterno.getText().trim());
-        }
-        if (!inputApellidoMaterno.getText().trim().isEmpty()
-                && !inputApellidoMaterno.getText().trim().contains("Ingresar apellido")) {
-            nombreCompleto.append(" ").append(inputApellidoMaterno.getText().trim());
-        }
-
-        // Crear el objeto ClienteDTO con el nombre completo
+        // Crear el objeto ClienteDTO con campos separados
         ClienteDTO clienteFiltro = new ClienteDTO();
-        clienteFiltro.setNombreCompleto(nombreCompleto.toString().trim()); // Evitar espacios extra
+
+        String nombre = inputNombre.getText().trim();
+        if (!nombre.isEmpty()) {
+            clienteFiltro.setNombre(nombre);
+        }
+
+        String apellidoPaterno = inputApellidoPaterno.getText().trim();
+        if (!apellidoPaterno.isEmpty()) {
+            clienteFiltro.setApellidoPaterno(apellidoPaterno);
+        }
+
+        String apellidoMaterno = inputApellidoMaterno.getText().trim();
+        if (!apellidoMaterno.isEmpty() && !apellidoMaterno.contains("Ingresar apellido")) {
+            clienteFiltro.setApellidoMaterno(apellidoMaterno);
+        }
+
         clienteFiltro.setTelefono(inputTelefono.getText().trim());
 
-        // Si el campo de correo está vacío, no lo establecemos (para que no filtre incorrectamente)
         String correo = inputCorreo.getText().trim();
         if (!correo.isEmpty()) {
             clienteFiltro.setCorreo(correo);
         }
 
         // Realizar la búsqueda en el BO
-        List<ClienteDTO> clientesEncontrados = null; //prueba
+        List<ClienteDTO> clientesEncontrados = null;
         try {
             clientesEncontrados = app.buscarClientes(clienteFiltro);
-            // Actualizar la tabla con los resultados
-
         } catch (NegocioException ex) {
             Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        actualizarTabla(clientesEncontrados);
+        if (clientesEncontrados == null) {
+            actualizarTabla(clientesEncontrados);
+        } else {
+            actualizarTabla(clientesEncontrados);
+        }
+
     }
 
     // Método para actualizar la tabla con los resultados de búsqueda
@@ -470,9 +531,21 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
         model.setRowCount(0); // Limpiar tabla existente
 
-        // Llenar la tabla con los resultados
-        for (ClienteDTO cliente : clientes) {
-            model.addRow(new Object[]{cliente.getCorreo(), cliente.getTelefono(), cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos()});
+        // Si no hay resultados, mostrar el mensaje en la tabla
+        if (clientes == null || clientes.isEmpty()) {
+            model.addRow(new Object[]{"      NO SE ", "ENCONTRARON", "DATOS PARA", "  ESTA", "BUSQUEDA.", ""});
+        } else {
+            // Llenar la tabla con los resultados
+            for (ClienteDTO cliente : clientes) {
+                model.addRow(new Object[]{
+                    cliente.getCorreo(),
+                    cliente.getTelefono(),
+                    cliente.getNombre() + " " + cliente.getApellidoPaterno() + " " + cliente.getApellidoMaterno(),
+                    cliente.getVisitasTotales(),
+                    cliente.getTotalGastado(),
+                    cliente.getPuntos()
+                });
+            }
         }
     }
 
@@ -482,5 +555,27 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
         inputTelefono.setText("");
         inputCorreo.setText("");
         inputApellidoMaterno.setText("");
+    }
+
+    private void setearToolTips() {
+        inputNombre.setToolTipText("Introduce el nombre de el cliente. (Puedes escribir uno o varios nombres.)");
+        inputApellidoPaterno.setToolTipText("Introduce el apellido paterno de el cliente.");
+        inputApellidoMaterno.setToolTipText("Introduce el apellido materno de el cliente. (OPCIONAL)");
+        inputTelefono.setToolTipText("Introduce el telefono exacto de el cliente. (NO SE PUEDE BUSCAR PARCIALMENTE ESTE CAMPO.)");
+        inputCorreo.setToolTipText("Introduce el correo electronico de el cliente (OPCIONAL)");
+
+        ToolTipManager.sharedInstance().setInitialDelay(100);     // Espera 100 ms para aparecer
+        ToolTipManager.sharedInstance().setDismissDelay(10000);   // Permanece visible 10 segundos
+        ToolTipManager.sharedInstance().setReshowDelay(100);
+    }
+
+    public void cargarMetodosAuxiliares() {
+        agregarDocumentListener(inputNombre);
+        agregarDocumentListener(inputApellidoPaterno);
+        agregarDocumentListener(inputApellidoMaterno);
+        agregarDocumentListener(inputTelefono);
+        agregarDocumentListener(inputCorreo);
+
+        setearToolTips();
     }
 }

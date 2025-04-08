@@ -23,29 +23,7 @@ public class pruebasCliente {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        IClienteDAO clienteDAO = ClienteDAO.getInstanceDAO();
-//
-//        try {
-//            Cliente cliente = new Cliente(1L, "Juanito Lopez", "6441901249", "juanito@gmail.com", LocalDate.now(), null);
-//            clienteDAO.guardarCliente(cliente);
-//        } catch (PersistenciaException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            ClienteFrecuente cliente = new ClienteFrecuente(0, 0, 0, "Pedrito Mora", "6441501923", "pedrito@gmail.com", LocalDate.now());
-//            clienteDAO.guardarClienteFrecuente(cliente);
-//        } catch (PersistenciaException e) {
-//            e.printStackTrace();
-//        }
-
-        try {
-           
-            clienteDAO.eliminar(2L);
-        } catch (PersistenciaException e) {
-            e.printStackTrace();
-        }
-
+    
     }
 
 }

@@ -274,4 +274,3 @@ public class RegistroProducto extends javax.swing.JPanel {
             }
         }
     }
-}
