@@ -14,4 +14,10 @@ import exception.PersistenciaException;
 public interface IComandaDAO {
     
      public Comanda obtenerComandaPorId(Long id) throws PersistenciaException;
+     
+     public Comanda registrarComanda(Comanda comanda)throws PersistenciaException;
+     
+     public Comanda actualizarComanda(Comanda comandaActualizar)throws PersistenciaException;
+     
+     
 }

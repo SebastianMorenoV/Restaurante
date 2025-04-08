@@ -71,24 +71,29 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                         UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
                         int stock = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
 
-                        IngredienteDTO ingredienteEliminar = new IngredienteDTO(id, nombre, stock, unidadMedida);
+                        IngredienteDTO ingredienteSeleccionado = new IngredienteDTO(id, nombre, stock, unidadMedida);
 
-                        int mensajeEliminar = JOptionPane.showConfirmDialog(
+                        String mensaje = "<html>"
+                                + "¿Desea seleccionar el ingrediente?<br>"
+                                + ingredienteSeleccionado.getNombre() + ", unidad de medida: " + ingredienteSeleccionado.getUnidadMedida()
+                                + "</html>";
+
+                        int mensajeModificar = JOptionPane.showConfirmDialog(
                                 null,
-                                "¿Desea seleccionar el ingrediente?",
+                                mensaje,
                                 " ",
                                 JOptionPane.YES_NO_OPTION
                         );
 
-//                        if (mensajeEliminar == JOptionPane.YES_OPTION) {
-//                            try {
-//                                app.eliminarIngrediente(ingredienteEliminar.getId());
-//                                JOptionPane.showMessageDialog(null, "Ingrediente eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-//                                cargarDatosTabla();
-//                            } catch (NegocioException ex) {
-//                                Logger.getLogger(PantallaConsultarIngredientes.class.getName()).log(Level.SEVERE, null, ex);
-//                            }
-//                        }
+                        if (mensajeModificar == JOptionPane.YES_OPTION) {
+                            String respuesta = JOptionPane.showInputDialog(
+                                    null,
+                                    "Ingresa la cantidad requerida: "
+                            );
+                            
+                            int cantidadRequerida = Integer.parseInt(respuesta);
+                            //Aqui iria lo de 
+                        }
                     }
                 }
 

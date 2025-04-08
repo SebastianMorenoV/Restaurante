@@ -6,8 +6,10 @@ package GUI;
 
 import DAO.IngredientesProductoDAO;
 import DTOEntrada.CrearClienteDTO;
+import DTOEntrada.CrearComandaDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
+import DTOSalida.ComandaDTO;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
@@ -22,6 +24,7 @@ import GUI.ModuloReportes.PantallaReporteClientes;
 import GUI.ModuloReportes.PantallaReporteComandas;
 import exception.NegocioException;
 import interfaces.IClienteBO;
+import interfaces.IComandaBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
 import interfaces.IProductoBO;
@@ -64,6 +67,7 @@ public class Aplicacion {
     private IIngredienteBO ingredientesBO;
     private IMesaBO mesasBO;
     private IProductoBO productoBO;
+    private IComandaBO comandaBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -76,6 +80,7 @@ public class Aplicacion {
         ingredientesBO = ManejadorObjetosNegocio.crearIngredientesBO();
         mesasBO = ManejadorObjetosNegocio.crearMesasBO();
         productoBO = ManejadorObjetosNegocio.crearProductosBO();
+        comandaBO = ManejadorObjetosNegocio.crearComandaBO();
 
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
@@ -197,22 +202,26 @@ public class Aplicacion {
         return productoBO.buscarProductos(filtro);
     }
 
- 
-    /**
-
-    public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws NegocioException {
-        ProductoDTO filtro = new ProductoDTO();
-        filtro.setNombre(nombreProducto);
-
-        List<ProductoDTO> productos = productoBO.buscarProductos(filtro);
-        if (!productos.isEmpty()) {
-            return productos.get(0); // Si hay más de uno, retornamos el primero
+    //Comanda
+    public ComandaDTO guardarComanda(CrearComandaDTO comandaDTO) throws NegocioException {
+        try {
+            return comandaBO.registrarComanda(comandaDTO);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
         }
-        return null;
     }
-    * */
 
-   
+    /**
+     *
+     * public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws
+     * NegocioException { ProductoDTO filtro = new ProductoDTO();
+     * filtro.setNombre(nombreProducto);
+     *
+     * List<ProductoDTO> productos = productoBO.buscarProductos(filtro); if
+     * (!productos.isEmpty()) { return productos.get(0); // Si hay más de uno,
+     * retornamos el primero } return null; }
+    *
+     */
     // Metodos para realizar cambios de pantalla
     public void mostrarMenuSelector() {
         cambiarPantalla(menuSelector);

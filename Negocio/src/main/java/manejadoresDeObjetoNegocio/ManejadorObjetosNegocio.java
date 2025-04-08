@@ -5,15 +5,19 @@
 package manejadoresDeObjetoNegocio;
 
 import BO.ClienteBO;
+import BO.ComandaBO;
 import BO.IngredienteBO;
 import BO.MesaBO;
 import BO.ProductoBO;
 import DAO.ClienteDAO;
+import DAO.ComandaDAO;
 import DAO.IngredienteDAO;
 import DAO.MesaDAO;
 import DAO.ProductoDAO;
 import interfaces.IClienteBO;
 import interfaces.IClienteDAO;
+import interfaces.IComandaBO;
+import interfaces.IComandaDAO;
 import interfaces.IIngredienteBO;
 import interfaces.IIngredienteDAO;
 import interfaces.IMesaBO;
@@ -59,5 +63,12 @@ public class ManejadorObjetosNegocio {
          IProductoBO productoBO = new ProductoBO(productoDAO);
          
          return productoBO;
+     }
+     
+     public static IComandaBO crearComandaBO(){
+         IComandaDAO comandaDAO = ComandaDAO.getInstanceDAO();
+         IComandaBO comandaBO = new ComandaBO(comandaDAO);
+         
+         return comandaBO;
      }
 }

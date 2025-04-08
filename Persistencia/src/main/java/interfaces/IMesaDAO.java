@@ -20,4 +20,6 @@ public interface IMesaDAO {
     
     public List<Mesa> obtenerTodas() throws PersistenciaException;
     
+    public Mesa buscarPorId(Long id) throws PersistenciaException;
+    
 }

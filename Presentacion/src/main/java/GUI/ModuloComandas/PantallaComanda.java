@@ -4,10 +4,23 @@
  */
 package GUI.ModuloComandas;
 
+import BO.ComandaBO;
+import DTOEntrada.CrearComandaDTO;
+import DTOSalida.ComandaDTO;
+import DTOSalida.ProductoDTO;
+import Enums.Estado;
+import Enums.ProductoActivo;
+import Enums.Tipo;
 import GUI.Aplicacion;
+import exception.NegocioException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,7 +38,46 @@ public class PantallaComanda extends javax.swing.JPanel {
         initComponents();
         mostrarFecha();
         obtenerMesa();
-        cargarCliente();
+
+        tablaProductosComanda.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = tablaProductosComanda.rowAtPoint(e.getPoint());
+                int columna = tablaProductosComanda.columnAtPoint(e.getPoint());
+
+                // comentarios al dar click en la columna 3 q es la de comentarios
+                if (columna == 3) {
+                    String respuesta = JOptionPane.showInputDialog(
+                            null,
+                            "Ingresar comentario"
+                    );
+
+                    if (respuesta != null) {
+                        //Aqui es donde tienes que sacar el comentario insertado en el inputDialog y meterselo al producto
+                        // productosComanda.get(fila).setComentario(respuesta); algo asi masomenos(es un ejemplo de como se podria ver nomas)
+                        
+                    }
+                } else {
+                    // cualquier otra columna es para eliminar producto
+                    String nombre = (String) tablaProductosComanda.getValueAt(fila, 0);
+                    String categoria = (String) tablaProductosComanda.getValueAt(fila, 1);
+                    String precio = tablaProductosComanda.getValueAt(fila, 2).toString();
+
+                    int mensajeEliminar = JOptionPane.showConfirmDialog(
+                            null,
+                            nombre + " - " + categoria + " - " + precio,
+                            "¿Desea eliminar este producto?",
+                            JOptionPane.YES_NO_OPTION
+                    );
+
+                    if (mensajeEliminar == JOptionPane.YES_OPTION) {
+                        //simulacion de eliminar un producto nomas lo quito de la tabla xd
+                        DefaultTableModel modelo = (DefaultTableModel) tablaProductosComanda.getModel();
+                        modelo.removeRow(fila);
+                    }
+                }
+            }
+        });
 
     }
 
@@ -51,26 +103,26 @@ public class PantallaComanda extends javax.swing.JPanel {
         pnlBtnInsertarMesas3 = new GUI.PanelRound();
         btnInsertarMesas3 = new javax.swing.JLabel();
         pnlBtnInsertarMesas1 = new GUI.PanelRound();
-        btnInsertarMesas1 = new javax.swing.JLabel();
+        btnComandaCancelada = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnAgregarProducto = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnBuscarCliente3 = new javax.swing.JLabel();
         pnlBtnInsertarMesas = new GUI.PanelRound();
-        btnInsertarMesas = new javax.swing.JLabel();
+        btnGuardarComanda = new javax.swing.JLabel();
         panelRound1 = new GUI.PanelRound();
-        btnBuscarCliente4 = new javax.swing.JLabel();
-        btnBuscarCliente5 = new javax.swing.JLabel();
-        btnBuscarCliente6 = new javax.swing.JLabel();
-        btnBuscarCliente7 = new javax.swing.JLabel();
+        lblPropina = new javax.swing.JLabel();
+        lblSubtotal = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        lblIVA = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaReporteClientes = new javax.swing.JTable();
+        tablaProductosComanda = new javax.swing.JTable();
         btnBuscarCliente1 = new javax.swing.JLabel();
         pnlBtnInsertarMesas2 = new GUI.PanelRound();
-        btnInsertarMesas2 = new javax.swing.JLabel();
+        btnComandaEntregada = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -180,17 +232,17 @@ public class PantallaComanda extends javax.swing.JPanel {
         pnlBtnInsertarMesas1.setRoundTopRight(30);
         pnlBtnInsertarMesas1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnInsertarMesas1.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
-        btnInsertarMesas1.setForeground(new java.awt.Color(255, 255, 255));
-        btnInsertarMesas1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnInsertarMesas1.setText("CANCELADA");
-        btnInsertarMesas1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInsertarMesas1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnComandaCancelada.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
+        btnComandaCancelada.setForeground(new java.awt.Color(255, 255, 255));
+        btnComandaCancelada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnComandaCancelada.setText("CANCELADA");
+        btnComandaCancelada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnComandaCancelada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMesas1MouseClicked(evt);
+                btnComandaCanceladaMouseClicked(evt);
             }
         });
-        pnlBtnInsertarMesas1.add(btnInsertarMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 50));
+        pnlBtnInsertarMesas1.add(btnComandaCancelada, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 50));
 
         add(pnlBtnInsertarMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 610, 250, 50));
 
@@ -212,9 +264,14 @@ public class PantallaComanda extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image (1).png"))); // NOI18N
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, -1, 110));
+        btnAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image (1).png"))); // NOI18N
+        btnAgregarProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregarProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarProductoMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnAgregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, -1, 110));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/deshacer (2).png"))); // NOI18N
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -265,16 +322,16 @@ public class PantallaComanda extends javax.swing.JPanel {
         });
         pnlBtnInsertarMesas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnInsertarMesas.setFont(new java.awt.Font("Product Sans Infanity", 0, 24)); // NOI18N
-        btnInsertarMesas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnInsertarMesas.setText("GUARDAR COMANDA");
-        btnInsertarMesas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInsertarMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnGuardarComanda.setFont(new java.awt.Font("Product Sans Infanity", 0, 24)); // NOI18N
+        btnGuardarComanda.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnGuardarComanda.setText("GUARDAR COMANDA");
+        btnGuardarComanda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarComanda.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMesasMouseClicked(evt);
+                btnGuardarComandaMouseClicked(evt);
             }
         });
-        pnlBtnInsertarMesas.add(btnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 50));
+        pnlBtnInsertarMesas.add(btnGuardarComanda, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 50));
 
         jPanel1.add(pnlBtnInsertarMesas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 260, -1));
 
@@ -287,58 +344,58 @@ public class PantallaComanda extends javax.swing.JPanel {
         panelRound1.setRoundTopRight(20);
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBuscarCliente4.setBackground(new java.awt.Color(204, 102, 0));
-        btnBuscarCliente4.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
-        btnBuscarCliente4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBuscarCliente4.setText("Propina Sugerida(15%):");
-        btnBuscarCliente4.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        btnBuscarCliente4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblPropina.setBackground(new java.awt.Color(204, 102, 0));
+        lblPropina.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblPropina.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPropina.setText("Propina Sugerida(15%):");
+        lblPropina.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        lblPropina.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarCliente4MouseClicked(evt);
+                lblPropinaMouseClicked(evt);
             }
         });
-        panelRound1.add(btnBuscarCliente4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 370, 30));
+        panelRound1.add(lblPropina, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 370, 30));
 
-        btnBuscarCliente5.setBackground(new java.awt.Color(204, 102, 0));
-        btnBuscarCliente5.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
-        btnBuscarCliente5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBuscarCliente5.setText("Subtotal:");
-        btnBuscarCliente5.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        btnBuscarCliente5.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblSubtotal.setBackground(new java.awt.Color(204, 102, 0));
+        lblSubtotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblSubtotal.setText("Subtotal:");
+        lblSubtotal.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        lblSubtotal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarCliente5MouseClicked(evt);
+                lblSubtotalMouseClicked(evt);
             }
         });
-        panelRound1.add(btnBuscarCliente5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 370, 30));
+        panelRound1.add(lblSubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 370, 30));
 
-        btnBuscarCliente6.setBackground(new java.awt.Color(204, 102, 0));
-        btnBuscarCliente6.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
-        btnBuscarCliente6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBuscarCliente6.setText("Total:");
-        btnBuscarCliente6.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        btnBuscarCliente6.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblTotal.setBackground(new java.awt.Color(204, 102, 0));
+        lblTotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotal.setText("Total:");
+        lblTotal.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        lblTotal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarCliente6MouseClicked(evt);
+                lblTotalMouseClicked(evt);
             }
         });
-        panelRound1.add(btnBuscarCliente6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 370, 20));
+        panelRound1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 370, 20));
 
-        btnBuscarCliente7.setBackground(new java.awt.Color(204, 102, 0));
-        btnBuscarCliente7.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
-        btnBuscarCliente7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBuscarCliente7.setText("IVA:");
-        btnBuscarCliente7.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
-        btnBuscarCliente7.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblIVA.setBackground(new java.awt.Color(204, 102, 0));
+        lblIVA.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblIVA.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblIVA.setText("IVA:");
+        lblIVA.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        lblIVA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarCliente7MouseClicked(evt);
+                lblIVAMouseClicked(evt);
             }
         });
-        panelRound1.add(btnBuscarCliente7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 370, 30));
+        panelRound1.add(lblIVA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 370, 30));
 
         add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 520, 140));
 
-        tablaReporteClientes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tablaReporteClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductosComanda.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        tablaProductosComanda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -354,8 +411,10 @@ public class PantallaComanda extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tablaReporteClientes.setRowHeight(30);
-        jScrollPane1.setViewportView(tablaReporteClientes);
+        tablaProductosComanda.setRowHeight(30);
+        tablaProductosComanda.getTableHeader().setResizingAllowed(false);
+        tablaProductosComanda.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tablaProductosComanda);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 780, 310));
 
@@ -378,24 +437,25 @@ public class PantallaComanda extends javax.swing.JPanel {
         pnlBtnInsertarMesas2.setRoundTopRight(30);
         pnlBtnInsertarMesas2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnInsertarMesas2.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
-        btnInsertarMesas2.setForeground(new java.awt.Color(255, 255, 255));
-        btnInsertarMesas2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnInsertarMesas2.setText("ENTREGADA");
-        btnInsertarMesas2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInsertarMesas2.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnComandaEntregada.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
+        btnComandaEntregada.setForeground(new java.awt.Color(255, 255, 255));
+        btnComandaEntregada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnComandaEntregada.setText("ENTREGADA");
+        btnComandaEntregada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnComandaEntregada.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnInsertarMesas2MouseClicked(evt);
+                btnComandaEntregadaMouseClicked(evt);
             }
         });
-        pnlBtnInsertarMesas2.add(btnInsertarMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 230, 50));
+        pnlBtnInsertarMesas2.add(btnComandaEntregada, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 50));
 
         add(pnlBtnInsertarMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 250, 50));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnInsertarMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesasMouseClicked
-
-    }//GEN-LAST:event_btnInsertarMesasMouseClicked
+    private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
+        //Ocupa la validacion para saber si la comanda ya existe
+        guardarComanda();
+    }//GEN-LAST:event_btnGuardarComandaMouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
 
@@ -417,33 +477,42 @@ public class PantallaComanda extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlBtnInsertarMesasMouseClicked
 
-    private void btnBuscarCliente4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente4MouseClicked
+    private void lblPropinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPropinaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarCliente4MouseClicked
+    }//GEN-LAST:event_lblPropinaMouseClicked
 
-    private void btnBuscarCliente5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente5MouseClicked
+    private void lblSubtotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSubtotalMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarCliente5MouseClicked
+    }//GEN-LAST:event_lblSubtotalMouseClicked
 
-    private void btnBuscarCliente6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente6MouseClicked
+    private void lblTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTotalMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarCliente6MouseClicked
+    }//GEN-LAST:event_lblTotalMouseClicked
 
-    private void btnBuscarCliente7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente7MouseClicked
+    private void lblIVAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIVAMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarCliente7MouseClicked
+    }//GEN-LAST:event_lblIVAMouseClicked
 
     private void btnBuscarCliente3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente3MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarCliente3MouseClicked
 
-    private void btnInsertarMesas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas1MouseClicked
+    private void btnComandaCanceladaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComandaCanceladaMouseClicked
+        String mensaje = "<html>"
+                + "<b>¿Desea cancelar la comanda?</b><br>"
+                + "Una vez eliminada la comanda no se podrán revertir los cambios"
+                + "</html>";
+        int mensajeCancelarComanda = JOptionPane.showConfirmDialog(
+                null,
+                mensaje,
+                " ",
+                JOptionPane.YES_NO_OPTION
+        );
+    }//GEN-LAST:event_btnComandaCanceladaMouseClicked
 
-    }//GEN-LAST:event_btnInsertarMesas1MouseClicked
-
-    private void btnInsertarMesas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas2MouseClicked
+    private void btnComandaEntregadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComandaEntregadaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnInsertarMesas2MouseClicked
+    }//GEN-LAST:event_btnComandaEntregadaMouseClicked
 
     private void btnInsertarMesas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas3MouseClicked
         app.setSiguienteComanda(true);
@@ -454,24 +523,25 @@ public class PantallaComanda extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_pnlBtnInsertarMesas3MouseClicked
 
+    private void btnAgregarProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarProductoMouseClicked
+        // TODO add your handling code here:
+        registrarProducto();
+    }//GEN-LAST:event_btnAgregarProductoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAgregarProducto;
     private javax.swing.JLabel btnBuscarCliente;
     private javax.swing.JLabel btnBuscarCliente1;
     private javax.swing.JLabel btnBuscarCliente2;
     private javax.swing.JLabel btnBuscarCliente3;
-    private javax.swing.JLabel btnBuscarCliente4;
-    private javax.swing.JLabel btnBuscarCliente5;
-    private javax.swing.JLabel btnBuscarCliente6;
-    private javax.swing.JLabel btnBuscarCliente7;
-    private javax.swing.JLabel btnInsertarMesas;
-    private javax.swing.JLabel btnInsertarMesas1;
-    private javax.swing.JLabel btnInsertarMesas2;
+    private javax.swing.JLabel btnComandaCancelada;
+    private javax.swing.JLabel btnComandaEntregada;
+    private javax.swing.JLabel btnGuardarComanda;
     private javax.swing.JLabel btnInsertarMesas3;
     private javax.swing.JLabel icnTiempo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -480,6 +550,10 @@ public class PantallaComanda extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblHora;
+    private javax.swing.JLabel lblIVA;
+    private javax.swing.JLabel lblPropina;
+    private javax.swing.JLabel lblSubtotal;
+    private javax.swing.JLabel lblTotal;
     private GUI.PanelRound panelRound1;
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
@@ -488,7 +562,7 @@ public class PantallaComanda extends javax.swing.JPanel {
     private GUI.PanelRound pnlBtnInsertarMesas2;
     private GUI.PanelRound pnlBtnInsertarMesas3;
     private javax.swing.JPanel pnlHeader;
-    private javax.swing.JTable tablaReporteClientes;
+    private javax.swing.JTable tablaProductosComanda;
     // End of variables declaration//GEN-END:variables
 
     //metodos auxiliares
@@ -519,6 +593,84 @@ public class PantallaComanda extends javax.swing.JPanel {
             String inicialApellidoMaterno = (partes.length > 2) ? " " + partes[2].charAt(0) + "." : "";
 
             btnBuscarCliente.setText("CLIENTE : " + nombre + " " + apellidoPaterno + inicialApellidoMaterno);
+            btnBuscarCliente.repaint();
+
         }
     }
+
+    public void registrarProducto() {
+        String nombreProducto1 = "Pasta Linguini";
+        double precioProducto1 = 250.00;
+        Tipo tipoSeleccionado1 = Tipo.PLATILLO;//quitar imports de enums
+        ProductoActivo productoActivo1 = ProductoActivo.Habilitado;
+        ProductoDTO producto1 = new ProductoDTO(nombreProducto1, precioProducto1, tipoSeleccionado1, productoActivo1);
+
+        String nombreProducto2 = "Pizza Margarita";
+        double precioProducto2 = 180.00;
+        Tipo tipoSeleccionado2 = Tipo.PLATILLO;
+        ProductoActivo productoActivo2 = ProductoActivo.Habilitado;
+
+        ProductoDTO producto2 = new ProductoDTO(nombreProducto2, precioProducto2, tipoSeleccionado2, productoActivo2);
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+
+        modeloTabla.addRow(new Object[]{
+            producto1.getNombre(),
+            producto1.getTipo().toString(),
+            producto1.getPrecio(),
+            "Introducir"
+        });
+
+        modeloTabla.addRow(new Object[]{
+            producto2.getNombre(),
+            producto2.getTipo().toString(),
+            producto2.getPrecio(),
+            "Introducir"
+        });
+
+        calcularTotal();
+    }
+
+    public void calcularTotal() {
+        double total = 0.0;
+
+        // Recorre todas las filas de la tabla
+        for (int i = 0; i < tablaProductosComanda.getRowCount(); i++) {
+            String precioStr = tablaProductosComanda.getValueAt(i, 2).toString();
+
+            // Convierte el string a double (con manejo de errores)
+            try {
+                double precio = Double.parseDouble(precioStr);
+                total += precio;
+            } catch (NumberFormatException e) {
+                System.err.println("Error al convertir el precio en la fila " + i + ": " + precioStr);
+            }
+        }
+
+        // Calcula subtotal, IVA y propina sobre el total acumulado
+        double subtotal = total / 1.16;
+        double iva = total - subtotal;
+        double propina = total * 1.15;
+
+        // Muestra los resultados
+        lblSubtotal.setText("Subtotal: $" + String.format("%.2f", subtotal));
+        lblIVA.setText("IVA: $" + String.format("%.2f", iva));
+        lblTotal.setText("Total: $" + String.format("%.2f", total));
+        lblPropina.setText("Propina: $" + String.format("%.2f", propina));
+    }
+    
+    public void guardarComanda(){
+        CrearComandaDTO comandaDTO = new CrearComandaDTO();
+      
+        comandaDTO.setEstado(Estado.Abierta);
+        comandaDTO.setFechaHora(LocalDateTime.now());
+        comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
+        try{
+            app.guardarComanda(comandaDTO);    
+        }catch(NegocioException ex){
+            ex.printStackTrace();
+        }
+        
+    }
+
 }

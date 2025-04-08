@@ -13,6 +13,7 @@ DAO\ProductoDAO.class
 pruebas\pruebasIngrediente.class
 DAO\DetallesComandaDAO.class
 interfaces\IComandaDAO.class
+pruebas\pruebasComanda.class
 pruebas\pruebasCliente.class
 conexion\Conexion.class
 DAO\ClienteDAO.class

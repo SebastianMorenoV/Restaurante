@@ -149,8 +149,10 @@ public class ClienteDAO implements IClienteDAO {
      * comente a la maestra , se utiliza el flush y store mode Refresh) Con el
      * fin de poder actualizar datos en tiempo real y que sean reflejados.
      *
-     * @param clienteFiltro Cliente Entity pasado como parametro con los atributos a buscar parcialmente.
-     * @return la lista de clientes encontrados por los parametros dados. Si no una lista nula.
+     * @param clienteFiltro Cliente Entity pasado como parametro con los
+     * atributos a buscar parcialmente.
+     * @return la lista de clientes encontrados por los parametros dados. Si no
+     * una lista nula.
      * @throws PersistenciaException Si existe un error buscando los clientes.
      */
     @Override
@@ -226,13 +228,16 @@ public class ClienteDAO implements IClienteDAO {
 
         return clientes;
     }
+
     /**
-     * Metodo que valida si existe un telefono en la base de datos.
-     * Encripta la cadena de texto del telefono pasado como parametro para poder evaluarlo
+     * Metodo que valida si existe un telefono en la base de datos. Encripta la
+     * cadena de texto del telefono pasado como parametro para poder evaluarlo
      * con el telefono encriptado de la base de datos.
+     *
      * @param telefono telefono pasado como parametro.
      * @return True si existe , false si no existe.
-     * @throws PersistenciaException Si encuentra un error verificando el telefono.
+     * @throws PersistenciaException Si encuentra un error verificando el
+     * telefono.
      */
     @Override
     public boolean existeTelefono(String telefono) throws PersistenciaException {
@@ -259,6 +264,7 @@ public class ClienteDAO implements IClienteDAO {
     /**
      * Metodo auxiliar para desencriptar un telefono dado como parametro.
      * Utiliza una llave default para poder desencriptar. ("1234567890123456")
+     *
      * @param telefonoEncriptado el telefono a desencriptar
      * @return cadena de String valida para comparar
      * @throws PersistenciaException
@@ -287,8 +293,9 @@ public class ClienteDAO implements IClienteDAO {
     }
 
     /**
-     * Metodo para encriptar un telefono con AES
-     * Utiliza una llave default para poder desencriptar. ("1234567890123456")
+     * Metodo para encriptar un telefono con AES Utiliza una llave default para
+     * poder desencriptar. ("1234567890123456")
+     *
      * @param telefono es el parametro a encriptar.
      * @return una cadena String encriptada.
      * @throws PersistenciaException si ocurre un error encriptando.
@@ -311,4 +318,7 @@ public class ClienteDAO implements IClienteDAO {
             throw new PersistenciaException("Error al encriptar el telefono: " + e.getMessage(), e);
         }
     }
+
+
+
 }

@@ -20,6 +20,7 @@ DTOEntrada\CrearIngredienteDTO.class
 DTOSalida\MesaDTO.class
 Entidades\Ingrediente.class
 Entidades\Comanda.class
+DTOEntrada\CrearComandaDTO.class
 Entidades\ClienteFrecuente.class
 Enums\UnidadMedida.class
 Entidades\Mesa.class
