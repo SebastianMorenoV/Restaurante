@@ -32,7 +32,7 @@ public class RegistroProducto extends javax.swing.JPanel {
         String[] columnas = {"Producto", "Ingrediente", "Unidad de Medida", "Cantidad"};
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaIngredientes.setModel(model);
-        
+
         agregarDocumentListener(txtNombre);
 
     }
@@ -230,7 +230,6 @@ public class RegistroProducto extends javax.swing.JPanel {
     private void realizarBusqueda() {
         StringBuilder nombreProducto = new StringBuilder(txtNombre.getText().trim());
 
-        // Crear el objeto ClienteDTO con el nombre completo
         ProductoDTO productoFiltro = new ProductoDTO();
         productoFiltro.setNombre(nombreProducto.toString().trim()); // Evitar espacios extra
 
@@ -274,3 +273,4 @@ public class RegistroProducto extends javax.swing.JPanel {
             }
         }
     }
+}
