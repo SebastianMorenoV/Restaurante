@@ -198,6 +198,7 @@ public class Aplicacion {
     }
 
  
+    /**
 
     public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws NegocioException {
         ProductoDTO filtro = new ProductoDTO();
@@ -209,6 +210,7 @@ public class Aplicacion {
         }
         return null;
     }
+    * */
 
    
     // Metodos para realizar cambios de pantalla

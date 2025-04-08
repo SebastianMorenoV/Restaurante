@@ -4,15 +4,17 @@
  */
 package GUI.Productos;
 
+import DTOSalida.IngredienteDTO;
 import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
 import GUI.Aplicacion;
 import exception.NegocioException;
-import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.List;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,16 +29,11 @@ public class RegistroProducto extends javax.swing.JPanel {
     public RegistroProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        comboBox.setUI(null);
-        comboBox.setUI(new javax.swing.plaf.basic.BasicComboBoxUI());
-        comboBox.setBackground(Color.WHITE);
-
-        txtNombre.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                cargarDatosProductoPorNombre(txtNombre.getText().trim());
-            }
-        });
+        String[] columnas = {"Producto", "Ingrediente", "Unidad de Medida", "Cantidad"};
+        DefaultTableModel model = new DefaultTableModel(null, columnas);
+        tablaIngredientes.setModel(model);
+        
+        agregarDocumentListener(txtNombre);
 
     }
 
@@ -210,50 +207,71 @@ public class RegistroProducto extends javax.swing.JPanel {
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarDatosProductoPorNombre(String nombre) {
-        if (nombre.isEmpty()) {
-            return;
-        }
-
-        try {
-            ProductoDTO producto = app.buscarProductoPorNombre(nombre); // desde ProductoBO
-
-            if (producto != null) {
-                txtPrecio.setText(String.valueOf(producto.getPrecio()));
-                comboBox.setSelectedItem(producto.getTipo());
-
-                cargarIngredientesEnTabla(producto.getId());
-
-            } else {
-                // Producto nuevo: limpia precio, tipo y tabla
-                txtPrecio.setText("");
-                comboBox.setSelectedIndex(-1);
-                limpiarTablaIngredientes();
-                JOptionPane.showMessageDialog(this, "Producto no encontrado. Puedes registrarlo como nuevo.");
+    private void agregarDocumentListener(JTextField textField) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                realizarBusqueda();
             }
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar producto: " + ex.getMessage());
-        }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                realizarBusqueda();
+            }
+        });
     }
 
-    private void cargarIngredientesEnTabla(Long idProducto) {
-        try {
-            List<IngredientesProductoDTO> lista = app.getIngredientesProducto(idProducto); // desde ProductoBO
+    // Método para realizar la búsqueda en el ProductoBO
+    private void realizarBusqueda() {
+        StringBuilder nombreProducto = new StringBuilder(txtNombre.getText().trim());
 
-            limpiarTablaIngredientes();
-            for (IngredientesProductoDTO dto : lista) {
-                modeloTabla.addRow(new Object[]{
-                    dto.getIngrediente().getNombre(),
-                    dto.getCantidad(),
-                    dto.getIngrediente().getUnidadMedida()
+        // Crear el objeto ClienteDTO con el nombre completo
+        ProductoDTO productoFiltro = new ProductoDTO();
+        productoFiltro.setNombre(nombreProducto.toString().trim()); // Evitar espacios extra
+
+        // Realizar la búsqueda en el BO
+        List<ProductoDTO> productosEncontrados = null; //prueba
+        try {
+            productosEncontrados = app.buscarProductos(productoFiltro);
+            // Actualizar la tabla con los resultados
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(RegistroProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        actualizarTabla(productosEncontrados);
+    }
+
+    // Método para actualizar la tabla con los resultados de búsqueda
+    private void actualizarTabla(List<ProductoDTO> productos) {
+        DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
+        model.setRowCount(0); // Limpiar tabla existente
+
+        // Llenar la tabla con los resultados
+        for (ProductoDTO producto : productos) {
+            if (producto.getIngredienteProducto() != null) {
+                for (IngredientesProductoDTO ingredientesProductoDTO : producto.getIngredienteProducto()) {
+                    IngredienteDTO ingrediente = ingredientesProductoDTO.getIngrediente();
+                    model.addRow(new Object[]{
+                        producto.getNombre(),
+                        ingrediente.getNombre(),
+                        ingrediente.getUnidadMedida(),
+                        ingrediente.getStock()
+                    });
+                }
+            } else {
+                //si no tiene ingredientes, agrega fila aclarandolo
+                model.addRow(new Object[]{
+                    producto.getNombre(),
+                    "sin ingredientes",
+                    "-",
+                    "-"
                 });
             }
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar ingredientes: " + ex.getMessage());
         }
     }
-    
-    private void limpiarTablaIngredientes() {
-    modeloTabla.setRowCount(0);
-}
 }
