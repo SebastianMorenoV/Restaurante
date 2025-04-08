@@ -7,12 +7,19 @@ package GUI.Productos;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
+import Enums.Tipo;
 import GUI.Aplicacion;
 import exception.NegocioException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +40,9 @@ public class RegistroProducto extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaIngredientes.setModel(model);
 
-        agregarDocumentListener(txtNombre);
+        //agregarDocumentListener(txtNombre);
+        cargarMeotodosAux();
+        seterToolTips();
 
     }
 
@@ -50,6 +59,8 @@ public class RegistroProducto extends javax.swing.JPanel {
         jTextArea1 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        lblHora = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -74,21 +85,41 @@ public class RegistroProducto extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 48)); // NOI18N
         jLabel1.setText("Registrar un Producto");
 
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaAtras.png"))); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblHora)
+                .addGap(55, 55, 55))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(152, 152, 152)
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(116, 116, 116)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(jLabel1)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblHora)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
@@ -103,10 +134,20 @@ public class RegistroProducto extends javax.swing.JPanel {
         comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLATILLO", "BEBIDA", "POSTRE" }));
 
         btnRegistrarProducto.setText("Registrar Producto");
+        btnRegistrarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarProductoActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
 
         btnConsulttar.setText("Consular Productos");
+        btnConsulttar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsulttarActionPerformed(evt);
+            }
+        });
 
         btnAgregarIngredientes.setText("Agregar Ingredientes");
 
@@ -121,6 +162,11 @@ public class RegistroProducto extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaIngredientesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaIngredientes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -187,6 +233,22 @@ public class RegistroProducto extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tablaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIngredientesMouseClicked
+
+    }//GEN-LAST:event_tablaIngredientesMouseClicked
+
+    private void btnRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarProductoActionPerformed
+        guardarProducto();
+    }//GEN-LAST:event_btnRegistrarProductoActionPerformed
+
+    private void btnConsulttarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulttarActionPerformed
+        app.mostrarBusquedaProducto();
+    }//GEN-LAST:event_btnConsulttarActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarIngredientes;
@@ -198,10 +260,12 @@ public class RegistroProducto extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel lblHora;
     private javax.swing.JTable tablaIngredientes;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
@@ -253,6 +317,7 @@ public class RegistroProducto extends javax.swing.JPanel {
         // Llenar la tabla con los resultados
         for (ProductoDTO producto : productos) {
             if (producto.getIngredienteProducto() != null) {
+                List<IngredientesProductoDTO> listaDTO = new ArrayList<>();
                 for (IngredientesProductoDTO ingredientesProductoDTO : producto.getIngredienteProducto()) {
                     IngredienteDTO ingrediente = ingredientesProductoDTO.getIngrediente();
                     model.addRow(new Object[]{
@@ -261,6 +326,7 @@ public class RegistroProducto extends javax.swing.JPanel {
                         ingrediente.getUnidadMedida(),
                         ingrediente.getStock()
                     });
+                    listaDTO.add(ingredientesProductoDTO);
                 }
             } else {
                 //si no tiene ingredientes, agrega fila aclarandolo
@@ -271,6 +337,60 @@ public class RegistroProducto extends javax.swing.JPanel {
                     "-"
                 });
             }
+
         }
+    }
+
+    private void seterToolTips() {
+        txtNombre.setToolTipText("Ingrese el nombre del producto");
+        txtPrecio.setToolTipText("Ingrese el precio del producto");
+
+        ToolTipManager.sharedInstance().setInitialDelay(100);     // Espera 100 ms para aparecer
+        ToolTipManager.sharedInstance().setDismissDelay(10000);   // Permanece visible 10 segundos
+        ToolTipManager.sharedInstance().setReshowDelay(100);
+    }
+
+    public void cargarMeotodosAux() {
+        agregarDocumentListener(txtNombre);
+        
+        seterToolTips();
+    }
+
+    public void guardarProducto() {
+        String nombre = txtNombre.getText().trim();
+        String txttprecio = txtPrecio.getText().trim();
+        double precio = Double.parseDouble(txttprecio);
+        String tipoString = (String) comboBox.getSelectedItem();
+        Tipo tipo = Tipo.valueOf(tipoString);
+
+        if (nombre.isEmpty() || txttprecio.isEmpty() || tipoString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+        }
+
+        ProductoDTO producto = new ProductoDTO(nombre, precio, tipo);
+
+        try {
+            app.registrarProducto(producto);
+            JOptionPane.showMessageDialog(this, "Producto registrado con exito\n " + nombre, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, "Error al registrar el proucto : " + ex.getMessage(),
+                    "Error en registro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //Metodos Auxiliares.
+    private void mostrarFecha() {
+        Timer timer = new Timer(1000, e -> {
+            LocalTime horaActual = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            lblHora.setText(horaActual.format(formatter));
+        });
+        timer.start();
+    }
+
+    public void limpiarCampos() {
+        txtNombre.setText("");
+        txtPrecio.setText("");
     }
 }

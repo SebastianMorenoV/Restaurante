@@ -39,6 +39,12 @@ public class ProductoDTO {
         this.tipo = tipo;
         this.productoActivo = productoActivo;
     }
+
+    public ProductoDTO(String nombre, double precio, Tipo tipo) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+    }
     
     
 

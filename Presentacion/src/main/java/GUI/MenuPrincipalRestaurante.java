@@ -330,6 +330,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/caja.png"))); // NOI18N
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel14MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, -1, -1));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/documento.png"))); // NOI18N
@@ -361,11 +366,6 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             }
         });
         tablaMesas.setRowHeight(80);
-        tablaMesas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaMesasMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tablaMesas);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, 590, 330));
@@ -493,6 +493,10 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_tablaMesasMouseClicked
+
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
+        app.mostrarRegistroProducto();
+    }//GEN-LAST:event_jLabel14MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

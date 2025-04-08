@@ -19,55 +19,53 @@ import java.util.List;
 public class pruebasProducto {
 
     public static void main(String[] args) {
+
+        // Creamos una instancia de ProductoDAO
         ProductoDAO productoDAO = ProductoDAO.getInstanceDAO();
 
+        // Crear un producto para pruebas
+        Producto nuevoProducto = new Producto();
+        nuevoProducto.setNombre("Producto de prueba");
+        nuevoProducto.setTipo(Tipo.PLATILLO);
+        nuevoProducto.setProductoActivo(ProductoActivo.Habilitado); // Asumiendo que ProductoActivo es un Enum
+
         try {
-            
-            // 1. Guardar un nuevo producto
-            Producto producto = new Producto();
-            producto.setNombre("Hamburguesa Clásica");
-            producto.setPrecio(59.99);
-            producto.setTipo(Tipo.PLATILLO); 
-            producto.setProductoActivo(ProductoActivo.Habilitado); 
+            // Prueba para guardar un producto
+            Producto productoGuardado = productoDAO.guardarProducto(nuevoProducto);
+            System.out.println("Producto guardado con ID: " + productoGuardado.getId());
 
-            Producto guardado = productoDAO.guardarProducto(producto);
-            System.out.println("Producto guardado: " + guardado.getId());
+            // Prueba para obtener un producto por ID
+            Producto productoObtenido = productoDAO.obtenerProductoPorId(productoGuardado.getId());
+            System.out.println("Producto obtenido: " + productoObtenido.getNombre());
 
-            // 2. Obtener producto por ID
-            Producto obtenido = productoDAO.obtenerProductoPorId(guardado.getId());
-            System.out.println("Producto obtenido: " + obtenido.getNombre());
+            // Prueba para actualizar un producto
+            productoObtenido.setNombre("Producto actualizado");
+            Producto productoActualizado = productoDAO.actualizarProducto(productoObtenido);
+            System.out.println("Producto actualizado: " + productoActualizado.getNombre());
 
-            // 3. Actualizar producto
-            obtenido.setPrecio(65.00);
-            Producto actualizado = productoDAO.actualizarProducto(obtenido);
-            System.out.println("Producto actualizado, nuevo precio: " + actualizado.getPrecio());
+            // Prueba para obtener todos los productos
+            List<Producto> productos = productoDAO.obtenerTodos();
+            System.out.println("Productos obtenidos: ");
+            for (Producto producto : productos) {
+                System.out.println(producto.getNombre());
+            }
 
+            // Prueba para cambiar el estado de un producto
+            boolean estadoCambiado = productoDAO.cambiarEstado(productoGuardado.getId(), ProductoActivo.Deshabilitado);
+            System.out.println("Estado cambiado: " + estadoCambiado);
 
-            // 4. Buscar productos con filtro (DTO)
-            ProductoDTO filtro = new ProductoDTO();
-            filtro.setNombre("Hamburguesa");
-            filtro.setTipo(Tipo.PLATILLO);
-            filtro.setProductoActivo(ProductoActivo.Habilitado);
-
-            List<Producto> encontrados = productoDAO.buscarProductos(filtro);
-            System.out.println("Productos encontrados con filtro: " + encontrados.size());
-
-            // 5. Obtener todos los productos
-            List<Producto> todos = productoDAO.obtenerTodos();
-            System.out.println("Total de productos en BD: " + todos.size());
-
-            // 6. Cambiar estado del producto
-            boolean cambioEstado = productoDAO.cambiarEstado(guardado.getId(), ProductoActivo.Deshabilitado);
-            System.out.println("Cambio de estado exitoso: " + cambioEstado);
-
-            // Verificar cambio
-            Producto deshabilitado = productoDAO.obtenerProductoPorId(guardado.getId());
-            System.out.println("Nuevo estado del producto: " + deshabilitado.getProductoActivo());
+            // Prueba para buscar producto por nombre
+            Producto productoBuscado = productoDAO.buscarProductoPorNombre("Producto actualizado");
+            if (productoBuscado != null) {
+                System.out.println("Producto encontrado por nombre: " + productoBuscado.getNombre());
+            } else {
+                System.out.println("Producto no encontrado por nombre");
+            }
 
         } catch (PersistenciaException e) {
-            System.err.println("Error de persistencia: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error inesperado: " + e.getMessage());
+            System.out.println("Error en la persistencia: " + e.getMessage());
         }
     }
 }
+
+
