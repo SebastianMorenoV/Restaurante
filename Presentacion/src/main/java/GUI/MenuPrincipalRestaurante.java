@@ -416,7 +416,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
                 btnBuscarCliente1MouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente2.add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 340, 40));
+        pnlBtnGuardarCliente2.add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 40));
 
         add(pnlBtnGuardarCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 360, 40));
 
@@ -473,6 +473,7 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnBuscarCliente1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente1MouseClicked
+        app.reconstruirPantallaComandasActivas();
         app.mostrarPantallaComandasActivas();
     }//GEN-LAST:event_btnBuscarCliente1MouseClicked
 

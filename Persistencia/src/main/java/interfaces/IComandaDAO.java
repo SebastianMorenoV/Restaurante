@@ -6,6 +6,7 @@ package interfaces;
 
 import Entidades.Comanda;
 import exception.PersistenciaException;
+import java.util.List;
 
 /**
  *
@@ -18,7 +19,12 @@ public interface IComandaDAO {
      public Comanda registrarComanda(Comanda comanda)throws PersistenciaException;
      
      public Comanda actualizarComanda(Comanda comandaActualizar)throws PersistenciaException;
+     
      public int obtenerUltimoConsecutivo() throws PersistenciaException;    
+     
+     public List<Comanda> obtenerComandasAbiertas() throws PersistenciaException;
+     
+     public Comanda buscarComandaPorFolio(String folio) throws PersistenciaException;
      
      
 }

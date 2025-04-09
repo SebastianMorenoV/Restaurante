@@ -308,18 +308,31 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
 
     private void cargarDatosTabla() {
         try {
-            List<IngredienteDTO> ingredientes = app.obtenerIngredientes();
+            // Crear un filtro vacío (sin nombre y sin unidad de medida)
+            IngredienteDTO filtro = new IngredienteDTO();
+            filtro.setNombre(""); // Nombre vacío
+            filtro.setUnidadMedida(null); // Sin unidad (equivale a "TODOS")
+
+            // Usar buscarIngredientes con el filtro vacío
+            List<IngredienteDTO> ingredientes = app.buscarIngredientes(filtro);
+
             DefaultTableModel model = (DefaultTableModel) tableIngredientes.getModel();
             model.setRowCount(0); // Limpiar tabla existente
 
             for (IngredienteDTO ingrediente : ingredientes) {
-                model.addRow(new Object[]{ingrediente.getId(), ingrediente.getNombre(), ingrediente.getUnidadMedida(), ingrediente.getStock()});
+                model.addRow(new Object[]{
+                    ingrediente.getId(),
+                    ingrediente.getNombre(),
+                    ingrediente.getUnidadMedida(),
+                    ingrediente.getStock()
+                });
             }
 
         } catch (NegocioException ex) {
             ex.printStackTrace();
         }
     }
+
 
     private void realizarBusqueda() {
         String nombre = inputNombre.getText().trim();

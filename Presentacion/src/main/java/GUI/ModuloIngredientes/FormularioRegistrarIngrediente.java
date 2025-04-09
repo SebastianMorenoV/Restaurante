@@ -382,35 +382,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
     private void btnModificarIngredienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarIngredienteMouseClicked
         // TODO add your handling code here:
-        int filaSeleccionada = tableIngredientes.getSelectedRow(); // Obtener la fila seleccionada
-
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un ingrediente a modificar", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
-        String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
-        UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
-        int stockActual = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
-
-        // Mostrar un JOptionPane para modificar el stock
-        String nuevoStockStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo stock para " + nombre + ":", "Modificar Stock", JOptionPane.PLAIN_MESSAGE);
-
-        if (nuevoStockStr != null && !nuevoStockStr.trim().isEmpty()) {
-            try {
-                int nuevoStock = Integer.parseInt(nuevoStockStr.trim());
-                app.actualizarStockIngrediente(id, nuevoStock);
-                cargarDatosTabla();// cargar la tabla con datos actualizados
-
-                JOptionPane.showMessageDialog(this, "Stock modificado con exito.", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingrese un numero valido.", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (NegocioException ex) {
-                Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, "Error al modificar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        modificarIngrediente();
     }//GEN-LAST:event_btnModificarIngredienteMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
@@ -457,7 +429,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         try {
             stock = Integer.parseInt(stockTexto);//aca ya es un int y ya se puede validar si es valido o no
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El stock debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El stock debe ser un numero valido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -478,15 +450,6 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         }
     }
 
-    public void eliminarIngrediente() {
-        //app.eliminarIngrediente();
-    }
-
-    public void actualizarStock() {
-
-    }
-
-    //Falta validarIngredienteEnProducto
     private void configurarTablaIngredientes() {
         DefaultTableModel modelo = new DefaultTableModel(
                 new Object[][]{},
@@ -503,18 +466,63 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
 
     private void cargarDatosTabla() {
         try {
-            List<IngredienteDTO> ingredientes = app.obtenerIngredientes();
+            // crear un filtro vacío para q salgan todos
+            IngredienteDTO filtro = new IngredienteDTO();
+            filtro.setNombre(""); 
+            filtro.setUnidadMedida(null); // sin unidad lo que equivale a TODOS
+
+            // Usar buscarIngredientes con el filtro vacío
+            List<IngredienteDTO> ingredientes = app.buscarIngredientes(filtro);
+
             DefaultTableModel model = (DefaultTableModel) tableIngredientes.getModel();
             model.setRowCount(0); // limpiar tabla existente
 
             for (IngredienteDTO ingrediente : ingredientes) {
-                model.addRow(new Object[]{ingrediente.getId(), ingrediente.getNombre(), ingrediente.getUnidadMedida(), ingrediente.getStock()});
+                model.addRow(new Object[]{
+                    ingrediente.getId(),
+                    ingrediente.getNombre(),
+                    ingrediente.getUnidadMedida(),
+                    ingrediente.getStock()
+                });
             }
 
         } catch (NegocioException ex) {
             ex.printStackTrace();
         }
     }
+    
+    public void modificarIngrediente(){
+        int filaSeleccionada = tableIngredientes.getSelectedRow(); // obtiene la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un ingrediente a modificar", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
+        String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
+        UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
+        int stockActual = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
+
+        // mostrar un JOptionPane para modificar el stock brodi
+        String nuevoStockStr = JOptionPane.showInputDialog(this, "Ingrese el nuevo stock para " + nombre + ":", "Modificar Stock", JOptionPane.PLAIN_MESSAGE);
+
+        if (nuevoStockStr != null && !nuevoStockStr.trim().isEmpty()) {
+            try {
+                int nuevoStock = Integer.parseInt(nuevoStockStr.trim());
+                app.actualizarStockIngrediente(id, nuevoStock);
+                cargarDatosTabla();// cargar la tabla con datos actualizados
+
+                JOptionPane.showMessageDialog(this, "Stock modificado con exito.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {// ayuda aq no salgan errores en la consola
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un numero valido.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NegocioException ex) {
+                Logger.getLogger(FormularioRegistrarIngrediente.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Error al modificar el stock.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
 
     //aux
     public void limpiarCampos() {

@@ -6,7 +6,9 @@ package interfaces;
 
 import DTOEntrada.CrearComandaDTO;
 import DTOSalida.ComandaDTO;
+import Enums.Estado;
 import exception.NegocioException;
+import java.util.List;
 
 /**
  *
@@ -14,4 +16,11 @@ import exception.NegocioException;
  */
 public interface IComandaBO {
     public ComandaDTO registrarComanda(CrearComandaDTO comandaDTO)throws NegocioException;
+    
+    public List<ComandaDTO> obtenerComandas() throws NegocioException;
+    
+    public ComandaDTO actualizarComanda(ComandaDTO comandaDTO) throws NegocioException ;
+    
+    public ComandaDTO buscarComandaPorFolio(String folio) throws NegocioException;
+    
 }

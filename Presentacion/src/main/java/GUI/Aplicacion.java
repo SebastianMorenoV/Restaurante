@@ -14,6 +14,7 @@ import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.IngredientesProducto;
+import Enums.Estado;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloComandas.PantallaComanda;
@@ -223,6 +224,38 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+    
+    public List<ComandaDTO> obtenerComandas() throws NegocioException {
+        try {
+            if (comandaBO == null) {
+                throw new NegocioException("Error: comandaBO no ha sido inicializado.");
+            }
+            return comandaBO.obtenerComandas();
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+    public ComandaDTO buscarComandaPorFolio(String folio) throws NegocioException {
+        try {
+            if (comandaBO == null) {
+                throw new NegocioException("Error: comandaBO no ha sido inicializado.");
+            }
+            return comandaBO.buscarComandaPorFolio(folio);
+        } catch (NegocioException ex) {
+            throw new NegocioException("Error al buscar la comanda por folio: " + ex.getLocalizedMessage());
+        }
+    }
+    
+    public ComandaDTO actualizarComanda(ComandaDTO comandaActualizar) throws NegocioException{
+        try {
+            return comandaBO.actualizarComanda(comandaActualizar);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+
 
 
     /**
@@ -296,6 +329,10 @@ public class Aplicacion {
     public void reconstruirPantallaMesero() {
         menuMesero = new MenuMesero(this);
 
+    }
+    
+    public void reconstruirPantallaComandasActivas(){
+        comandasActivas = new PantallaComandasActivas(this);
     }
 
     public void reconstruirPantallaComanda() {

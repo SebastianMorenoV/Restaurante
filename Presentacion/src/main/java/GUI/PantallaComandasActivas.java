@@ -4,9 +4,15 @@
  */
 package GUI;
 
+import DTOSalida.ComandaDTO;
+import Enums.Estado;
+import exception.NegocioException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,10 +24,12 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
      * Creates new form PantallaComandasActivas
      */
     private Aplicacion app;
+
     public PantallaComandasActivas(Aplicacion app) {
         this.app = app;
         initComponents();
-        mostrarFecha(); 
+        mostrarFecha();
+        cargarDatosTabla();
     }
 
     /**
@@ -39,11 +47,16 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         panelRound1 = new GUI.PanelRound();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableComandasActivas = new javax.swing.JTable();
         pnlBtnGuardarCliente1 = new GUI.PanelRound();
         btnBuscarCliente = new javax.swing.JLabel();
         lblHora = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        panelRound2 = new GUI.PanelRound();
+        btnEntregada = new javax.swing.JLabel();
+        panelRound3 = new GUI.PanelRound();
+        btnCancelada = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -88,9 +101,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         panelRound1.setRoundTopRight(30);
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableComandasActivas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -105,8 +116,10 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
                 "NUMERO MESA", "FECHA CREACION", "FOLIO", "ESTADO"
             }
         ));
-        jTable1.setRowHeight(50);
-        jScrollPane1.setViewportView(jTable1);
+        tableComandasActivas.setRowHeight(50);
+        tableComandasActivas.getTableHeader().setResizingAllowed(false);
+        tableComandasActivas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableComandasActivas);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 6, 980, 400));
 
@@ -139,35 +152,106 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel5.setText("SELECCIONA UNA COMANDA");
         add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 188, 410, 30));
+
+        panelRound2.setBackground(new java.awt.Color(0, 204, 51));
+        panelRound2.setRoundBottomLeft(30);
+        panelRound2.setRoundBottomRight(30);
+        panelRound2.setRoundTopLeft(30);
+        panelRound2.setRoundTopRight(30);
+        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnEntregada.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEntregada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnEntregada.setText("Entregada");
+        btnEntregada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEntregada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEntregadaMouseClicked(evt);
+            }
+        });
+        panelRound2.add(btnEntregada, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 30));
+
+        add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 630, 130, 30));
+
+        panelRound3.setBackground(new java.awt.Color(255, 0, 0));
+        panelRound3.setRoundBottomLeft(30);
+        panelRound3.setRoundBottomRight(30);
+        panelRound3.setRoundTopLeft(30);
+        panelRound3.setRoundTopRight(30);
+
+        btnCancelada.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCancelada.setText("Cancelada");
+        btnCancelada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelada.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCanceladaMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
+        panelRound3.setLayout(panelRound3Layout);
+        panelRound3Layout.setHorizontalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnCancelada, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelRound3Layout.setVerticalGroup(
+            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnCancelada, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 630, 130, 30));
+
+        jLabel2.setFont(new java.awt.Font("Product Sans Infanity", 1, 14)); // NOI18N
+        jLabel2.setText("Marcar Comanda Como");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 600, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        if(app.getRol().equals("Administrador")){
-             app.mostrarMenuPrincipal();
+        if (app.getRol().equals("Administrador")) {
+            app.mostrarMenuPrincipal();
         } else {
             app.mostrarMenuMesero();
         }
-        
-       
+
+
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
-        app.mostrarPantallaConsultarCliente();
+        //app.mostrarPantallaConsultarCliente();
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
+
+    private void btnEntregadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntregadaMouseClicked
+        marcarComandaEntregada();
+    }//GEN-LAST:event_btnEntregadaMouseClicked
+
+    private void btnCanceladaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCanceladaMouseClicked
+        // TODO add your handling code here:
+        marcarComandaCancelada();
+    }//GEN-LAST:event_btnCanceladaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnBuscarCliente;
+    private javax.swing.JLabel btnCancelada;
+    private javax.swing.JLabel btnEntregada;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblHora;
     private GUI.PanelRound panelRound1;
+    private GUI.PanelRound panelRound2;
+    private GUI.PanelRound panelRound3;
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JTable tableComandasActivas;
     // End of variables declaration//GEN-END:variables
 
     //Metodos Auxiliares
@@ -179,4 +263,96 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         });
         timer.start();
     }
+
+    private void cargarDatosTabla() {
+        try {
+            // Llamar al método de ComandaBO para obtener todas las comandas
+            List<ComandaDTO> comandas = app.obtenerComandas();
+
+            DefaultTableModel model = (DefaultTableModel) tableComandasActivas.getModel();
+            model.setRowCount(0); // Limpiar tabla existente
+
+            for (ComandaDTO comanda : comandas) {
+                model.addRow(new Object[]{
+                    comanda.getNumeroMesa(),
+                    comanda.getFechaHora(),
+                    comanda.getFolio(),
+                    comanda.getEstado(),
+                    comanda.getTotalVenta()
+                });
+            }
+
+        } catch (NegocioException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void marcarComandaEntregada() {
+        int filaSeleccionada = tableComandasActivas.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione la comanda a la que desea cambiarle el estado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String folio = tableComandasActivas.getValueAt(filaSeleccionada, 2).toString();
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estas seguro de marcar la comanda con folio " + folio + " como ENTREGADA?",
+                "Confirmar entrega",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                ComandaDTO comanda = app.buscarComandaPorFolio(folio);
+                comanda.setEstado(Estado.Entregada);
+                app.actualizarComanda(comanda);
+                JOptionPane.showMessageDialog(this, "Comanda marcada como entregada.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                cargarDatosTabla(); // para reflejar los cambios en la tabla
+            } catch (NegocioException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al actualizar el estado de la comanda.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La comanda no fue modificada.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+        private void marcarComandaCancelada() {
+        int filaSeleccionada = tableComandasActivas.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione la comanda a la que desea cambiarle el estado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String folio = tableComandasActivas.getValueAt(filaSeleccionada, 2).toString();
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Estas seguro de marcar la comanda con folio " + folio + " como CANCELADA?",
+                "Confirmar entrega",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                ComandaDTO comanda = app.buscarComandaPorFolio(folio);
+                comanda.setEstado(Estado.Cancelada);
+                app.actualizarComanda(comanda);
+                JOptionPane.showMessageDialog(this, "Comanda marcada como cancelada.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                cargarDatosTabla(); // para reflejar los cambios en la tabla
+            } catch (NegocioException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ocurrio un error al actualizar el estado de la comanda.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "La comanda no fue modificada.", "Cancelado", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
 }
