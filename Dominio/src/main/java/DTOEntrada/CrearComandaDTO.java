@@ -4,8 +4,13 @@
  */
 package DTOEntrada;
 
+import DTOSalida.ClienteDTO;
+import DTOSalida.DetallesComandaDTO;
+import DTOSalida.ProductoDTO;
 import Enums.Estado;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,16 +21,70 @@ public class CrearComandaDTO {
     private Integer numeroMesa;
     private Estado estado;
     private double totalVenta;
+    private ClienteDTO cliente;
+    private List<ProductoDTO> productosComanda = new ArrayList<>();
+    private List<DetallesComandaDTO> detallesComanda = new ArrayList<>();
 
     public CrearComandaDTO() {
     }
-
+    
+    
     public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta) {
         this.fechaHora = fechaHora;
         this.numeroMesa = numeroMesa;
         this.estado = estado;
         this.totalVenta = totalVenta;
     }
+    
+    // para crear comanda con cliente y productos.
+
+    public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, ClienteDTO cliente, List<ProductoDTO> productosComanda) {
+        this.fechaHora = fechaHora;
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.totalVenta = totalVenta;
+        this.cliente = cliente;
+        this.productosComanda = productosComanda;
+    }
+    
+    
+    // para crear la comanda con el cliente 
+
+    public CrearComandaDTO(LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, ClienteDTO cliente) {
+        this.fechaHora = fechaHora;
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.totalVenta = totalVenta;
+        this.cliente = cliente;
+    }
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<ProductoDTO> getProductosComanda() {
+        return productosComanda;
+    }
+
+    public void setProductosComanda(List<ProductoDTO> productosComanda) {
+        this.productosComanda = productosComanda;
+    }
+  
+    public void addProductoComanda(ProductoDTO producto){
+        this.productosComanda.add(producto);
+    }
+    
+    public void addDetallesComanda(DetallesComandaDTO detalleComanda){
+        this.detallesComanda.add(detalleComanda);
+    }
+     public List<DetallesComandaDTO> getDetallesComanda() {
+        return detallesComanda;
+    }
+    
 
     public LocalDateTime getFechaHora() {
         return fechaHora;
@@ -58,6 +117,7 @@ public class CrearComandaDTO {
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
+    
     
     
 }

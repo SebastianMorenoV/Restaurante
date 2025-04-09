@@ -6,13 +6,17 @@ package GUI.ModuloComandas;
 
 import BO.ComandaBO;
 import DTOEntrada.CrearComandaDTO;
+import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
+import DTOSalida.DetallesComandaDTO;
 import DTOSalida.ProductoDTO;
 import Enums.Estado;
 import Enums.ProductoActivo;
 import Enums.Tipo;
 import GUI.Aplicacion;
 import exception.NegocioException;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -24,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import javax.swing.JLabel;
 
 /**
  *
@@ -179,7 +184,7 @@ public class PantallaComanda extends javax.swing.JPanel {
                 btnBuscarClienteMouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 370, 50));
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 50));
 
         pnlHeader.add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 410, -1));
 
@@ -422,6 +427,7 @@ public class PantallaComanda extends javax.swing.JPanel {
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
         //Ocupa la validacion para saber si la comanda ya existe
         guardarComanda();
+        
     }//GEN-LAST:event_btnGuardarComandaMouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
@@ -429,8 +435,8 @@ public class PantallaComanda extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-       
-            app.mostrarMenuPrincipal();
+
+        app.mostrarMenuPrincipal();
 
 
     }//GEN-LAST:event_jLabel7MouseClicked
@@ -540,22 +546,19 @@ public class PantallaComanda extends javax.swing.JPanel {
     }
 
     public void cargarCliente() {
-        String cliente = app.getClienteSeleccionado();
+        ClienteDTO cliente = app.getClienteSeleccionado();
+
         if (cliente == null) {
             btnBuscarCliente.setText("CLIENTE : SIN ESPECIFICAR");
         } else {
-            // Eliminar el prefijo y obtener solo el nombre completo
-            String nombreCompleto = cliente.replace("Cliente :", "").trim();
-            String[] partes = nombreCompleto.split("\\s+");
+            String nombre = cliente.getNombre();
+            String texto = "CLIENTE : " + nombre;
+            btnBuscarCliente.setText(texto);
 
-            String nombre = partes[0];
-            String apellidoPaterno = (partes.length > 1) ? partes[1] : "";
-            String inicialApellidoMaterno = (partes.length > 2) ? " " + partes[2].charAt(0) + "." : "";
-
-            btnBuscarCliente.setText("CLIENTE : " + nombre + " " + apellidoPaterno + inicialApellidoMaterno);
-            btnBuscarCliente.repaint();
-
+            ajustarTamañoFuente(btnBuscarCliente, texto);
         }
+
+        btnBuscarCliente.repaint();
     }
 
     public void registrarProducto() {
@@ -624,20 +627,45 @@ public class PantallaComanda extends javax.swing.JPanel {
 
     public void guardarComanda() {
         CrearComandaDTO comandaDTO = new CrearComandaDTO();
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            ProductoDTO producto = new ProductoDTO();
+
+            producto.setNombre((String) modeloTabla.getValueAt(i, 0));
+            String tipoString = (String) modeloTabla.getValueAt(i, 1);
+            Tipo tipo = Tipo.valueOf(tipoString);  // Convertir de String a enum
+            producto.setTipo(tipo);
+            producto.setPrecio((Double) modeloTabla.getValueAt(i, 2));
+
+            comandaDTO.addProductoComanda(producto);
+            
+            // para cada producto de la comanda añadire su detalle obtenido desde el modulo de productos
+            DetallesComandaDTO detalleComandaDTO = new DetallesComandaDTO();
+                // ejemplos mockeados aqui se sustituira por los gets y sets de modulo productos en aplicacion.
+                detalleComandaDTO.setComentarios("Sin jalapeño"); // app.getComentario para el producto
+                detalleComandaDTO.setCantidad(1);
+                detalleComandaDTO.setPrecioUnitario((Double) modeloTabla.getValueAt(i, 2));
+                detalleComandaDTO.setImporteTotal(detalleComandaDTO.getCantidad() * detalleComandaDTO.getPrecioUnitario());
+                
+                comandaDTO.addDetallesComanda(detalleComandaDTO);
+            
+        }
 
         comandaDTO.setEstado(Estado.Abierta);
         comandaDTO.setFechaHora(LocalDateTime.now());
         comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
-        comandaDTO.setTotalVenta(200.00);
+        comandaDTO.setTotalVenta(200); // o 200.00 si es fijo
+        comandaDTO.setCliente(app.getClienteSeleccionado());
+
         try {
             app.guardarComanda(comandaDTO);
-            JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             app.mostrarMenuPrincipal();
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error en la comanda", "Error", JOptionPane.INFORMATION_MESSAGE);
             ex.printStackTrace();
         }
-
     }
 
     public void obtenerProductosTemporales() {
@@ -661,6 +689,24 @@ public class PantallaComanda extends javax.swing.JPanel {
 
         calcularTotal();
     }
-    
-    
+
+    private void ajustarTamañoFuente(JLabel label, String texto) {
+        int tamañoMaximo = 24; // puedes ajustar según el diseño
+        int tamañoMinimo = 10; // para evitar que sea ilegible
+        Font fuente = label.getFont().deriveFont((float) tamañoMaximo);
+        FontMetrics fm = label.getFontMetrics(fuente);
+
+        int anchoDisponible = label.getWidth() - 20; // margen horizontal
+        if (anchoDisponible <= 0) {
+            return; // aún no está visible el label
+        }
+        // Reducimos tamaño si es necesario
+        while (fm.stringWidth(texto) > anchoDisponible && tamañoMaximo > tamañoMinimo) {
+            tamañoMaximo--;
+            fuente = fuente.deriveFont((float) tamañoMaximo);
+            fm = label.getFontMetrics(fuente);
+        }
+
+        label.setFont(fuente);
+    }
 }

@@ -25,6 +25,8 @@ public interface IClienteDAO {
     public List<Cliente> buscarClientes(Cliente clienteFiltro) throws PersistenciaException;
     // probablemente tenga que meter asociarClienteAComanda
     
+    
+    public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException;
 
 
 }

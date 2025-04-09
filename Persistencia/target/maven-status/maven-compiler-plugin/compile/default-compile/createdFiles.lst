@@ -7,6 +7,7 @@ interfaces\IMesaDAO.class
 interfaces\IIngredienteDAO.class
 interfaces\IProductoDAO.class
 interfaces\IClienteDAO.class
+interfaces\IDetallesComandaDAO.class
 exception\PersistenciaException.class
 pruebas\pruebasIngredienteProducto.class
 DAO\ProductoDAO.class

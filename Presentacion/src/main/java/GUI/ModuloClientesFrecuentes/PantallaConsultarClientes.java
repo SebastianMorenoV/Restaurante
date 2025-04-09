@@ -394,7 +394,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                 int respuesta = JOptionPane.showConfirmDialog(null, mensaje, "Confirmar selección", JOptionPane.YES_NO_OPTION);
 
                 if (respuesta == JOptionPane.YES_OPTION) {
-                    app.setClienteSeleccionado("Cliente : " + nombre); // O puedes usar un ID si lo manejas
+                    app.setClienteSeleccionado(new ClienteDTO(nombre,telefono)); // O puedes usar un ID si lo manejas // CREACION DE OTRO DTO PARA CLIENTE Y TELEFONO SOLAMENTE?
 
                     app.setSiguienteComanda(false);
 

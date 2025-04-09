@@ -47,7 +47,13 @@ public class ClienteDTO {
         this.totalGastado = totalGastado;
         this.puntos = puntos;
     }
-
+    // constructor auxiliar para la creacion de comanda.    
+    public ClienteDTO(String nombre, String telefono) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+    }
+    
+    
     public ClienteDTO(String nombreCompleto, Integer visitasTotales) {
         this.nombre = nombre;
         this.visitasTotales = visitasTotales;

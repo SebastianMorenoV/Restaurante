@@ -11,13 +11,16 @@ import BO.MesaBO;
 import BO.ProductoBO;
 import DAO.ClienteDAO;
 import DAO.ComandaDAO;
+import DAO.DetallesComandaDAO;
 import DAO.IngredienteDAO;
 import DAO.MesaDAO;
 import DAO.ProductoDAO;
+import Entidades.DetallesComanda;
 import interfaces.IClienteBO;
 import interfaces.IClienteDAO;
 import interfaces.IComandaBO;
 import interfaces.IComandaDAO;
+import interfaces.IDetallesComandaDAO;
 import interfaces.IIngredienteBO;
 import interfaces.IIngredienteDAO;
 import interfaces.IMesaBO;
@@ -65,9 +68,14 @@ public class ManejadorObjetosNegocio {
          return productoBO;
      }
      
-     public static IComandaBO crearComandaBO(){
+     public static IComandaBO crearComandaBO(){ // TALVEZ DEBERIAMOS PASARLE MAS BO A LAS COSAS. ASI COMO EN VIDEOJUEGO DAO
          IComandaDAO comandaDAO = ComandaDAO.getInstanceDAO();
-         IComandaBO comandaBO = new ComandaBO(comandaDAO);
+         IClienteDAO clienteDAO = ClienteDAO.getInstanceDAO();
+         IProductoDAO productoDAO = ProductoDAO.getInstanceDAO();
+         IDetallesComandaDAO detallesComandaDAO = DetallesComandaDAO.getInstanceDAO();
+         
+         IComandaBO comandaBO = new ComandaBO(comandaDAO,clienteDAO , productoDAO,detallesComandaDAO);
+         
          
          return comandaBO;
      }

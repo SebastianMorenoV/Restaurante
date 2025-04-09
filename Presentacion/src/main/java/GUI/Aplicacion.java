@@ -46,7 +46,7 @@ public class Aplicacion {
     //atributos de sesion
     private String rol;
     private String mesa;
-    private String clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
+    private ClienteDTO clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
     private boolean siguienteComanda;
     private List<ProductoDTO> productosTemporales = new ArrayList<>();
 
@@ -364,11 +364,11 @@ public class Aplicacion {
         return mesa;
     }
 
-    public String getClienteSeleccionado() {
+    public ClienteDTO getClienteSeleccionado() {
         return clienteSeleccionado;
     }
 
-    public void setClienteSeleccionado(String clienteSeleccionado) {
+    public void setClienteSeleccionado(ClienteDTO clienteSeleccionado) {
         this.clienteSeleccionado = clienteSeleccionado;
     }
 

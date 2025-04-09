@@ -258,6 +258,25 @@ public class ClienteDAO implements IClienteDAO {
             em.close();
         }
     }
+
+    public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            String telefonoEncriptado = encriptarTelefono(telefono);
+
+            TypedQuery<Cliente> query = em.createQuery(
+                    "SELECT c FROM Cliente c WHERE c.telefono = :telefono", Cliente.class);
+            query.setParameter("telefono", telefonoEncriptado);
+
+            // Esto lanzará NoResultException si no se encuentra ningún cliente
+            return query.getSingleResult();
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar cliente por teléfono: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
     //Metodos auxiliares:
     // Método para desencriptar el teléfono
 
@@ -319,6 +338,5 @@ public class ClienteDAO implements IClienteDAO {
         }
     }
 
-
-
+   
 }

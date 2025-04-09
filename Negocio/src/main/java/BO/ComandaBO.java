@@ -6,15 +6,22 @@ package BO;
 
 import DTOEntrada.CrearComandaDTO;
 import DTOSalida.ComandaDTO;
+import DTOSalida.DetallesComandaDTO;
+import DTOSalida.ProductoDTO;
+import Entidades.Cliente;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
 import Entidades.Mesa;
+import Entidades.Producto;
 import Enums.Estado;
 import exception.NegocioException;
 import exception.PersistenciaException;
+import interfaces.IClienteDAO;
 import interfaces.IComandaBO;
 import interfaces.IComandaDAO;
+import interfaces.IDetallesComandaDAO;
 import interfaces.IMesaDAO;
+import interfaces.IProductoDAO;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -30,8 +37,14 @@ public class ComandaBO implements IComandaBO {
 
     private IComandaDAO comandaDAO;
     private IMesaDAO mesaDAO;
+    private IClienteDAO clienteDAO;
+    private IProductoDAO productoDAO;
+    private IDetallesComandaDAO detallesComandaDAO;
 
-    public ComandaBO(IComandaDAO comandaDAO) {
+    public ComandaBO(IComandaDAO comandaDAO, IClienteDAO clienteDAO, IProductoDAO productoDAO, IDetallesComandaDAO detallesComandaDAO) {
+        this.detallesComandaDAO = detallesComandaDAO;
+        this.productoDAO = productoDAO;
+        this.clienteDAO = clienteDAO;
         this.comandaDAO = comandaDAO;
     }
 
@@ -40,26 +53,61 @@ public class ComandaBO implements IComandaBO {
         if (comandaDTO == null) {
             throw new NegocioException("La información de la comanda es obligatoria.");
         }
-
         try {
+            // Crear la comanda
             Comanda comanda = new Comanda();
             comanda.setFechaHora(LocalDateTime.now());
             comanda.setEstado(comandaDTO.getEstado()); // esto se va a cambiar
             Mesa mesa = new Mesa();
-            mesa.setId(comandaDTO.getNumeroMesa().longValue());
+            mesa.setId(comandaDTO.getNumeroMesa().longValue()); // EL NUMERO DE LA MESA VIENE DESDE EL DTO.
             mesa.setNumMesa(comandaDTO.getNumeroMesa());
             comanda.setMesa(mesa);
-            //Setea la comanda inicialmente en 0
             comanda.setTotalVenta(0.00);
 
             int numeroConsecutivo = obtenerSiguienteNumeroConsecutivo();
-            String folio = generarFolio(LocalDateTime.now(),numeroConsecutivo);
-            System.out.println(folio);
-            
+            String folio = generarFolio(LocalDateTime.now(), numeroConsecutivo);
             comanda.setFolio(folio);
 
-            // Registrar en la bd
+            // Registrar cliente, si aplica
+            if (comandaDTO.getCliente() == null || comandaDTO.getCliente().getTelefono() == null) {
+                comanda.setCliente(null);
+            } else {
+                Cliente cliente = clienteDAO.buscarClientePorTelefono(comandaDTO.getCliente().getTelefono());
+                comanda.setCliente(cliente);
+                // Actualizar puntos, visitas y gasto acumulado al cliente si es necesario --------
+            }
+
+            // Registrar la comanda en la base de datos y obtener la comanda con id
             Comanda comandaRegistrada = comandaDAO.registrarComanda(comanda);
+
+            // Obtener los productos y detalles de la comanda
+            List<ProductoDTO> productosDTO = comandaDTO.getProductosComanda();
+            List<DetallesComandaDTO> detallesComandaDTO = comandaDTO.getDetallesComanda();
+            System.out.println("PRODUCTOS : " + productosDTO);
+            System.out.println("DETALLES :" + detallesComandaDTO);
+
+            for (int i = 0; i < productosDTO.size(); i++) {
+                ProductoDTO productoDTO = productosDTO.get(i);  // Obtener el ProductoDTO actual
+                Producto productoConsultado = productoDAO.buscarProductoPorNombre(productoDTO.getNombre());
+                System.out.println("Producto " + productoConsultado);
+
+                DetallesComandaDTO detalleComandaDTO = detallesComandaDTO.get(i);
+                // Convertir DetallesComandaDTO a entidad DetallesComanda
+                DetallesComanda detallesAGuardar = new DetallesComanda();
+                detallesAGuardar.setComentarios(detalleComandaDTO.getComentarios());
+                detallesAGuardar.setCantidad(detalleComandaDTO.getCantidad());
+                detallesAGuardar.setProducto(productoConsultado); // Asignar el producto consultado
+                detallesAGuardar.setPrecioUnitario(detalleComandaDTO.getPrecioUnitario());
+                detallesAGuardar.setImporteTotal(detalleComandaDTO.getImporteTotal());
+
+                // Aquí es donde asignas la comanda persistida al detalle
+                detallesAGuardar.setComanda(comandaRegistrada); // Asignar la comanda persistida al detalle
+
+                // Guardar el detalle de la comanda
+                detallesComandaDAO.guardarDetallesComanda(detallesAGuardar);
+
+            }
+           
 
             // Retornar DTO de salida
             return new ComandaDTO(
@@ -74,7 +122,7 @@ public class ComandaBO implements IComandaBO {
             throw new NegocioException("Error al registrar la comanda: " + e.getMessage(), e);
         }
     }
-    
+
     @Override
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
@@ -130,7 +178,6 @@ public class ComandaBO implements IComandaBO {
         }
     }
 
-    
     @Override
     public ComandaDTO buscarComandaPorFolio(String folio) throws NegocioException {
         if (folio == null || folio.trim().isEmpty()) {
@@ -155,7 +202,6 @@ public class ComandaBO implements IComandaBO {
             throw new NegocioException("Error al buscar la comanda por folio: " + e.getMessage(), e);
         }
     }
-    
 
     //Auxiliares
     private double calcularTotal(List<DetallesComanda> detalles) {
@@ -175,15 +221,12 @@ public class ComandaBO implements IComandaBO {
         // Combinar los valores para formar el folio
         return "OB-" + fechaFormateada + "-" + consecutivoFormateado;
     }
-    
+
     private int obtenerSiguienteNumeroConsecutivo() throws PersistenciaException {
         // Lógica para obtener el número consecutivo único desde la base de datos o almacenamiento
         // Ejemplo simplificado:
         int ultimoNumero = comandaDAO.obtenerUltimoConsecutivo(); // Recuperar el último número usado
         return ultimoNumero + 1;
     }
-
-
-
 
 }
