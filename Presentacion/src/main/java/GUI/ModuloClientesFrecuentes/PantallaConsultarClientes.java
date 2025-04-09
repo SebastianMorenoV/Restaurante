@@ -360,6 +360,7 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
             int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de salir sin seleccionar cliente?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.YES_OPTION) {
                 app.mostrarPantallaComanda();
+                app.setSiguienteComanda(false);
                 //probablemente tenga que tener la logica para obtener los productos o detalles comanda.
             } else {
             }
@@ -383,7 +384,9 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
                 String visitas = String.valueOf(tablaClientes.getValueAt(fila, 3));
                 String totalGastado = String.valueOf(tablaClientes.getValueAt(fila, 4));
                 String puntos = String.valueOf(tablaClientes.getValueAt(fila, 5));
-
+                if(nombre.equals("DATOS PARA")){ 
+                    return;
+                }
                 String mensaje = "¿Deseas seleccionar este cliente?\n\n" + "Nombre completo: " + nombre + "\n" + "Teléfono: " + telefono + "\n"
                         + "Correo: " + correo + "\n" + "Visitas: " + visitas + "\n" + "Total gastado: $" + totalGastado + "\n"
                         + "Puntos acumulados: " + puntos;
