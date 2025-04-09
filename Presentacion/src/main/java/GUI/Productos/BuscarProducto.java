@@ -202,7 +202,7 @@ public class BuscarProducto extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
+        app.mostrarRegistroProducto();
     }//GEN-LAST:event_jLabel5MouseClicked
 
 

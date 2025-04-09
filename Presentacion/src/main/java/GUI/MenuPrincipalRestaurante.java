@@ -5,6 +5,7 @@
 package GUI;
 
 import DTOSalida.MesaDTO;
+import DTOSalida.ProductoDTO;
 import exception.NegocioException;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +17,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,6 +185,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setText("PRODUCTO");
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 150, 40));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
@@ -202,6 +209,11 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("REGISTRAR");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
         pnlHeader1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 150, 40));
 
         jLabel6.setBackground(new java.awt.Color(0, 0, 0));
@@ -494,6 +506,8 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
             int fila = tablaMesas.getSelectedRow();
             String mesa = String.valueOf(tablaMesas.getValueAt(fila, 0));
             app.setMesa(mesa);
+            app.setClienteSeleccionado(null);
+            app.setProductosTemporales(new ArrayList<>());
             app.reconstruirPantallaComanda();
             app.mostrarPantallaComanda();
 
@@ -503,6 +517,14 @@ public class MenuPrincipalRestaurante extends javax.swing.JPanel {
     private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
         app.mostrarRegistroProducto();
     }//GEN-LAST:event_jLabel14MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        app.mostrarRegistroProducto();
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        app.mostrarRegistroProducto();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -31,6 +31,7 @@ import interfaces.IComandaBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
 import interfaces.IProductoBO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -47,6 +48,7 @@ public class Aplicacion {
     private String mesa;
     private String clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
     private boolean siguienteComanda;
+    private List<ProductoDTO> productosTemporales = new ArrayList<>();
 
     // Ventana principal
     private JFrame framePrincipal;
@@ -215,7 +217,6 @@ public class Aplicacion {
         return productoBO.buscarProductos(filtro);
     }
 
-
     //Comanda
     public ComandaDTO guardarComanda(CrearComandaDTO comandaDTO) throws NegocioException {
         try {
@@ -224,7 +225,7 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
+
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
             if (comandaBO == null) {
@@ -235,7 +236,7 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
+
     public ComandaDTO buscarComandaPorFolio(String folio) throws NegocioException {
         try {
             if (comandaBO == null) {
@@ -246,17 +247,14 @@ public class Aplicacion {
             throw new NegocioException("Error al buscar la comanda por folio: " + ex.getLocalizedMessage());
         }
     }
-    
-    public ComandaDTO actualizarComanda(ComandaDTO comandaActualizar) throws NegocioException{
+
+    public ComandaDTO actualizarComanda(ComandaDTO comandaActualizar) throws NegocioException {
         try {
             return comandaBO.actualizarComanda(comandaActualizar);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-
-
-
 
     /**
      *
@@ -267,7 +265,7 @@ public class Aplicacion {
      * List<ProductoDTO> productos = productoBO.buscarProductos(filtro); if
      * (!productos.isEmpty()) { return productos.get(0); // Si hay más de uno,
      * retornamos el primero } return null; }
-    *
+     *
      */
     // Metodos para realizar cambios de pantalla
     public void mostrarMenuSelector() {
@@ -321,8 +319,8 @@ public class Aplicacion {
     public void mostrarRegistroProducto() {
         cambiarPantalla(producto);
     }
-    
-    public void mostrarBusquedaProducto(){
+
+    public void mostrarBusquedaProducto() {
         cambiarPantalla(productoConsulta);
     }
 
@@ -330,8 +328,8 @@ public class Aplicacion {
         menuMesero = new MenuMesero(this);
 
     }
-    
-    public void reconstruirPantallaComandasActivas(){
+
+    public void reconstruirPantallaComandasActivas() {
         comandasActivas = new PantallaComandasActivas(this);
     }
 
@@ -380,6 +378,22 @@ public class Aplicacion {
 
     public void setSiguienteComanda(boolean siguienteComanda) {
         this.siguienteComanda = siguienteComanda;
+    }
+
+    public List<ProductoDTO> getProductosTemporales() {
+        return productosTemporales;
+    }
+
+    public void setProductosTemporales(List<ProductoDTO> productosTemporales) {
+        this.productosTemporales = productosTemporales;
+    }
+    
+    public void addProductoTemporal(ProductoDTO productoTemporal) {
+        if (productosTemporales == null) {
+            productosTemporales = new ArrayList<>(); // Seguridad extra
+        }
+
+        productosTemporales.add(productoTemporal);
     }
 
 }

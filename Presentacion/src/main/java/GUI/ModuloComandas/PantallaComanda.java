@@ -13,6 +13,8 @@ import Enums.ProductoActivo;
 import Enums.Tipo;
 import GUI.Aplicacion;
 import exception.NegocioException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  *
@@ -38,46 +41,49 @@ public class PantallaComanda extends javax.swing.JPanel {
         initComponents();
         mostrarFecha();
         obtenerMesa();
+        cargarCliente();
+        obtenerProductosTemporales();
 
-        tablaProductosComanda.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int fila = tablaProductosComanda.rowAtPoint(e.getPoint());
-                int columna = tablaProductosComanda.columnAtPoint(e.getPoint());
+        tablaProductosComanda
+                .addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int fila = tablaProductosComanda.rowAtPoint(e.getPoint());
+                        int columna = tablaProductosComanda.columnAtPoint(e.getPoint());
 
-                // comentarios al dar click en la columna 3 q es la de comentarios
-                if (columna == 3) {
-                    String respuesta = JOptionPane.showInputDialog(
-                            null,
-                            "Ingresar comentario"
-                    );
+                        // comentarios al dar click en la columna 3 q es la de comentarios
+                        if (columna == 3) {
+                            String respuesta = JOptionPane.showInputDialog(
+                                    null,
+                                    "Ingresar comentario"
+                            );
 
-                    if (respuesta != null) {
-                        //Aqui es donde tienes que sacar el comentario insertado en el inputDialog y meterselo al producto
-                        // productosComanda.get(fila).setComentario(respuesta); algo asi masomenos(es un ejemplo de como se podria ver nomas)
-                        
+                            if (respuesta != null) {
+                                //Aqui es donde tienes que sacar el comentario insertado en el inputDialog y meterselo al producto
+                                // productosComanda.get(fila).setComentario(respuesta); algo asi masomenos(es un ejemplo de como se podria ver nomas)
+
+                            }
+                        } else {
+                            // cualquier otra columna es para eliminar producto
+                            String nombre = (String) tablaProductosComanda.getValueAt(fila, 0);
+                            String categoria = (String) tablaProductosComanda.getValueAt(fila, 1);
+                            String precio = tablaProductosComanda.getValueAt(fila, 2).toString();
+
+                            int mensajeEliminar = JOptionPane.showConfirmDialog(
+                                    null,
+                                    nombre + " - " + categoria + " - " + precio,
+                                    "¿Desea eliminar este producto?",
+                                    JOptionPane.YES_NO_OPTION
+                            );
+
+                            if (mensajeEliminar == JOptionPane.YES_OPTION) {
+                                //simulacion de eliminar un producto nomas lo quito de la tabla xd
+                                DefaultTableModel modelo = (DefaultTableModel) tablaProductosComanda.getModel();
+                                modelo.removeRow(fila);
+                            }
+                        }
                     }
-                } else {
-                    // cualquier otra columna es para eliminar producto
-                    String nombre = (String) tablaProductosComanda.getValueAt(fila, 0);
-                    String categoria = (String) tablaProductosComanda.getValueAt(fila, 1);
-                    String precio = tablaProductosComanda.getValueAt(fila, 2).toString();
-
-                    int mensajeEliminar = JOptionPane.showConfirmDialog(
-                            null,
-                            nombre + " - " + categoria + " - " + precio,
-                            "¿Desea eliminar este producto?",
-                            JOptionPane.YES_NO_OPTION
-                    );
-
-                    if (mensajeEliminar == JOptionPane.YES_OPTION) {
-                        //simulacion de eliminar un producto nomas lo quito de la tabla xd
-                        DefaultTableModel modelo = (DefaultTableModel) tablaProductosComanda.getModel();
-                        modelo.removeRow(fila);
-                    }
-                }
-            }
-        });
+                });
 
     }
 
@@ -102,8 +108,6 @@ public class PantallaComanda extends javax.swing.JPanel {
         lblHora = new javax.swing.JLabel();
         pnlBtnInsertarMesas3 = new GUI.PanelRound();
         btnInsertarMesas3 = new javax.swing.JLabel();
-        pnlBtnInsertarMesas1 = new GUI.PanelRound();
-        btnComandaCancelada = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         btnAgregarProducto = new javax.swing.JLabel();
@@ -120,14 +124,31 @@ public class PantallaComanda extends javax.swing.JPanel {
         lblIVA = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductosComanda = new javax.swing.JTable();
-        btnBuscarCliente1 = new javax.swing.JLabel();
-        pnlBtnInsertarMesas2 = new GUI.PanelRound();
-        btnComandaEntregada = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         pnlHeader.setBackground(new java.awt.Color(255, 255, 255));
+        pnlHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                pnlHeaderMouseMoved(evt);
+            }
+        });
+        pnlHeader.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pnlHeaderFocusGained(evt);
+            }
+        });
         pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
@@ -224,27 +245,6 @@ public class PantallaComanda extends javax.swing.JPanel {
         pnlHeader.add(pnlBtnInsertarMesas3, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 120, 280, 50));
 
         add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, 180));
-
-        pnlBtnInsertarMesas1.setBackground(new java.awt.Color(214, 14, 14));
-        pnlBtnInsertarMesas1.setRoundBottomLeft(30);
-        pnlBtnInsertarMesas1.setRoundBottomRight(30);
-        pnlBtnInsertarMesas1.setRoundTopLeft(30);
-        pnlBtnInsertarMesas1.setRoundTopRight(30);
-        pnlBtnInsertarMesas1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnComandaCancelada.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
-        btnComandaCancelada.setForeground(new java.awt.Color(255, 255, 255));
-        btnComandaCancelada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnComandaCancelada.setText("CANCELADA");
-        btnComandaCancelada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnComandaCancelada.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnComandaCanceladaMouseClicked(evt);
-            }
-        });
-        pnlBtnInsertarMesas1.add(btnComandaCancelada, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 50));
-
-        add(pnlBtnInsertarMesas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 610, 250, 50));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -345,54 +345,54 @@ public class PantallaComanda extends javax.swing.JPanel {
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblPropina.setBackground(new java.awt.Color(204, 102, 0));
-        lblPropina.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblPropina.setFont(new java.awt.Font("Product Sans Infanity", 1, 24)); // NOI18N
         lblPropina.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPropina.setText("Propina Sugerida(15%):");
+        lblPropina.setText("Propina Sugerida(15%): $0.00");
         lblPropina.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         lblPropina.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblPropinaMouseClicked(evt);
             }
         });
-        panelRound1.add(lblPropina, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 370, 30));
+        panelRound1.add(lblPropina, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 480, 30));
 
         lblSubtotal.setBackground(new java.awt.Color(204, 102, 0));
-        lblSubtotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblSubtotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 24)); // NOI18N
         lblSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblSubtotal.setText("Subtotal:");
+        lblSubtotal.setText("Subtotal: $0.00");
         lblSubtotal.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         lblSubtotal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblSubtotalMouseClicked(evt);
             }
         });
-        panelRound1.add(lblSubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 370, 30));
+        panelRound1.add(lblSubtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 530, 30));
 
         lblTotal.setBackground(new java.awt.Color(204, 102, 0));
-        lblTotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblTotal.setFont(new java.awt.Font("Product Sans Infanity", 1, 24)); // NOI18N
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotal.setText("Total:");
+        lblTotal.setText("Total: $0.00");
         lblTotal.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         lblTotal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblTotalMouseClicked(evt);
             }
         });
-        panelRound1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 370, 20));
+        panelRound1.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 510, 20));
 
         lblIVA.setBackground(new java.awt.Color(204, 102, 0));
-        lblIVA.setFont(new java.awt.Font("Product Sans Infanity", 1, 18)); // NOI18N
+        lblIVA.setFont(new java.awt.Font("Product Sans Infanity", 1, 24)); // NOI18N
         lblIVA.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblIVA.setText("IVA:");
+        lblIVA.setText("IVA: $0.00");
         lblIVA.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
         lblIVA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblIVAMouseClicked(evt);
             }
         });
-        panelRound1.add(lblIVA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 370, 30));
+        panelRound1.add(lblIVA, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 520, 30));
 
-        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 520, 140));
+        add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 510, 590, 140));
 
         tablaProductosComanda.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         tablaProductosComanda.setModel(new javax.swing.table.DefaultTableModel(
@@ -416,40 +416,7 @@ public class PantallaComanda extends javax.swing.JPanel {
         tablaProductosComanda.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tablaProductosComanda);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 780, 310));
-
-        btnBuscarCliente1.setBackground(new java.awt.Color(204, 102, 0));
-        btnBuscarCliente1.setFont(new java.awt.Font("Product Sans Infanity", 0, 28)); // NOI18N
-        btnBuscarCliente1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnBuscarCliente1.setText("MARCAR COMO :");
-        btnBuscarCliente1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBuscarCliente1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarCliente1MouseClicked(evt);
-            }
-        });
-        add(btnBuscarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, -1, 30));
-
-        pnlBtnInsertarMesas2.setBackground(new java.awt.Color(51, 204, 0));
-        pnlBtnInsertarMesas2.setRoundBottomLeft(30);
-        pnlBtnInsertarMesas2.setRoundBottomRight(30);
-        pnlBtnInsertarMesas2.setRoundTopLeft(30);
-        pnlBtnInsertarMesas2.setRoundTopRight(30);
-        pnlBtnInsertarMesas2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnComandaEntregada.setFont(new java.awt.Font("Product Sans Infanity", 0, 18)); // NOI18N
-        btnComandaEntregada.setForeground(new java.awt.Color(255, 255, 255));
-        btnComandaEntregada.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnComandaEntregada.setText("ENTREGADA");
-        btnComandaEntregada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnComandaEntregada.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnComandaEntregadaMouseClicked(evt);
-            }
-        });
-        pnlBtnInsertarMesas2.add(btnComandaEntregada, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 250, 50));
-
-        add(pnlBtnInsertarMesas2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 550, 250, 50));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 780, 310));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
@@ -461,12 +428,11 @@ public class PantallaComanda extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
-    private void btnBuscarCliente1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarCliente1MouseClicked
-
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        app.mostrarMenuPrincipal();
+       
+            app.mostrarMenuPrincipal();
+
+
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnBuscarCliente2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente2MouseClicked
@@ -497,23 +463,6 @@ public class PantallaComanda extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarCliente3MouseClicked
 
-    private void btnComandaCanceladaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComandaCanceladaMouseClicked
-        String mensaje = "<html>"
-                + "<b>¿Desea cancelar la comanda?</b><br>"
-                + "Una vez eliminada la comanda no se podrán revertir los cambios"
-                + "</html>";
-        int mensajeCancelarComanda = JOptionPane.showConfirmDialog(
-                null,
-                mensaje,
-                " ",
-                JOptionPane.YES_NO_OPTION
-        );
-    }//GEN-LAST:event_btnComandaCanceladaMouseClicked
-
-    private void btnComandaEntregadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComandaEntregadaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnComandaEntregadaMouseClicked
-
     private void btnInsertarMesas3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInsertarMesas3MouseClicked
         app.setSiguienteComanda(true);
         app.mostrarPantallaConsultarCliente();
@@ -528,15 +477,28 @@ public class PantallaComanda extends javax.swing.JPanel {
         registrarProducto();
     }//GEN-LAST:event_btnAgregarProductoMouseClicked
 
+    private void pnlHeaderFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pnlHeaderFocusGained
+
+    }//GEN-LAST:event_pnlHeaderFocusGained
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formMouseClicked
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
+
+    private void pnlHeaderMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlHeaderMouseMoved
+
+    }//GEN-LAST:event_pnlHeaderMouseMoved
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAgregarProducto;
     private javax.swing.JLabel btnBuscarCliente;
-    private javax.swing.JLabel btnBuscarCliente1;
     private javax.swing.JLabel btnBuscarCliente2;
     private javax.swing.JLabel btnBuscarCliente3;
-    private javax.swing.JLabel btnComandaCancelada;
-    private javax.swing.JLabel btnComandaEntregada;
     private javax.swing.JLabel btnGuardarComanda;
     private javax.swing.JLabel btnInsertarMesas3;
     private javax.swing.JLabel icnTiempo;
@@ -558,8 +520,6 @@ public class PantallaComanda extends javax.swing.JPanel {
     private GUI.PanelRound pnlBtnGuardarCliente1;
     private GUI.PanelRound pnlBtnGuardarCliente2;
     private GUI.PanelRound pnlBtnInsertarMesas;
-    private GUI.PanelRound pnlBtnInsertarMesas1;
-    private GUI.PanelRound pnlBtnInsertarMesas2;
     private GUI.PanelRound pnlBtnInsertarMesas3;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JTable tablaProductosComanda;
@@ -628,6 +588,9 @@ public class PantallaComanda extends javax.swing.JPanel {
             "Introducir"
         });
 
+        //guardar temporalmente los productos.
+        app.addProductoTemporal(producto1);
+        app.addProductoTemporal(producto2);
         calcularTotal();
     }
 
@@ -650,31 +613,54 @@ public class PantallaComanda extends javax.swing.JPanel {
         // Calcula subtotal, IVA y propina sobre el total acumulado
         double subtotal = total / 1.16;
         double iva = total - subtotal;
-        double propina = total * 1.15;
+        double propina = total * 0.15;
 
         // Muestra los resultados
         lblSubtotal.setText("Subtotal: $" + String.format("%.2f", subtotal));
         lblIVA.setText("IVA: $" + String.format("%.2f", iva));
         lblTotal.setText("Total: $" + String.format("%.2f", total));
-        lblPropina.setText("Propina: $" + String.format("%.2f", propina));
+        lblPropina.setText("Propina Sugerida (15%): $" + String.format("%.2f", propina));
     }
-    
-    public void guardarComanda(){
+
+    public void guardarComanda() {
         CrearComandaDTO comandaDTO = new CrearComandaDTO();
-     
+
         comandaDTO.setEstado(Estado.Abierta);
         comandaDTO.setFechaHora(LocalDateTime.now());
         comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
         comandaDTO.setTotalVenta(200.00);
-        try{
-            app.guardarComanda(comandaDTO);  
+        try {
+            app.guardarComanda(comandaDTO);
             JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
             app.mostrarMenuPrincipal();
-        }catch(NegocioException ex){
+        } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error en la comanda", "Error", JOptionPane.INFORMATION_MESSAGE);
             ex.printStackTrace();
         }
-        
+
     }
 
+    public void obtenerProductosTemporales() {
+        List<ProductoDTO> productosTemporales = app.getProductosTemporales();
+
+        if (productosTemporales == null || productosTemporales.isEmpty()) {
+            return; // Salimos del método
+        }
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+        modeloTabla.setRowCount(0); // Limpia la tabla
+
+        for (ProductoDTO producto : productosTemporales) {
+            modeloTabla.addRow(new Object[]{
+                producto.getNombre(),
+                producto.getTipo().toString(),
+                producto.getPrecio(),
+                "Introducir"
+            });
+        }
+
+        calcularTotal();
+    }
+    
+    
 }

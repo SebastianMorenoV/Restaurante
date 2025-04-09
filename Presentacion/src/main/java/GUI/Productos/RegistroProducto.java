@@ -86,6 +86,7 @@ public class RegistroProducto extends javax.swing.JPanel {
         jLabel1.setText("Registrar un Producto");
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaAtras.png"))); // NOI18N
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
@@ -246,7 +247,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_btnConsulttarActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
+        app.mostrarMenuPrincipal();
     }//GEN-LAST:event_jLabel5MouseClicked
 
 

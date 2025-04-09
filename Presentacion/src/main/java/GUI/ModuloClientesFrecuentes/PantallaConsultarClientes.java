@@ -356,7 +356,16 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_inputApellidoMaternoFocusGained
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        app.mostrarPantallaRegistrarCliente();
+        if (app.isSiguienteComanda()) {
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de salir sin seleccionar cliente?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                app.mostrarPantallaComanda();
+                //probablemente tenga que tener la logica para obtener los productos o detalles comanda.
+            } else {
+            }
+        } else {
+            app.mostrarPantallaRegistrarCliente();
+        }
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void lblFrecuenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblFrecuenteMouseClicked
@@ -383,11 +392,12 @@ public class PantallaConsultarClientes extends javax.swing.JPanel {
 
                 if (respuesta == JOptionPane.YES_OPTION) {
                     app.setClienteSeleccionado("Cliente : " + nombre); // O puedes usar un ID si lo manejas
-                    app.reconstruirPantallaComanda();
+
                     app.setSiguienteComanda(false);
 
                     // talvez aqui tenga que setear ese dato en algun lado , diferente. porque si se reconstruye y no lo muestra
                     // habra problemas.
+                    app.reconstruirPantallaComanda();
                     app.mostrarPantallaComanda();
                 }
             }
