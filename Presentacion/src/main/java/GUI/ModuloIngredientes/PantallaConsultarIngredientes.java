@@ -68,10 +68,11 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                     if (filaSeleccionada != -1) {
                         Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
                         String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
-                        UnidadMedida unidadMedida = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
+                        String valorUnidad = (String) tableIngredientes.getValueAt(filaSeleccionada, 2);
+                        UnidadMedida unidad = UnidadMedida.valueOf(valorUnidad); // 
                         int stock = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
 
-                        IngredienteDTO ingredienteSeleccionado = new IngredienteDTO(id, nombre, stock, unidadMedida);
+                        IngredienteDTO ingredienteSeleccionado = new IngredienteDTO(id, nombre, stock, unidad);
 
                         String mensaje = "<html>"
                                 + "¿Desea seleccionar el ingrediente?<br>"
@@ -90,9 +91,10 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                                     null,
                                     "Ingresa la cantidad requerida: "
                             );
-                            
+
                             int cantidadRequerida = Integer.parseInt(respuesta);
                             //Aqui iria lo de 
+                            app.mostrarBusquedaProducto();
                         }
                     }
                 }
@@ -332,7 +334,6 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
             ex.printStackTrace();
         }
     }
-
 
     private void realizarBusqueda() {
         String nombre = inputNombre.getText().trim();

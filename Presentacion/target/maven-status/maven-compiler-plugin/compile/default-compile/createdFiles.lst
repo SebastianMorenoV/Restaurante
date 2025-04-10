@@ -62,6 +62,7 @@ GUI\MenuPrincipalRestaurante$12.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$6.class
 GUI\MenuPrincipalRestaurante$5.class
 GUI\ModuloComandas\PantallaComanda$18.class
+GUI\Productos\BuscarProducto$6.class
 GUI\MenuPrincipalRestaurante$8.class
 GUI\ModuloComandas\PantallaComanda$3.class
 GUI\PantallaComandasActivas$2.class

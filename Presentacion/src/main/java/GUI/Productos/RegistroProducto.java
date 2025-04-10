@@ -353,7 +353,7 @@ public class RegistroProducto extends javax.swing.JPanel {
 
     public void cargarMeotodosAux() {
         agregarDocumentListener(txtNombre);
-        
+
         seterToolTips();
     }
 
@@ -394,4 +394,29 @@ public class RegistroProducto extends javax.swing.JPanel {
         txtNombre.setText("");
         txtPrecio.setText("");
     }
+
+    public void cargarProductoDesdeConsulta() {
+        List<ProductoDTO> productos = app.getProductosTemporales();
+        if (productos == null || productos.isEmpty()) {
+            return;
+        }
+
+        ProductoDTO producto = productos.get(0);
+        txtNombre.setText(producto.getNombre());
+        txtPrecio.setText(String.valueOf(producto.getPrecio()));
+        comboBox.setSelectedItem(producto.getTipo());
+
+        // Cargar ingredientes en la tabla
+        DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
+        model.setRowCount(0); // Limpiar tabla
+
+        for (IngredientesProductoDTO ingrediente : producto.getIngredienteProducto()) {
+            String nombreIngredienteFalso = "Ingrediente " + ingrediente.getId(); // Nombre simulado
+            model.addRow(new Object[]{
+                nombreIngredienteFalso,
+                ingrediente.getCantidad()
+            });
+        }
+    }
+
 }

@@ -12,10 +12,10 @@ import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
 import DTOSalida.IngredienteDTO;
+import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.IngredientesProducto;
-import Enums.Estado;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import GUI.ModuloClientesFrecuentes.PantallaRegistrarCliente;
 import GUI.ModuloComandas.PantallaComanda;
@@ -35,6 +35,7 @@ import interfaces.IProductoBO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
@@ -282,6 +283,40 @@ public class Aplicacion {
         }
     }
 
+  public ProductoDTO buscarProductoPorNombre(String nombre) throws NegocioException {
+    ProductoDTO dto = productoBO.buscarProductoPorNombre(nombre);
+    if (dto != null) {
+        List<IngredientesProducto> entidades = ingredientesProductoDAO.obtenerPorProductoId(dto.getId());
+
+        List<IngredientesProductoDTO> ingredientesDTO = entidades.stream().map(ent -> {
+            IngredientesProductoDTO dtoIng = new IngredientesProductoDTO();
+            dtoIng.setId(ent.getId());
+            dtoIng.setCantidad(ent.getCantidad());
+
+            // Convertir Ingrediente a IngredienteDTO
+            IngredienteDTO ingDTO = new IngredienteDTO();
+            ingDTO.setId(ent.getIngrediente().getId());
+            ingDTO.setNombre(ent.getIngrediente().getNombre());
+            ingDTO.setUnidadMedida(ent.getIngrediente().getUnidadMedida());
+            dtoIng.setIngrediente(ingDTO);
+
+            // Convertir Producto a ProductoDTO (básico)
+            ProductoDTO prodDTO = new ProductoDTO();
+            prodDTO.setId(ent.getProducto().getId());
+            prodDTO.setNombre(ent.getProducto().getNombre());
+            prodDTO.setPrecio(ent.getProducto().getPrecio());
+            prodDTO.setTipo(ent.getProducto().getTipo());
+            prodDTO.setProductoActivo(ent.getProducto().getProductoActivo());
+            dtoIng.setProducto(prodDTO);
+
+            return dtoIng;
+        }).collect(Collectors.toList());
+
+        dto.setIngredienteProducto(ingredientesDTO);
+    }
+    return dto;
+}
+    
     public void deshabilitarProducto(ProductoDTO producto) throws NegocioException {
         try {
             productoBO.deshabilitarProducto(producto);
@@ -298,17 +333,11 @@ public class Aplicacion {
         }
     }
 
-    /**
-     *
-     * public ProductoDTO buscarProductoPorNombre(String nombreProducto) throws
-     * NegocioException { ProductoDTO filtro = new ProductoDTO();
-     * filtro.setNombre(nombreProducto);
-     *
-     * List<ProductoDTO> productos = productoBO.buscarProductos(filtro); if
-     * (!productos.isEmpty()) { return productos.get(0); // Si hay más de uno,
-     * retornamos el primero } return null; }
-     *
-     */
+    public void mostrarRegistroProductoDesdeConsulta() {
+        producto.cargarProductoDesdeConsulta();
+        mostrarRegistroProducto();
+    }
+
     // Metodos para realizar cambios de pantalla
     public void mostrarMenuSelector() {
         cambiarPantalla(menuSelector);

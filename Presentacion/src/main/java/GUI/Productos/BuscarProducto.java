@@ -10,11 +10,16 @@ import GUI.Aplicacion;
 import exception.NegocioException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -28,6 +33,9 @@ public class BuscarProducto extends javax.swing.JPanel {
 
     private Aplicacion app;
     private DefaultTableModel modeloTabla;
+    private List<ProductoDTO> productos;  // esta es la lista que vas a usar
+    private List<ProductoDTO> productoss = new ArrayList<>();
+
 
     /**
      * Creates new form BuscarProducto
@@ -38,6 +46,7 @@ public class BuscarProducto extends javax.swing.JPanel {
         String[] columnas = {"Producto", "Categoria", "Precio", "Des/Habilitado", "Ingredientes", "id"};
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaProductos.setModel(model);
+        tablaProductos.setDefaultEditor(Object.class, null);
 
         cargarMeotdosAuxiliares();
         setearToolTips();
@@ -48,6 +57,30 @@ public class BuscarProducto extends javax.swing.JPanel {
                 buscarProductoPorTipo();
             }
         });
+
+        tablaProductos.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                tablaProductos.requestFocusInWindow();
+
+                if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
+                    int fila = tablaProductos.getSelectedRow();
+                    if (fila >= 0) {
+                        ProductoDTO productoSeleccionado = productos.get(fila); // Asumiendo que tienes esta lista
+
+                        // Mensaje de prueba
+                        JOptionPane.showMessageDialog(tablaProductos,
+                                "Doble clic detectado en: " + productoSeleccionado.getNombre());
+
+                        List<ProductoDTO> productoList = new ArrayList<>();
+                        productoList.add(productoSeleccionado);
+
+                        app.setProductosTemporales(productoList);
+                        app.mostrarPantallaConsultarIngredientes();
+                    }
+                }
+            }
+        });
+
     }
 
     /**
@@ -292,34 +325,37 @@ public class BuscarProducto extends javax.swing.JPanel {
     }
 
     private void actualizarTabla(List<ProductoDTO> productos) {
+        this.productoss = productos;
         DefaultTableModel model = (DefaultTableModel) tablaProductos.getModel();
         model.setRowCount(0);
 
         if (productos == null || productos.isEmpty()) {
             model.addRow(new Object[]{"  NO SE ", " ENCONTRARON ", " DATOS PARA ESTA ", " BUSQUEDA "});
         } else {
-            //llenar la tabla
             for (ProductoDTO producto : productos) {
+                // Convertir los IDs de ingredientes a nombres simulados
+                String ingredientesStr = producto.getIngredienteProducto().stream()
+                        .map(i -> "Ingrediente " + i.getId())
+                        .collect(Collectors.joining(", "));
+
                 model.addRow(new Object[]{
                     producto.getNombre(),
                     producto.getTipo(),
                     producto.getPrecio(),
                     producto.getProductoActivo(),
-                    producto.getIngredienteProducto(),
+                    ingredientesStr,
                     producto.getId()
                 });
             }
         }
 
-        // Asegúrate de que el índice de la columna sea correcto
+        // Ocultar la columna de ID
         int numColumnas = tablaProductos.getColumnCount();
         if (numColumnas > 5) {
-            // Solo intentamos ocultar la columna si el índice es válido
-            tablaProductos.getColumnModel().getColumn(5).setMinWidth(0);  // Hacer la columna invisible
-            tablaProductos.getColumnModel().getColumn(5).setMaxWidth(0);  // Hacer la columna invisible
-            tablaProductos.getColumnModel().getColumn(5).setWidth(0);      // Hacer la columna invisible
+            tablaProductos.getColumnModel().getColumn(5).setMinWidth(0);
+            tablaProductos.getColumnModel().getColumn(5).setMaxWidth(0);
+            tablaProductos.getColumnModel().getColumn(5).setWidth(0);
         }
-
     }
 
     private void limpiarCampos() {
