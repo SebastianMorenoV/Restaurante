@@ -85,13 +85,12 @@ public class ComandaBO implements IComandaBO {
             // Obtener los productos y detalles de la comanda
             List<ProductoDTO> productosDTO = comandaDTO.getProductosComanda();
             List<DetallesComandaDTO> detallesComandaDTO = comandaDTO.getDetallesComanda();
-            System.out.println("PRODUCTOS : " + productosDTO);
-            System.out.println("DETALLES :" + detallesComandaDTO);
+
 
             for (int i = 0; i < productosDTO.size(); i++) {
                 ProductoDTO productoDTO = productosDTO.get(i);  // Obtener el ProductoDTO actual
                 Producto productoConsultado = productoDAO.buscarProductoPorNombre(productoDTO.getNombre());
-                System.out.println("Producto " + productoConsultado);
+
 
                 DetallesComandaDTO detalleComandaDTO = detallesComandaDTO.get(i);
                 // Convertir DetallesComandaDTO a entidad DetallesComanda
@@ -235,11 +234,14 @@ public class ComandaBO implements IComandaBO {
             filtro.setFechaFin(fechaFin);
 
             List<Comanda> comandas = comandaDAO.buscarComandas(filtro);
-            System.out.println(comandas);
             List<ComandaDTO> comandasDTO = new ArrayList<>();
-
+            String nombreCliente;
             for (Comanda comanda : comandas) {
-                String nombreCliente = comanda.getCliente().getNombre() + " " + comanda.getCliente().getApellidoPaterno() + " " + comanda.getCliente().getApellidoMaterno();
+                if (comanda.getCliente() == null||comanda.getCliente().getNombre()==null) {
+                nombreCliente = "N/A";
+                }else{
+                    nombreCliente = comanda.getCliente().getNombre() + " " + comanda.getCliente().getApellidoPaterno() + " " + comanda.getCliente().getApellidoMaterno();
+                }
                 ClienteDTO cliente = new ClienteDTO();
                 cliente.setNombreCompleto(nombreCliente);
                 comandasDTO.add(new ComandaDTO(

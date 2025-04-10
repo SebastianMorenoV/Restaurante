@@ -31,6 +31,9 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
         this.app = app;
         initComponents();
         configurarCalendarios();
+        ajustarTamañoColumnasPreferidos();
+        
+        
     }
 
     /**
@@ -109,13 +112,26 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nombre", "Estado", "Monto Venta", "No.Mesa", "Detalle", "Fecja de Atencion"
+                "Nombre", "Estado", "Monto Venta", "No.Mesa", "Detalle", "Fecha de Atencion"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tablaReporteComandas.setRowHeight(30);
+        tablaReporteComandas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaReporteComandasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaReporteComandas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 750, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, 800, 310));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel5.setText("Fecha limite:");
@@ -161,8 +177,22 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnImprimirReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimirReporteMouseClicked
-        
+
     }//GEN-LAST:event_btnImprimirReporteMouseClicked
+
+    private void tablaReporteComandasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaReporteComandasMouseClicked
+        if (evt.getClickCount() == 2) {
+            int row = tablaReporteComandas.getSelectedRow();
+            int column = tablaReporteComandas.getSelectedColumn();
+
+            // Solo si se hace doble clic en la columna 4 (índice 4)
+            if (column == 4 && row != -1) {
+                Object detalle = tablaReporteComandas.getValueAt(row, column);
+                String mensaje = (detalle != null && !detalle.toString().isBlank()) ? detalle.toString() : "Sin detalles";//muestra los detalles de la comanda
+                JOptionPane.showMessageDialog(this, mensaje, "Detalle de la Comanda", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_tablaReporteComandasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -210,12 +240,12 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al buscar comandas: " + ex.getMessage());
         }
     }
-    
+
     private void configurarCalendarios() {
         calendario1.addPropertyChangeListener(evt -> realizarBusqueda());
         calendario2.addPropertyChangeListener(evt -> realizarBusqueda());
     }
-    
+
     private void llenarTablaComandas(List<ComandaDTO> comandas) throws NegocioException {
         DefaultTableModel model = (DefaultTableModel) tablaReporteComandas.getModel();
         model.setRowCount(0); // Limpiar
@@ -224,22 +254,31 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
 
         for (ComandaDTO comanda : comandas) {
             String detalle = app.obtenerDetallesComandaPorFolio(comanda.getFolio());
-            //String nombreCliente = (comanda.getIdCliente() != null) ? comanda.getIdCliente().getNombre() : "Cliente no asignado";
-            //System.out.println("Detalle para la comanda " + comanda.getFolio() + ": " + detalle);
-            String nombreCliente = comanda.getCliente().getNombreCompleto();
+            String nombreCliente;
+            if (comanda.getCliente() == null||comanda.getCliente().getNombreCompleto()==null) {
+                nombreCliente = "N/A";
+            }else{
+                nombreCliente = comanda.getCliente().getNombreCompleto();
+            }
 
             model.addRow(new Object[]{
-                nombreCliente, // como saco el piunche cliente alv
+                nombreCliente,
                 comanda.getEstado(),
                 comanda.getTotalVenta(),
                 comanda.getNumeroMesa(),
                 detalle,//Aqui es el comentario de los detalles comanda
-                comanda.getFechaHora()
+                formatter.format(comanda.getFechaHora())
             });
         }
     }
-
-
+    
+    public void ajustarTamañoColumnasPreferidos() {
+        tablaReporteComandas.getColumnModel().getColumn(0).setPreferredWidth(150);  
+        tablaReporteComandas.getColumnModel().getColumn(1).setPreferredWidth(80); 
+        tablaReporteComandas.getColumnModel().getColumn(2).setPreferredWidth(60);  
+        tablaReporteComandas.getColumnModel().getColumn(3).setPreferredWidth(20);  
+        tablaReporteComandas.getColumnModel().getColumn(4).setPreferredWidth(80);  
+        tablaReporteComandas.getColumnModel().getColumn(5).setPreferredWidth(160); 
+    }
 
 }
-
