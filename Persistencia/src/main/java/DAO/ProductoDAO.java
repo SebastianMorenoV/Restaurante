@@ -5,6 +5,7 @@
 package DAO;
 
 import DTOSalida.ProductoDTO;
+import Entidades.IngredientesProducto;
 import interfaces.IProductoDAO;
 import Entidades.Producto;
 import Enums.ProductoActivo;
@@ -179,6 +180,20 @@ public class ProductoDAO implements IProductoDAO {
             return null;
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar producto por nombre", e);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<IngredientesProducto> obtenerIngredientesPorProducto(Long idProducto) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            return em.createQuery("SELECT ip FROM IngredientesProducto ip WHERE ip.producto.id = :id", IngredientesProducto.class)
+                    .setParameter("id", idProducto)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al obtener ingredientes del producto", e);
         } finally {
             em.close();
         }

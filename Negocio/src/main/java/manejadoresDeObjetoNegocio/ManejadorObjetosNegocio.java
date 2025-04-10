@@ -64,7 +64,7 @@ public class ManejadorObjetosNegocio {
      public static IProductoBO crearProductosBO(){
          IProductoDAO productoDAO = ProductoDAO.getInstanceDAO();
          IProductoBO productoBO = new ProductoBO(productoDAO);
-         
+         //agregar ingredientesProducto
          return productoBO;
      }
      

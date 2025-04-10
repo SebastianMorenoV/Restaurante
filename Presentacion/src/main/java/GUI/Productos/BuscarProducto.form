@@ -22,7 +22,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -44,12 +44,12 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnSeleccionar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="btnCancelar" min="-2" pref="157" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Component id="btnEliminarProducto" min="-2" pref="172" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+              <Component id="btnHabilitar" min="-2" pref="150" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,21 +61,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="341" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace pref="6" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnCancelar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="btnSeleccionar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="btnEliminarProducto" min="-2" pref="36" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnEliminarProducto" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="btnCancelar" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="btnHabilitar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="29" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -172,11 +164,10 @@
     <Component class="javax.swing.JComboBox" name="comboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="3">
+            <StringItem index="0" value="PLATILLO"/>
+            <StringItem index="1" value="BEBIDA"/>
+            <StringItem index="2" value="POSTRE"/>
           </StringArray>
         </Property>
       </Properties>
@@ -222,13 +213,11 @@
     </Component>
     <Component class="javax.swing.JToggleButton" name="btnEliminarProducto">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Eliminar Producto"/>
+        <Property name="text" type="java.lang.String" value="Deshabilitar Producto"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnSeleccionar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Seleccionar Producto"/>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarProductoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -239,6 +228,14 @@
           <Image iconType="3" name="/caja.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnHabilitar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Habilitar Producto"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHabilitarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

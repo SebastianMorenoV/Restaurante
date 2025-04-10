@@ -18,6 +18,7 @@ GUI\Productos\RegistroProducto$2.class
 GUI\ModuloReportes\PantallaReporteClientes.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$16.class
 GUI\Productos\BuscarProducto$2.class
+GUI\Productos\BuscarProducto$5.class
 GUI\MenuPrincipalRestaurante$9.class
 GUI\ModuloComandas\PantallaComanda$2.class
 GUI\MenuPrincipalRestaurante$16.class
@@ -32,7 +33,9 @@ GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$3.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$4.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$4.class
 GUI\MenuPrincipalRestaurante$14.class
+GUI\ModuloComandas\PruebaHacerComanda.class
 GUI\MenuSelector$3.class
+GUI\Productos\BuscarProducto$4.class
 GUI\MenuPrincipalRestaurante$6.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$8.class
 GUI\ModuloIngredientes\PruebaFormularioIngrediente.class
@@ -46,6 +49,7 @@ GUI\ModuloReportes\PantallaReporteClientes$5.class
 GUI\Productos\RegistroProducto$4.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$5.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$3.class
+GUI\Productos\BuscarProducto$3.class
 GUI\MenuSelector$2.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$1.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$14.class
@@ -57,6 +61,7 @@ GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$8.class
 GUI\MenuPrincipalRestaurante$12.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$6.class
 GUI\MenuPrincipalRestaurante$5.class
+GUI\ModuloComandas\PantallaComanda$18.class
 GUI\MenuPrincipalRestaurante$8.class
 GUI\ModuloComandas\PantallaComanda$3.class
 GUI\PantallaComandasActivas$2.class
@@ -113,6 +118,7 @@ GUI\ModuloReportes\PantallaReporteComandas$1.class
 GUI\Productos\BuscarProducto.class
 GUI\ModuloReportes\PantallaReporteClientes$2.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$7.class
+GUI\ModuloComandas\PantallaComanda$17.class
 GUI\MenuPrincipalRestaurante$18.class
 GUI\ModuloReportes\MenuReportes$3.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente.class
@@ -126,4 +132,5 @@ GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$6.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$8.class
 reportes\ReporteService.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$11.class
+GUI\Productos\PruebaProducto.class
 GUI\MenuPrincipalRestaurante$11.class

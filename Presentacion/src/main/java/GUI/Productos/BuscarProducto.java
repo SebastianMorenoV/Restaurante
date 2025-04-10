@@ -8,9 +8,12 @@ import DTOSalida.ProductoDTO;
 import Enums.Tipo;
 import GUI.Aplicacion;
 import exception.NegocioException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
 import javax.swing.event.DocumentEvent;
@@ -32,12 +35,19 @@ public class BuscarProducto extends javax.swing.JPanel {
     public BuscarProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        String[] columnas = {"Producto", "Categoria", "Precio", "Ingredientes"};
+        String[] columnas = {"Producto", "Categoria", "Precio", "Des/Habilitado", "Ingredientes", "id"};
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaProductos.setModel(model);
 
         cargarMeotdosAuxiliares();
         setearToolTips();
+
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarProductoPorTipo();
+            }
+        });
     }
 
     /**
@@ -61,8 +71,8 @@ public class BuscarProducto extends javax.swing.JPanel {
         tablaProductos = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnEliminarProducto = new javax.swing.JToggleButton();
-        btnSeleccionar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        btnHabilitar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(216, 202, 179));
 
@@ -110,7 +120,7 @@ public class BuscarProducto extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel2.setText("Buscar Categoria:");
 
-        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLATILLO", "BEBIDA", "POSTRE" }));
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         jLabel3.setText("Nombre:");
@@ -130,12 +140,22 @@ public class BuscarProducto extends javax.swing.JPanel {
 
         btnCancelar.setText("Cancelar");
 
-        btnEliminarProducto.setText("Eliminar Producto");
-
-        btnSeleccionar.setText("Seleccionar Producto");
+        btnEliminarProducto.setText("Deshabilitar Producto");
+        btnEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProductoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/caja.png"))); // NOI18N
+
+        btnHabilitar.setText("Habilitar Producto");
+        btnHabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHabilitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -159,12 +179,12 @@ public class BuscarProducto extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSeleccionar)
-                .addGap(48, 48, 48)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(50, 50, 50)
                 .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addGap(42, 42, 42)
+                .addComponent(btnHabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,18 +194,12 @@ public class BuscarProducto extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(26, 26, 26))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(29, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jLabel2)
@@ -205,11 +219,19 @@ public class BuscarProducto extends javax.swing.JPanel {
         app.mostrarRegistroProducto();
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    private void btnEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductoActionPerformed
+        deshabilitarProducto();
+    }//GEN-LAST:event_btnEliminarProductoActionPerformed
+
+    private void btnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabilitarActionPerformed
+        habilitarProducto();
+    }//GEN-LAST:event_btnHabilitarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JToggleButton btnEliminarProducto;
-    private javax.swing.JButton btnSeleccionar;
+    private javax.swing.JButton btnHabilitar;
     private javax.swing.JComboBox<String> comboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -282,9 +304,20 @@ public class BuscarProducto extends javax.swing.JPanel {
                     producto.getNombre(),
                     producto.getTipo(),
                     producto.getPrecio(),
-                    producto.getIngredienteProducto()
+                    producto.getProductoActivo(),
+                    producto.getIngredienteProducto(),
+                    producto.getId()
                 });
             }
+        }
+
+        // Asegúrate de que el índice de la columna sea correcto
+        int numColumnas = tablaProductos.getColumnCount();
+        if (numColumnas > 5) {
+            // Solo intentamos ocultar la columna si el índice es válido
+            tablaProductos.getColumnModel().getColumn(5).setMinWidth(0);  // Hacer la columna invisible
+            tablaProductos.getColumnModel().getColumn(5).setMaxWidth(0);  // Hacer la columna invisible
+            tablaProductos.getColumnModel().getColumn(5).setWidth(0);      // Hacer la columna invisible
         }
 
     }
@@ -306,4 +339,94 @@ public class BuscarProducto extends javax.swing.JPanel {
 
         setearToolTips();
     }
+
+    private void buscarProductoPorTipo() {
+        try {
+            String categoriaStr = (String) comboBox.getSelectedItem();
+            Tipo categoria = Tipo.valueOf(categoriaStr);
+
+            ProductoDTO filtro = new ProductoDTO();
+            filtro.setTipo(categoria);
+
+            List<ProductoDTO> productos = app.buscarProductos(filtro);
+            actualizarTabla(productos);
+        } catch (NegocioException e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar productos: " + e.getMessage());
+        }
+    }
+
+    private void deshabilitarProducto() {
+        int filaSeleccionada = tablaProductos.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(BuscarProducto.this, "Por favor, selecciona un producto de la tabla.");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                BuscarProducto.this,
+                "¿Estás seguro de que deseas deshabilitar este producto?",
+                "Confirmar deshabilitación",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                // Obtener el ID desde la columna oculta (columna 5)
+                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 5).toString());
+
+                ProductoDTO productoDTO = new ProductoDTO();
+                productoDTO.setId(idProducto);
+
+                app.deshabilitarProducto(productoDTO);
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Producto deshabilitado exitosamente.");
+
+                // Refrescar la tabla
+                realizarBusqueda();
+
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Error al deshabilitar producto: " + ex.getMessage());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Error inesperado: " + ex.getMessage());
+            }
+        }
+
+    }
+
+    private void habilitarProducto() {
+        int filaSeleccionada = tablaProductos.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(BuscarProducto.this, "Por favor, selecciona un producto de la tabla.");
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(
+                BuscarProducto.this,
+                "¿Estás seguro de que deseas Habilitar este producto?",
+                "Confirmar Habilitacion",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                // Obtener el ID desde la columna oculta (columna 5)
+                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 5).toString());
+
+                ProductoDTO productoDTO = new ProductoDTO();
+                productoDTO.setId(idProducto);
+
+                app.habilitarProducto(productoDTO);
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Producto habilitado exitosamente.");
+
+                // Refrescar la tabla
+                realizarBusqueda();
+
+            } catch (NegocioException ex) {
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Error al habilitar producto: " + ex.getMessage());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(BuscarProducto.this, "Error inesperado: " + ex.getMessage());
+            }
+        }
+
+    }
+
 }

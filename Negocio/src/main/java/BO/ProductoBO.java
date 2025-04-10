@@ -227,20 +227,74 @@ public class ProductoBO implements IProductoBO {
     public ProductoDTO buscarProductoPorNombre(String nombre) throws NegocioException {
         try {
             Producto producto = productoDAO.buscarProductoPorNombre(nombre);
-
             if (producto == null) {
                 return null;
             }
 
-            return new ProductoDTO(
-                    producto.getId(),
-                    producto.getNombre(),
-                    producto.getPrecio(),
-                    producto.getTipo(),
-                    producto.getProductoActivo()
-            );
-        } catch (PersistenciaException ex) {
-            throw new NegocioException("Error al buscar el producto por nombre", ex);
+            ProductoDTO dto = new ProductoDTO();
+            dto.setId(producto.getId());
+            dto.setNombre(producto.getNombre());
+            dto.setPrecio(producto.getPrecio());
+            dto.setTipo(producto.getTipo());
+            dto.setProductoActivo(producto.getProductoActivo());
+
+            // AQUÍ DEBES CARGAR LOS INGREDIENTES
+            List<IngredientesProducto> ingredientes = ingredientesProductoDAO.obtenerPorProductoId(producto.getId());
+            List<IngredientesProductoDTO> ingredientesDTO = new ArrayList<>();
+
+            for (IngredientesProducto ip : ingredientes) {
+                Ingrediente i = ip.getIngrediente();
+
+                IngredienteDTO iDTO = new IngredienteDTO();
+                iDTO.setId(i.getId());
+                iDTO.setNombre(i.getNombre());
+                iDTO.setUnidadMedida(i.getUnidadMedida());
+                iDTO.setStock(i.getStock());
+
+                IngredientesProductoDTO ipDTO = new IngredientesProductoDTO();
+                ipDTO.setId(ip.getId());
+                ipDTO.setCantidad(ip.getCantidad());
+                ipDTO.setIngrediente(iDTO);
+
+                ingredientesDTO.add(ipDTO);
+            }
+
+            dto.setIngredienteProducto(ingredientesDTO); // ️ esto es clave
+            return dto;
+
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al buscar producto por nombre", e);
+        }
+    }
+
+    public void deshabilitarProducto(ProductoDTO productoDTO) throws NegocioException {
+        try {
+            Producto producto = productoDAO.obtenerProductoPorId(productoDTO.getId());
+
+            if (producto == null) {
+                throw new NegocioException("Producto no encontrado.");
+            }
+
+            producto.setProductoActivo(ProductoActivo.Deshabilitado);
+            productoDAO.actualizarProducto(producto); // Usa merge aquí
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al deshabilitar producto", e);
+        }
+    }
+
+    @Override
+    public void habilitarProducto(ProductoDTO productoDTO) throws NegocioException {
+      try {
+            Producto producto = productoDAO.obtenerProductoPorId(productoDTO.getId());
+
+            if (producto == null) {
+                throw new NegocioException("Producto no encontrado.");
+            }
+
+            producto.setProductoActivo(ProductoActivo.Habilitado);
+            productoDAO.actualizarProducto(producto); // Usa merge aquí
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al habilitar producto", e);
         }
     }
 

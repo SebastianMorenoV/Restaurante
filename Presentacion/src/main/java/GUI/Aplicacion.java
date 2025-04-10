@@ -249,7 +249,7 @@ public class Aplicacion {
             throw new NegocioException("Error al buscar la comanda por folio: " + ex.getLocalizedMessage());
         }
     }
-    
+
     public List<ComandaDTO> buscarComandas(FiltroComandaDTO filtro) throws NegocioException {
         try {
             return comandaBO.buscarComandas(filtro);
@@ -273,10 +273,26 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
+
     public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException {
         try {
             return comandaBO.obtenerDetallesComandaPorFolio(folio);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+    public void deshabilitarProducto(ProductoDTO producto) throws NegocioException {
+        try {
+            productoBO.deshabilitarProducto(producto);
+        } catch (NegocioException e) {
+            throw new NegocioException(e.getLocalizedMessage());
+        }
+    }
+
+    public void habilitarProducto(ProductoDTO producto) throws NegocioException {
+        try {
+            productoBO.habilitarProducto(producto);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
@@ -413,7 +429,7 @@ public class Aplicacion {
     public void setProductosTemporales(List<ProductoDTO> productosTemporales) {
         this.productosTemporales = productosTemporales;
     }
-    
+
     public void addProductoTemporal(ProductoDTO productoTemporal) {
         if (productosTemporales == null) {
             productosTemporales = new ArrayList<>(); // Seguridad extra
