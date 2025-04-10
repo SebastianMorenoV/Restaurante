@@ -4,7 +4,17 @@
  */
 package GUI.ModuloReportes;
 
+import DTOSalida.ComandaDTO;
 import GUI.Aplicacion;
+import exception.NegocioException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +30,7 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
     public PantallaReporteComandas(Aplicacion app) {
         this.app = app;
         initComponents();
+        configurarCalendarios();
     }
 
     /**
@@ -43,8 +54,8 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         pnlBtnImprimirReporte = new GUI.PanelRound();
         btnImprimirReporte = new javax.swing.JLabel();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
-        jCalendar2 = new com.toedter.calendar.JCalendar();
+        calendario2 = new com.toedter.calendar.JCalendar();
+        calendario1 = new com.toedter.calendar.JCalendar();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -92,9 +103,7 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
 
         add(linea, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1150, 4));
 
-        tablaReporteComandas.setBackground(new java.awt.Color(255, 255, 255));
         tablaReporteComandas.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        tablaReporteComandas.setForeground(new java.awt.Color(0, 0, 0));
         tablaReporteComandas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -106,7 +115,7 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
         tablaReporteComandas.setRowHeight(30);
         jScrollPane1.setViewportView(tablaReporteComandas);
 
-        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 690, 310));
+        add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 750, 310));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         jLabel5.setText("Fecha limite:");
@@ -140,11 +149,11 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
 
         add(pnlBtnImprimirReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 580, 320, 50));
 
-        jCalendar1.setBackground(new java.awt.Color(216, 202, 179));
-        add(jCalendar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 280, 180));
+        calendario2.setBackground(new java.awt.Color(216, 202, 179));
+        add(calendario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 280, 180));
 
-        jCalendar2.setBackground(new java.awt.Color(216, 202, 179));
-        add(jCalendar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 180));
+        calendario1.setBackground(new java.awt.Color(216, 202, 179));
+        add(calendario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 280, 180));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
@@ -158,8 +167,8 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnImprimirReporte;
-    private com.toedter.calendar.JCalendar jCalendar1;
-    private com.toedter.calendar.JCalendar jCalendar2;
+    private com.toedter.calendar.JCalendar calendario1;
+    private com.toedter.calendar.JCalendar calendario2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -172,4 +181,65 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
     private javax.swing.JLabel txtTitulo;
     private javax.swing.JLabel txtTitulo1;
     // End of variables declaration//GEN-END:variables
+
+    private void realizarBusqueda() {
+        Date fechaInicioDate = calendario1.getDate();
+        Date fechaFinDate = calendario2.getDate();
+
+        if (fechaInicioDate == null || fechaFinDate == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona ambas fechas para realizar la búsqueda.");
+            return;
+        }
+
+        // Convertir Date a LocalDateTime
+        LocalDateTime fechaInicio = fechaInicioDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .atStartOfDay();
+
+        LocalDateTime fechaFin = fechaFinDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .atTime(LocalTime.MAX); // hasta las 23:59:59
+
+        try {
+            List<ComandaDTO> comandas = app.buscarComandasPorFechas(fechaInicio, fechaFin);
+            llenarTablaComandas(comandas);
+        } catch (NegocioException ex) {
+            //Logger.getLogger(PantallaConsultarComandas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al buscar comandas: " + ex.getMessage());
+        }
+    }
+    
+    private void configurarCalendarios() {
+        calendario1.addPropertyChangeListener(evt -> realizarBusqueda());
+        calendario2.addPropertyChangeListener(evt -> realizarBusqueda());
+    }
+    
+    private void llenarTablaComandas(List<ComandaDTO> comandas) throws NegocioException {
+        DefaultTableModel model = (DefaultTableModel) tablaReporteComandas.getModel();
+        model.setRowCount(0); // Limpiar
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        for (ComandaDTO comanda : comandas) {
+            String detalle = app.obtenerDetallesComandaPorFolio(comanda.getFolio());
+            //String nombreCliente = (comanda.getIdCliente() != null) ? comanda.getIdCliente().getNombre() : "Cliente no asignado";
+            //System.out.println("Detalle para la comanda " + comanda.getFolio() + ": " + detalle);
+            String nombreCliente = comanda.getCliente().getNombreCompleto();
+
+            model.addRow(new Object[]{
+                nombreCliente, // como saco el piunche cliente alv
+                comanda.getEstado(),
+                comanda.getTotalVenta(),
+                comanda.getNumeroMesa(),
+                detalle,//Aqui es el comentario de los detalles comanda
+                comanda.getFechaHora()
+            });
+        }
+    }
+
+
+
 }
+

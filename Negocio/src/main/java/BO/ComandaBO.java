@@ -5,8 +5,10 @@
 package BO;
 
 import DTOEntrada.CrearComandaDTO;
+import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.DetallesComandaDTO;
+import DTOSalida.FiltroComandaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.Cliente;
 import Entidades.Comanda;
@@ -202,6 +204,60 @@ public class ComandaBO implements IComandaBO {
             throw new NegocioException("Error al buscar la comanda por folio: " + e.getMessage(), e);
         }
     }
+    
+    @Override
+    public List<ComandaDTO> buscarComandas(FiltroComandaDTO filtro) throws NegocioException {
+        try {
+            List<Comanda> comandas = comandaDAO.buscarComandas(filtro);
+            List<ComandaDTO> comandasDTO = new ArrayList<>();
+
+            for (Comanda comanda : comandas) {
+                comandasDTO.add(new ComandaDTO(
+                        comanda.getFolio(),
+                        comanda.getFechaHora(),
+                        comanda.getMesa().getNumMesa(),
+                        comanda.getEstado(),
+                        comanda.getTotalVenta()
+                ));
+            }
+
+            return comandasDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al buscar comandas: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<ComandaDTO> buscarComandasPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws NegocioException {
+        try {
+            FiltroComandaDTO filtro = new FiltroComandaDTO();
+            filtro.setFechaInicio(fechaInicio);
+            filtro.setFechaFin(fechaFin);
+
+            List<Comanda> comandas = comandaDAO.buscarComandas(filtro);
+            System.out.println(comandas);
+            List<ComandaDTO> comandasDTO = new ArrayList<>();
+
+            for (Comanda comanda : comandas) {
+                String nombreCliente = comanda.getCliente().getNombre() + " " + comanda.getCliente().getApellidoPaterno() + " " + comanda.getCliente().getApellidoMaterno();
+                ClienteDTO cliente = new ClienteDTO();
+                cliente.setNombreCompleto(nombreCliente);
+                comandasDTO.add(new ComandaDTO(
+                        comanda.getFolio(),
+                        comanda.getFechaHora(),
+                        comanda.getMesa().getNumMesa(),
+                        comanda.getEstado(),
+                        comanda.getTotalVenta(),
+                        cliente
+                ));
+            }
+
+            return comandasDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al buscar comandas por fechas: " + e.getMessage(), e);
+        }
+    }
+    
 
     //Auxiliares
     private double calcularTotal(List<DetallesComanda> detalles) {
@@ -227,6 +283,28 @@ public class ComandaBO implements IComandaBO {
         // Ejemplo simplificado:
         int ultimoNumero = comandaDAO.obtenerUltimoConsecutivo(); // Recuperar el último número usado
         return ultimoNumero + 1;
+    }
+    
+    
+    @Override
+    public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException {
+        if (folio == null || folio.trim().isEmpty()) {
+            throw new NegocioException("El folio es obligatorio para obtener los detalles de la comanda.");
+        }
+
+        try {
+            // Buscar la comanda por el folio
+            Comanda comanda = comandaDAO.buscarComandaPorFolio(folio);
+            if (comanda == null) {
+                throw new NegocioException("No se encontró una comanda con el folio proporcionado.");
+            }
+
+            // Obtener los detalles de la comanda
+            return comandaDAO.obtenerDetallesComanda(comanda);  // Llamada al DAO para obtener los comentarios
+
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener los detalles de la comanda: " + e.getMessage(), e);
+        }
     }
 
 }

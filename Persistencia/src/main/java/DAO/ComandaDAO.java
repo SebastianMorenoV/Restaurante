@@ -4,13 +4,17 @@
  */
 package DAO;
 
+import DTOSalida.FiltroComandaDTO;
 import interfaces.IComandaDAO;
 import Entidades.Comanda;
+import Entidades.DetallesComanda;
 import Enums.Estado;
 import conexion.Conexion;
 import exception.PersistenciaException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -136,6 +140,86 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
+    
+    @Override
+    public List<Comanda> buscarComandas(FiltroComandaDTO filtro) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        List<Comanda> comandas = new ArrayList<>();
+
+        try {
+            em.getTransaction().begin();
+            em.flush();
+
+            StringBuilder jpql = new StringBuilder("SELECT c FROM Comanda c LEFT JOIN FETCH c.cliente WHERE 1=1");
+
+
+            if (filtro.getFolio() != null && !filtro.getFolio().trim().isEmpty()) {
+                jpql.append(" AND LOWER(c.folio) LIKE :folio");
+            }
+
+            if (filtro.getEstado() != null) {
+                jpql.append(" AND c.estado = :estado");
+            }
+
+            if (filtro.getFechaInicio() != null) {
+                jpql.append(" AND c.fechaHora >= :fechaInicio");
+            }
+
+            if (filtro.getFechaFin() != null) {
+                jpql.append(" AND c.fechaHora <= :fechaFin");
+            }
+
+            TypedQuery<Comanda> query = em.createQuery(jpql.toString(), Comanda.class)
+                    .setHint("javax.persistence.cache.storeMode", "REFRESH");
+
+            if (filtro.getFolio() != null && !filtro.getFolio().trim().isEmpty()) {
+                query.setParameter("folio", "%" + filtro.getFolio().toLowerCase() + "%");
+            }
+
+            if (filtro.getEstado() != null) {
+                query.setParameter("estado", filtro.getEstado());
+            }
+
+            if (filtro.getFechaInicio() != null) {
+                query.setParameter("fechaInicio", filtro.getFechaInicio());
+            }
+
+            if (filtro.getFechaFin() != null) {
+                query.setParameter("fechaFin", filtro.getFechaFin());
+            }
+
+            comandas = query.getResultList();
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al buscar comandas: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+
+        return comandas;
+    }
+    
+    @Override
+    public String obtenerDetallesComanda(Comanda comanda) {
+        StringBuilder detalles = new StringBuilder();
+
+        // Verificar si la comanda tiene detalles
+        if (comanda != null && comanda.getDetallesComanda() != null) {
+            for (DetallesComanda detalle : comanda.getDetallesComanda()) {
+                detalles.append(detalle.getComentarios()).append(" ");  // Asumiendo que DetallesComanda tiene un método getComentarios()
+            }
+        }
+
+        return detalles.toString().trim();  // Trim para eliminar cualquier espacio extra al final
+    }
+
+
+
+
     
     
 

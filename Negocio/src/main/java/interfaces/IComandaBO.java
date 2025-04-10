@@ -6,8 +6,11 @@ package interfaces;
 
 import DTOEntrada.CrearComandaDTO;
 import DTOSalida.ComandaDTO;
+import DTOSalida.FiltroComandaDTO;
+import Entidades.DetallesComanda;
 import Enums.Estado;
 import exception.NegocioException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -22,5 +25,12 @@ public interface IComandaBO {
     public ComandaDTO actualizarComanda(ComandaDTO comandaDTO) throws NegocioException ;
     
     public ComandaDTO buscarComandaPorFolio(String folio) throws NegocioException;
+    
+    public List<ComandaDTO> buscarComandas(FiltroComandaDTO filtro) throws NegocioException;
+    
+    public List<ComandaDTO> buscarComandasPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws NegocioException;
+    
+    public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException;
+
     
 }

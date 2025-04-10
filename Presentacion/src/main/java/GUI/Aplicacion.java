@@ -10,6 +10,7 @@ import DTOEntrada.CrearComandaDTO;
 import DTOEntrada.CrearIngredienteDTO;
 import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
+import DTOSalida.FiltroComandaDTO;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
@@ -31,6 +32,7 @@ import interfaces.IComandaBO;
 import interfaces.IIngredienteBO;
 import interfaces.IMesaBO;
 import interfaces.IProductoBO;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -247,10 +249,34 @@ public class Aplicacion {
             throw new NegocioException("Error al buscar la comanda por folio: " + ex.getLocalizedMessage());
         }
     }
+    
+    public List<ComandaDTO> buscarComandas(FiltroComandaDTO filtro) throws NegocioException {
+        try {
+            return comandaBO.buscarComandas(filtro);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+
+    public List<ComandaDTO> buscarComandasPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws NegocioException {
+        try {
+            return comandaBO.buscarComandasPorFechas(fechaInicio, fechaFin);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
 
     public ComandaDTO actualizarComanda(ComandaDTO comandaActualizar) throws NegocioException {
         try {
             return comandaBO.actualizarComanda(comandaActualizar);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+    public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException {
+        try {
+            return comandaBO.obtenerDetallesComandaPorFolio(folio);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }

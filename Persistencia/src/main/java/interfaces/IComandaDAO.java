@@ -4,7 +4,9 @@
  */
 package interfaces;
 
+import DTOSalida.FiltroComandaDTO;
 import Entidades.Comanda;
+import Entidades.DetallesComanda;
 import exception.PersistenciaException;
 import java.util.List;
 
@@ -13,18 +15,21 @@ import java.util.List;
  * @author SDavidLedesma
  */
 public interface IComandaDAO {
-    
-     public Comanda obtenerComandaPorId(Long id) throws PersistenciaException;
-     
-     public Comanda registrarComanda(Comanda comanda)throws PersistenciaException;
-     
-     public Comanda actualizarComanda(Comanda comandaActualizar)throws PersistenciaException;
-     
-     public int obtenerUltimoConsecutivo() throws PersistenciaException;    
-     
-     public List<Comanda> obtenerComandasAbiertas() throws PersistenciaException;
-     
-     public Comanda buscarComandaPorFolio(String folio) throws PersistenciaException;
-     
-     
+
+    public Comanda obtenerComandaPorId(Long id) throws PersistenciaException;
+
+    public Comanda registrarComanda(Comanda comanda) throws PersistenciaException;
+
+    public Comanda actualizarComanda(Comanda comandaActualizar) throws PersistenciaException;
+
+    public int obtenerUltimoConsecutivo() throws PersistenciaException;
+
+    public List<Comanda> obtenerComandasAbiertas() throws PersistenciaException;
+
+    public Comanda buscarComandaPorFolio(String folio) throws PersistenciaException;
+
+    public List<Comanda> buscarComandas(FiltroComandaDTO filtro) throws PersistenciaException;
+
+    public String obtenerDetallesComanda(Comanda comanda);
+
 }

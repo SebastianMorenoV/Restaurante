@@ -10,6 +10,7 @@ Entidades\IngredientesProducto.class
 Enums\ProductoActivo.class
 DTOEntrada\CrearClienteDTO.class
 DTOSalida\IngredientesProductoDTO.class
+DTOSalida\FiltroComandaDTO.class
 Enums\Estado.class
 Entidades\DetallesComanda.class
 com\carniceria\dominio\Dominio.class

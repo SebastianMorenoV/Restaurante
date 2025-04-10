@@ -4,8 +4,10 @@
  */
 package DTOSalida;
 
+import Entidades.DetallesComanda;
 import Enums.Estado;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,8 @@ public class ComandaDTO {
     private Integer numeroMesa;
     private Estado estado;
     private double totalVenta;
+    private List<DetallesComanda> detallesComanda;
+    private ClienteDTO cliente;
 
     
     
@@ -28,6 +32,28 @@ public class ComandaDTO {
         this.estado = estado;
         this.totalVenta = totalVenta;
     }
+
+    public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda) {
+        this.folio = folio;
+        this.fechaHora = fechaHora;
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.totalVenta = totalVenta;
+        this.detallesComanda = detallesComanda;
+    }
+
+    public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, ClienteDTO cliente) {
+        this.folio = folio;
+        this.fechaHora = fechaHora;
+        this.numeroMesa = numeroMesa;
+        this.estado = estado;
+        this.totalVenta = totalVenta;
+        this.cliente = cliente;
+    }
+
+    
+    
+    
 
     public String getFolio() {
         return folio;
@@ -68,6 +94,24 @@ public class ComandaDTO {
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
     }
+
+    public List<DetallesComanda> getDetallesComanda() {
+        return detallesComanda;
+    }
+
+    public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
+        this.detallesComanda = detallesComanda;
+    }
+
+    public ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
+    }
+    
+    
 
     @Override
     public String toString() {
