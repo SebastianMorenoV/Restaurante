@@ -57,6 +57,7 @@ GUI\ModuloIngredientes\PantallaConsultarIngredientes$1.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$14.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$9.class
 GUI\ModuloComandas\PantallaComanda$4.class
+GUI\MenuMesero$4.class
 GUI\MenuPrincipalRestaurante$7.class
 GUI\PantallaComandasActivas.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$8.class

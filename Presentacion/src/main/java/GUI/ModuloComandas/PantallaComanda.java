@@ -427,7 +427,7 @@ public class PantallaComanda extends javax.swing.JPanel {
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
         //Ocupa la validacion para saber si la comanda ya existe
         guardarComanda();
-        
+
     }//GEN-LAST:event_btnGuardarComandaMouseClicked
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
@@ -435,10 +435,11 @@ public class PantallaComanda extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-
-        app.mostrarMenuPrincipal();
-
-
+        if (app.getRol().equals("Administrador")) {
+            app.mostrarMenuPrincipal();
+        } else {
+            app.mostrarMenuMesero();
+        }
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnBuscarCliente2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente2MouseClicked
@@ -639,17 +640,17 @@ public class PantallaComanda extends javax.swing.JPanel {
             producto.setPrecio((Double) modeloTabla.getValueAt(i, 2));
 
             comandaDTO.addProductoComanda(producto);
-            
+
             // para cada producto de la comanda añadire su detalle obtenido desde el modulo de productos
             DetallesComandaDTO detalleComandaDTO = new DetallesComandaDTO();
-                // ejemplos mockeados aqui se sustituira por los gets y sets de modulo productos en aplicacion.
-                detalleComandaDTO.setComentarios("Sin jalapeño"); // app.getComentario para el producto
-                detalleComandaDTO.setCantidad(1);
-                detalleComandaDTO.setPrecioUnitario((Double) modeloTabla.getValueAt(i, 2));
-                detalleComandaDTO.setImporteTotal(detalleComandaDTO.getCantidad() * detalleComandaDTO.getPrecioUnitario());
-                
-                comandaDTO.addDetallesComanda(detalleComandaDTO);
-            
+            // ejemplos mockeados aqui se sustituira por los gets y sets de modulo productos en aplicacion.
+            detalleComandaDTO.setComentarios("Sin jalapeño"); // app.getComentario para el producto
+            detalleComandaDTO.setCantidad(1);
+            detalleComandaDTO.setPrecioUnitario((Double) modeloTabla.getValueAt(i, 2));
+            detalleComandaDTO.setImporteTotal(detalleComandaDTO.getCantidad() * detalleComandaDTO.getPrecioUnitario());
+
+            comandaDTO.addDetallesComanda(detalleComandaDTO);
+
         }
 
         comandaDTO.setEstado(Estado.Abierta);
@@ -661,7 +662,12 @@ public class PantallaComanda extends javax.swing.JPanel {
         try {
             app.guardarComanda(comandaDTO);
             JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            app.mostrarMenuPrincipal();
+            if (app.getRol().equals("Administrador")) {
+                app.mostrarMenuPrincipal();
+            } else {
+                app.mostrarMenuMesero();
+            }
+
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, "Error en la comanda", "Error", JOptionPane.INFORMATION_MESSAGE);
             ex.printStackTrace();

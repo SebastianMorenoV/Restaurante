@@ -8,6 +8,7 @@ import DTOSalida.MesaDTO;
 import exception.NegocioException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -150,6 +151,11 @@ public class MenuMesero extends javax.swing.JPanel {
             }
         });
         tablaMesas.setRowHeight(80);
+        tablaMesas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMesasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMesas);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 590, 330));
@@ -198,6 +204,19 @@ public class MenuMesero extends javax.swing.JPanel {
     private void btnBuscarCliente1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente1MouseClicked
         app.mostrarPantallaComandasActivas();
     }//GEN-LAST:event_btnBuscarCliente1MouseClicked
+
+    private void tablaMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMesasMouseClicked
+         if (evt.getClickCount() == 2) { // Doble clic
+            int fila = tablaMesas.getSelectedRow();
+            String mesa = String.valueOf(tablaMesas.getValueAt(fila, 0));
+            app.setMesa(mesa);
+            app.setClienteSeleccionado(null);
+            app.setProductosTemporales(new ArrayList<>());
+            app.reconstruirPantallaComanda();
+            app.mostrarPantallaComanda();
+
+        }
+    }//GEN-LAST:event_tablaMesasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
