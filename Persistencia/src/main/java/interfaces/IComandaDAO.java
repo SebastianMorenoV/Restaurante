@@ -5,6 +5,7 @@
 package interfaces;
 
 import DTOSalida.FiltroComandaDTO;
+import Entidades.Cliente;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
 import exception.PersistenciaException;
@@ -31,5 +32,7 @@ public interface IComandaDAO {
     public List<Comanda> buscarComandas(FiltroComandaDTO filtro) throws PersistenciaException;
 
     public String obtenerDetallesComanda(Comanda comanda);
+    
+    public Comanda obtenerUltimaComandaCliente(Long idCliente)throws PersistenciaException;
 
 }

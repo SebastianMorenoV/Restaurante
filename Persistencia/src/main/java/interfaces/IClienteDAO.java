@@ -19,14 +19,11 @@ public interface IClienteDAO {
     // Obtener solo los clientes frecuentes
     public List<ClienteFrecuente> obtenerClientesFrecuentes(ClienteFrecuente cliente) throws PersistenciaException;
 
- 
     public boolean existeTelefono(String telefono) throws PersistenciaException;
 
     public List<Cliente> buscarClientes(Cliente clienteFiltro) throws PersistenciaException;
-    // probablemente tenga que meter asociarClienteAComanda
-    
     
     public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException;
-
-
+    
+    
 }

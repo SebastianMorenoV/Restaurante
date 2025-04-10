@@ -5,6 +5,7 @@
 package interfaces;
 
 import DTOEntrada.CrearComandaDTO;
+import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
 import Entidades.DetallesComanda;
@@ -31,6 +32,8 @@ public interface IComandaBO {
     public List<ComandaDTO> buscarComandasPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws NegocioException;
     
     public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException;
+    
+    public List<ComandaDTO> obtenerUltimaComandaClientes(List<ClienteDTO> clientesDTO) throws NegocioException;
 
     
 }

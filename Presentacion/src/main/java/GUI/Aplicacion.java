@@ -299,6 +299,14 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+    
+    public List<ComandaDTO> obtenerUltimaComandaClientes(List<ClienteDTO> clientesDTO) throws NegocioException{
+    try {
+            return comandaBO.obtenerUltimaComandaClientes(clientesDTO);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
 
     public void mostrarRegistroProductoDesdeConsulta() {
         producto.cargarProductoDesdeConsulta();

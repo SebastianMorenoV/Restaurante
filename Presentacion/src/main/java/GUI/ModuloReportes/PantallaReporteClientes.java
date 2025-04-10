@@ -5,6 +5,7 @@
 package GUI.ModuloReportes;
 
 import DTOSalida.ClienteDTO;
+import DTOSalida.ComandaDTO;
 import GUI.Aplicacion;
 import GUI.ModuloClientesFrecuentes.PantallaConsultarClientes;
 import exception.NegocioException;
@@ -289,48 +290,7 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_icnVolverMouseClicked
 
     private void btnImprimirReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimirReporteMouseClicked
-        try {
-            // Obtener datos desde los inputs
-            String nombre = inputNombres.getText().trim();
-            String apellidoPaterno = inputApellidoPaterno.getText().trim();
-            String apellidoMaterno = inputApellidoMaterno.getText().trim();
-            String visitasTexto = inputVisitasMinimas.getText().trim();
-
-            int visitasMinimas = 0;
-            if (!visitasTexto.isEmpty() && !visitasTexto.equalsIgnoreCase("Visitas Minimas")) {
-                try {
-                    visitasMinimas = Integer.parseInt(visitasTexto);
-                } catch (NumberFormatException e) {
-                    visitasMinimas = 0;
-                }
-            }
-
-            // Crear filtro
-            ClienteDTO clienteFiltro = new ClienteDTO();
-            clienteFiltro.setNombre(nombre);
-            clienteFiltro.setApellidoPaterno(apellidoPaterno);
-            clienteFiltro.setApellidoMaterno(apellidoMaterno);
-            clienteFiltro.setVisitasTotales(visitasMinimas);
-
-            // Consultar
-            List<ClienteDTO> clientes = app.buscarClienteReporte(clienteFiltro);
-
-            if (clientes == null || clientes.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se encontraron clientes para el reporte.", "Sin datos", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            }
-
-            // Generar reporte
-            ReporteService reporteService = new ReporteService();
-            Map<String, Object> parametros = new HashMap<>();
-
-            reporteService.generarReporteClientesFrecuentes(clientes, parametros);
-
-        } catch (NegocioException | JRException ex) {
-            Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
+       generarReporte();
     }//GEN-LAST:event_btnImprimirReporteMouseClicked
 
     private void inputNombresFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombresFocusGained
@@ -463,6 +423,15 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         List<ClienteDTO> clientesEncontrados = null;
         try {
             clientesEncontrados = app.buscarClienteReporte(clienteFiltro);
+            
+              List<ComandaDTO> comandas = app.obtenerUltimaComandaClientes(clientesEncontrados);
+            
+            for (int i = 0; i < clientesEncontrados.size(); i++) {
+                ClienteDTO cliente = clientesEncontrados.get(i);
+                ComandaDTO comanda = comandas.get(i);
+                cliente.setUltimaComanda(comanda.getFechaHora());
+            }
+            
         } catch (NegocioException ex) {
             Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
             clientesEncontrados = new ArrayList<>();
@@ -479,7 +448,7 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
 
         // Llenar la tabla con los resultados
         for (ClienteDTO cliente : clientes) {
-            model.addRow(new Object[]{cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos()});
+            model.addRow(new Object[]{cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos(),cliente.getUltimaComandaFormateada()});
         }
     }
 
@@ -508,5 +477,57 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         agregarDocumentListener(inputApellidoPaterno);
 
         setearToolTips();
+    }
+    
+    public void generarReporte(){
+    try {
+            // Obtener datos desde los inputs
+            String nombre = inputNombres.getText().trim();
+            String apellidoPaterno = inputApellidoPaterno.getText().trim();
+            String apellidoMaterno = inputApellidoMaterno.getText().trim();
+            String visitasTexto = inputVisitasMinimas.getText().trim();
+
+            int visitasMinimas = 0;
+            if (!visitasTexto.isEmpty() && !visitasTexto.equalsIgnoreCase("Visitas Minimas")) {
+                try {
+                    visitasMinimas = Integer.parseInt(visitasTexto);
+                } catch (NumberFormatException e) {
+                    visitasMinimas = 0;
+                }
+            }
+
+            // Crear filtro
+            ClienteDTO clienteFiltro = new ClienteDTO();
+            clienteFiltro.setNombre(nombre);
+            clienteFiltro.setApellidoPaterno(apellidoPaterno);
+            clienteFiltro.setApellidoMaterno(apellidoMaterno);
+            clienteFiltro.setVisitasTotales(visitasMinimas);
+
+            // Consultar
+            List<ClienteDTO> clientes = app.buscarClienteReporte(clienteFiltro);
+                
+            List<ComandaDTO> comandas = app.obtenerUltimaComandaClientes(clientes);
+            
+            for (int i = 0; i < clientes.size(); i++) {
+                ClienteDTO cliente = clientes.get(i);
+                ComandaDTO comanda = comandas.get(i);
+                cliente.setUltimaComanda(comanda.getFechaHora());
+            }
+            
+            if (clientes == null || clientes.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron clientes para el reporte.", "Sin datos", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Generar reporte
+            ReporteService reporteService = new ReporteService();
+            Map<String, Object> parametros = new HashMap<>();
+
+            reporteService.generarReporteClientesFrecuentes(clientes, parametros);
+
+        } catch (NegocioException | JRException ex) {
+            Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

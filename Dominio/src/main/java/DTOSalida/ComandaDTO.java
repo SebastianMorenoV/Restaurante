@@ -23,6 +23,9 @@ public class ComandaDTO {
     private List<DetallesComandaDTO> detallesComanda; // solucionar el dto aqui , deberia ser detallesComandaDTO
     private ClienteDTO cliente;
 
+    public ComandaDTO() {
+    }
+
     public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta) {
         this.folio = folio;
         this.fechaHora = fechaHora;
@@ -109,7 +112,7 @@ public class ComandaDTO {
         return estado != null ? estado.toString() : "";
     }
 
-     // Getter para nombreCompleto, usando el getter de ClienteDTO
+    // Getter para nombreCompleto, usando el getter de ClienteDTO
     public String getNombreCompletoCliente() {
         return cliente != null ? cliente.getNombreCompleto() : "";
     }

@@ -185,28 +185,27 @@ public class ClienteBO implements IClienteBO {
 
             // Llamar al DAO para obtener la lista de clientes frecuentes con los filtros
             List<ClienteFrecuente> clientes = clienteDAO.obtenerClientesFrecuentes(clienteAConsultar);
-
+                
             // Convertimos la lista de ClienteFrecuente a ClienteDTO
             List<ClienteDTO> clientesDTO = new ArrayList<>();
             for (ClienteFrecuente cliente : clientes) {
-
+              
                 // Crear el nombre completo con los apellidos si están disponibles
                 String nombreCompleto = cliente.getNombre() + " " + cliente.getApellidoPaterno();
                 if (cliente.getApellidoMaterno() != null) {
                     nombreCompleto += " " + cliente.getApellidoMaterno();
                 }
-
-                // Crear el DTO para cada cliente
+                    
+                // Crear el DTO para cada cliente sin la fecha de la ultima comanda esa parte ira en comandas.
                 ClienteDTO clienteDTO = new ClienteDTO(
+                        cliente.getId(),
                         nombreCompleto, // Nombre completo
                         cliente.getVisitas(),
                         cliente.getGastoAcumulado(),
                         cliente.getPuntosFidelidad()
                 );
 
-                // Aquí puedes agregar la lógica adicional, como obtener la última fecha de comanda, si es necesario
-                //logicaClienteComanda
-                
+               
                 // Agregar el clienteDTO a la lista
                 clientesDTO.add(clienteDTO);
             }
@@ -218,4 +217,6 @@ public class ClienteBO implements IClienteBO {
         }
     }
 
+    
+    
 }

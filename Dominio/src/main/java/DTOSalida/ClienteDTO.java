@@ -4,7 +4,8 @@
  */
 package DTOSalida;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -12,6 +13,7 @@ import java.time.LocalDate;
  */
 public class ClienteDTO {
 
+    private Long id;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -20,9 +22,17 @@ public class ClienteDTO {
     private Integer visitasTotales;
     private double totalGastado;
     private Integer puntos;
-    private LocalDate ultimaComanda;
+    private LocalDateTime ultimaComanda;
 
     public ClienteDTO() {
+    }
+
+    public ClienteDTO(Long id, String nombre, Integer visitasTotales, double totalGastado, Integer puntos) {
+        this.id = id;
+        this.nombre = nombre;
+        this.visitasTotales = visitasTotales;
+        this.totalGastado = totalGastado;
+        this.puntos = puntos;
     }
 
     public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos) {
@@ -47,19 +57,19 @@ public class ClienteDTO {
         this.totalGastado = totalGastado;
         this.puntos = puntos;
     }
+
     // constructor auxiliar para la creacion de comanda.    
     public ClienteDTO(String nombre, String telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
     }
-    
-    
+
     public ClienteDTO(String nombreCompleto, Integer visitasTotales) {
         this.nombre = nombre;
         this.visitasTotales = visitasTotales;
     }
 
-    public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos, LocalDate ultimaComanda) {
+    public ClienteDTO(String nombreCompleto, String correo, String telefono, int visitasTotales, double totalGastado, int puntos, LocalDateTime ultimaComanda) {
         this.nombre = nombreCompleto;
         this.correo = correo;
         this.telefono = telefono;
@@ -87,16 +97,28 @@ public class ClienteDTO {
         this.correo = correo;
         this.telefono = telefono;
     }
-    
-    
-    
-    
 
-    public LocalDate getUltimaComanda() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getUltimaComanda() {
         return ultimaComanda;
     }
 
-    public void setUltimaComanda(LocalDate ultimaComanda) {
+    public String getUltimaComandaFormateada() {
+        if (ultimaComanda != null) {
+            java.util.Date date = java.util.Date.from(ultimaComanda.atZone(java.time.ZoneId.systemDefault()).toInstant());
+            return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(date);
+        }
+        return "";
+    }
+
+    public void setUltimaComanda(LocalDateTime ultimaComanda) {
         this.ultimaComanda = ultimaComanda;
     }
 
@@ -159,6 +181,7 @@ public class ClienteDTO {
     public void setApellidoPaterno(String apellidoPaterno) {
         this.apellidoPaterno = apellidoPaterno;
     }
+
     public String getApellidoPaterno() {
         return apellidoPaterno;
     }
@@ -171,6 +194,9 @@ public class ClienteDTO {
         return apellidoMaterno;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "ClienteDTO{" + "nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", telefono=" + telefono + ", visitasTotales=" + visitasTotales + ", totalGastado=" + totalGastado + ", puntos=" + puntos + ", ultimaComanda=" + ultimaComanda + '}';
+    }
+
 }

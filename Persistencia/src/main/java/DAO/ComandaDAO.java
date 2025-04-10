@@ -5,6 +5,7 @@
 package DAO;
 
 import DTOSalida.FiltroComandaDTO;
+import Entidades.Cliente;
 import interfaces.IComandaDAO;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
@@ -33,7 +34,12 @@ public class ComandaDAO implements IComandaDAO {
 
     public ComandaDAO() {
     }
-
+    /**
+     * Metodo que obtiene una comanda por el id dado.
+     * @param id el id dado
+     * @return Una comanda consultada por el id.
+     * @throws PersistenciaException  si existe un error al buscar la comanda.
+     */
     @Override
     public Comanda obtenerComandaPorId(Long id) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -46,7 +52,14 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-
+    /**
+     * Metodo para registrar una comanda en la base de datos.
+     * Este metodo persiste la entidad comanda en la base de datos.
+     * Solo valida que se genere el id , si no arroja una excepcion.
+     * @param comanda la comanda a persistir en al bd
+     * @return La comanda persistida.
+     * @throws PersistenciaException  Si existe algun error persistiendo la comanda.
+     */
     @Override
     public Comanda registrarComanda(Comanda comanda) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -65,7 +78,13 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-
+    /**
+     * Metodo para actualizar una comanda en la bd
+     * utilizamos merge para actualizarla una vez ya este creada.
+     * @param comandaActualizar el parametro de la comanda a actualizar.
+     * @return La comanda actualizada
+     * @throws PersistenciaException si existe algun error actualizando la comanda.
+     */
     @Override
     public Comanda actualizarComanda(Comanda comandaActualizar) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -78,28 +97,6 @@ public class ComandaDAO implements IComandaDAO {
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new PersistenciaException("Error al actualizar la comanda: " + e.getMessage(), e);
-        } finally {
-            em.close();
-        }
-    }
-
-
-    //Metodos auxiliares
-    //metodo para crear el formato del folio
-    @Override
-    public int obtenerUltimoConsecutivo() throws PersistenciaException {
-        EntityManager em = Conexion.crearConexion();
-
-        try {
-            // Consulta para obtener el ID más alto de las comandas registradas
-            Long ultimoConsecutivo = em.createQuery(
-                    "SELECT MAX(c.id) FROM Comanda c", Long.class
-            ).getSingleResult();
-
-            // Si no existe ningún registro en la base de datos, comenzamos con 0
-            return (ultimoConsecutivo != null) ? ultimoConsecutivo.intValue() : 0;
-        } catch (Exception e) {
-            throw new PersistenciaException("Error al obtener el último consecutivo: " + e.getMessage(), e);
         } finally {
             em.close();
         }
@@ -122,9 +119,7 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-
-
-
+    
     @Override
     public Comanda buscarComandaPorFolio(String folio) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -140,7 +135,7 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-    
+
     @Override
     public List<Comanda> buscarComandas(FiltroComandaDTO filtro) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -152,19 +147,15 @@ public class ComandaDAO implements IComandaDAO {
 
             StringBuilder jpql = new StringBuilder("SELECT c FROM Comanda c LEFT JOIN FETCH c.cliente WHERE 1=1");
 
-
             if (filtro.getFolio() != null && !filtro.getFolio().trim().isEmpty()) {
                 jpql.append(" AND LOWER(c.folio) LIKE :folio");
             }
-
             if (filtro.getEstado() != null) {
                 jpql.append(" AND c.estado = :estado");
             }
-
             if (filtro.getFechaInicio() != null) {
                 jpql.append(" AND c.fechaHora >= :fechaInicio");
             }
-
             if (filtro.getFechaFin() != null) {
                 jpql.append(" AND c.fechaHora <= :fechaFin");
             }
@@ -175,22 +166,17 @@ public class ComandaDAO implements IComandaDAO {
             if (filtro.getFolio() != null && !filtro.getFolio().trim().isEmpty()) {
                 query.setParameter("folio", "%" + filtro.getFolio().toLowerCase() + "%");
             }
-
             if (filtro.getEstado() != null) {
                 query.setParameter("estado", filtro.getEstado());
             }
-
             if (filtro.getFechaInicio() != null) {
                 query.setParameter("fechaInicio", filtro.getFechaInicio());
             }
-
             if (filtro.getFechaFin() != null) {
                 query.setParameter("fechaFin", filtro.getFechaFin());
             }
-
             comandas = query.getResultList();
             em.getTransaction().commit();
-
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
@@ -202,7 +188,7 @@ public class ComandaDAO implements IComandaDAO {
 
         return comandas;
     }
-    
+
     @Override
     public String obtenerDetallesComanda(Comanda comanda) {
         StringBuilder detalles = new StringBuilder();
@@ -217,10 +203,49 @@ public class ComandaDAO implements IComandaDAO {
         return detalles.toString().trim();  // Trim para eliminar cualquier espacio extra al final
     }
 
+    /**
+     * Metodo para obtener una comanda con el id de el cliente dado.
+     * Este metodo los ordena descrecientemente por fecha , para obtener el ultimo resultado mas reciente.
+     * @param idCliente
+     * @return La ultima comanda asociada al cliente dado.
+     * @throws PersistenciaException  si existe un error buscando la comanda.
+     */
+    @Override
+    public Comanda obtenerUltimaComandaCliente(Long idCliente) throws PersistenciaException { // talvez cambiar por otra
+        EntityManager em = Conexion.crearConexion();
 
-
-
+        try {
+            return em.createQuery(
+                    "SELECT c FROM Comanda c WHERE c.cliente.id = :id ORDER BY c.fechaHora DESC", Comanda.class)
+                    .setParameter("id", idCliente)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar la ultima comanda de el cliente: " + idCliente + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
     
     
+    //Metodos auxiliares
+        //metodo para crear el formato del folio
+    @Override
+    public int obtenerUltimoConsecutivo() throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
 
+        try {
+            // Consulta para obtener el ID más alto de las comandas registradas
+            Long ultimoConsecutivo = em.createQuery(
+                    "SELECT MAX(c.id) FROM Comanda c", Long.class
+            ).getSingleResult();
+
+            // Si no existe ningún registro en la base de datos, comenzamos con 0
+            return (ultimoConsecutivo != null) ? ultimoConsecutivo.intValue() : 0;
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al obtener el último consecutivo: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
 }

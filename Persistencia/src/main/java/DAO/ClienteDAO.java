@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 import Entidades.Cliente;
@@ -258,7 +254,13 @@ public class ClienteDAO implements IClienteDAO {
             em.close();
         }
     }
-
+    /**
+     * Metodo para buscar un cliente por su telefono
+     * @param telefono String con el telefono de el cliente
+     * @return un Cliente consultado
+     * @throws PersistenciaException  Si existe un error.
+     */
+    @Override
     public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
@@ -279,7 +281,6 @@ public class ClienteDAO implements IClienteDAO {
     }
     //Metodos auxiliares:
     // Método para desencriptar el teléfono
-
     /**
      * Metodo auxiliar para desencriptar un telefono dado como parametro.
      * Utiliza una llave default para poder desencriptar. ("1234567890123456")
@@ -338,5 +339,4 @@ public class ClienteDAO implements IClienteDAO {
         }
     }
 
-   
 }

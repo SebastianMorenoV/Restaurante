@@ -37,6 +37,7 @@
 		<field name="visitasTotales" class="java.lang.Integer"/>
 		<field name="totalGastado" class="java.lang.Double"/>
 		<field name="puntos" class="java.lang.Integer"/>
+		<field name="ultimaComanda" class="java.time.LocalDateTime"/>
 	</subDataset>
 	<parameter name="ds" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<queryString>
@@ -81,7 +82,7 @@
 	<detail>
 		<band height="230" splitType="Stretch">
 			<componentElement>
-				<reportElement x="80" y="10" width="460" height="60" uuid="3d2ab192-5446-4325-8b58-ecbe261df031">
+				<reportElement x="30" y="10" width="512" height="60" uuid="3d2ab192-5446-4325-8b58-ecbe261df031">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -89,7 +90,7 @@
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="dsReporteCliente" uuid="c227642c-09df-4c36-87ae-7a56ac70bb20">
-						<dataSourceExpression><![CDATA[$P{ds} ]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[$P{ds}]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="130" uuid="caa7b87b-23e5-46d3-b405-3db30a9feec5">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
@@ -156,6 +157,23 @@
 								<reportElement x="0" y="0" width="90" height="30" uuid="facae023-7804-4098-8b99-68fadc2ce193"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{puntos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="e31c659d-a5b1-4fb8-be90-f434a631e53f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="c7cfdf6d-12f9-4b5d-ad38-2a76282926f1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Fecha ultima comanda]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="130" height="30" uuid="29a790be-d1cc-43bb-b0b1-cdaf201c037a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(java.util.Date.from($F{ultimaComanda}.atZone(java.time.ZoneId.systemDefault()).toInstant()))]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
