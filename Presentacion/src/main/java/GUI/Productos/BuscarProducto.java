@@ -34,8 +34,6 @@ public class BuscarProducto extends javax.swing.JPanel {
     private Aplicacion app;
     private DefaultTableModel modeloTabla;
     private List<ProductoDTO> productos;  // esta es la lista que vas a usar
-    private List<ProductoDTO> productoss = new ArrayList<>();
-
 
     /**
      * Creates new form BuscarProducto
@@ -325,33 +323,28 @@ public class BuscarProducto extends javax.swing.JPanel {
     }
 
     private void actualizarTabla(List<ProductoDTO> productos) {
-        this.productoss = productos;
         DefaultTableModel model = (DefaultTableModel) tablaProductos.getModel();
         model.setRowCount(0);
 
         if (productos == null || productos.isEmpty()) {
             model.addRow(new Object[]{"  NO SE ", " ENCONTRARON ", " DATOS PARA ESTA ", " BUSQUEDA "});
         } else {
+            //llenar la tabla
             for (ProductoDTO producto : productos) {
-                // Convertir los IDs de ingredientes a nombres simulados
-                String ingredientesStr = producto.getIngredienteProducto().stream()
-                        .map(i -> "Ingrediente " + i.getId())
-                        .collect(Collectors.joining(", "));
-
                 model.addRow(new Object[]{
                     producto.getNombre(),
                     producto.getTipo(),
                     producto.getPrecio(),
                     producto.getProductoActivo(),
-                    ingredientesStr,
-                    producto.getId()
+                    producto.getIngredienteProducto()
                 });
             }
         }
 
         // Ocultar la columna de ID
         int numColumnas = tablaProductos.getColumnCount();
-        if (numColumnas > 5) {
+        if (numColumnas
+                > 5) {
             tablaProductos.getColumnModel().getColumn(5).setMinWidth(0);
             tablaProductos.getColumnModel().getColumn(5).setMaxWidth(0);
             tablaProductos.getColumnModel().getColumn(5).setWidth(0);

@@ -8,6 +8,7 @@ GUI\MenuPrincipalRestaurante$1.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$2.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$2.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$4.class
+GUI\ModuloReportes\PantallaReporteComandas$3.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$5.class
 GUI\ModuloComandas\PantallaComanda$11.class
 GUI\ModuloReportes\PantallaReporteClientes$3.class
@@ -49,6 +50,7 @@ GUI\ModuloReportes\PantallaReporteClientes$5.class
 GUI\Productos\RegistroProducto$4.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$5.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$3.class
+GUI\ModuloReportes\PantallaReporteComandas$4.class
 GUI\Productos\BuscarProducto$3.class
 GUI\MenuSelector$2.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes$1.class
