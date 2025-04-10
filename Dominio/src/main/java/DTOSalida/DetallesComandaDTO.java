@@ -90,7 +90,8 @@ public class DetallesComandaDTO {
 
     @Override
     public String toString() {
-        return "DetallesComandaDTO{" + "id=" + id + ", producto=" + producto + ", comanda=" + comanda + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", comentarios=" + comentarios + ", importeTotal=" + importeTotal + '}';
+        return  comentarios ;
     }
 
+   
 }

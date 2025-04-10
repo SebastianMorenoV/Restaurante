@@ -5,6 +5,7 @@
 package reportes;
 
 import DTOSalida.ClienteDTO;
+import DTOSalida.ComandaDTO;
 import java.io.InputStream;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
@@ -33,6 +34,33 @@ public class ReporteService {
 
         // Agregar el parámetro ds al mapa
         parametros.put("ds", dataSource);
+
+        // Rellenar el reporte con datos y parámetros
+        JasperPrint print = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());
+
+        // Mostrar el visor
+        JasperViewer.viewReport(print, false);
+    }
+    
+     public void generarReporteComandas(List<ComandaDTO> comandas, Map<String, Object> parametros) throws JRException {
+        // Verificar si la lista está vacía
+        if (comandas == null || comandas.isEmpty()) {
+            throw new JRException("No se encontraron clientes para generar el reporte.");
+        }
+
+        // Ruta del archivo JRXML compilado
+        InputStream input = getClass().getResourceAsStream("/reportes/comandas.jrxml");
+        if (input == null) {
+            throw new JRException("No se encontró el archivo ClientesFrecuentes.jrxml en la ruta especificada.");
+        }
+
+        JasperReport reporte = JasperCompileManager.compileReport(input);
+
+        // Fuente de datos (lista de clientes)
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(comandas);
+
+        // Agregar el parámetro ds al mapa
+        parametros.put("dsR", dataSource);
 
         // Rellenar el reporte con datos y parámetros
         JasperPrint print = JasperFillManager.fillReport(reporte, parametros, new JREmptyDataSource());

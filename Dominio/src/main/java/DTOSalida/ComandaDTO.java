@@ -20,11 +20,9 @@ public class ComandaDTO {
     private Integer numeroMesa;
     private Estado estado;
     private double totalVenta;
-    private List<DetallesComanda> detallesComanda;
+    private List<DetallesComandaDTO> detallesComanda; // solucionar el dto aqui , deberia ser detallesComandaDTO
     private ClienteDTO cliente;
 
-    
-    
     public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta) {
         this.folio = folio;
         this.fechaHora = fechaHora;
@@ -33,7 +31,7 @@ public class ComandaDTO {
         this.totalVenta = totalVenta;
     }
 
-    public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, List<DetallesComanda> detallesComanda) {
+    public ComandaDTO(String folio, LocalDateTime fechaHora, Integer numeroMesa, Estado estado, double totalVenta, List<DetallesComandaDTO> detallesComanda) {
         this.folio = folio;
         this.fechaHora = fechaHora;
         this.numeroMesa = numeroMesa;
@@ -50,10 +48,6 @@ public class ComandaDTO {
         this.totalVenta = totalVenta;
         this.cliente = cliente;
     }
-
-    
-    
-    
 
     public String getFolio() {
         return folio;
@@ -95,11 +89,11 @@ public class ComandaDTO {
         this.totalVenta = totalVenta;
     }
 
-    public List<DetallesComanda> getDetallesComanda() {
+    public List<DetallesComandaDTO> getDetallesComanda() {
         return detallesComanda;
     }
 
-    public void setDetallesComanda(List<DetallesComanda> detallesComanda) {
+    public void setDetallesComanda(List<DetallesComandaDTO> detallesComanda) {
         this.detallesComanda = detallesComanda;
     }
 
@@ -110,16 +104,19 @@ public class ComandaDTO {
     public void setCliente(ClienteDTO cliente) {
         this.cliente = cliente;
     }
-    
-    
+
+    public String getEstadoTexto() {
+        return estado != null ? estado.toString() : "";
+    }
+
+     // Getter para nombreCompleto, usando el getter de ClienteDTO
+    public String getNombreCompletoCliente() {
+        return cliente != null ? cliente.getNombreCompleto() : "";
+    }
 
     @Override
     public String toString() {
         return "ComandaDTO{" + "folio=" + folio + ", fechaHora=" + fechaHora + ", numeroMesa=" + numeroMesa + ", estado=" + estado + ", totalVenta=" + totalVenta + '}';
     }
-    
-    
-    
-    
 
 }

@@ -308,5 +308,7 @@ public class ComandaBO implements IComandaBO {
             throw new NegocioException("Error al obtener los detalles de la comanda: " + e.getMessage(), e);
         }
     }
+    
+    
 
 }

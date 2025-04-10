@@ -283,40 +283,7 @@ public class Aplicacion {
         }
     }
 
-  public ProductoDTO buscarProductoPorNombre(String nombre) throws NegocioException {
-    ProductoDTO dto = productoBO.buscarProductoPorNombre(nombre);
-    if (dto != null) {
-        List<IngredientesProducto> entidades = ingredientesProductoDAO.obtenerPorProductoId(dto.getId());
-
-        List<IngredientesProductoDTO> ingredientesDTO = entidades.stream().map(ent -> {
-            IngredientesProductoDTO dtoIng = new IngredientesProductoDTO();
-            dtoIng.setId(ent.getId());
-            dtoIng.setCantidad(ent.getCantidad());
-
-            // Convertir Ingrediente a IngredienteDTO
-            IngredienteDTO ingDTO = new IngredienteDTO();
-            ingDTO.setId(ent.getIngrediente().getId());
-            ingDTO.setNombre(ent.getIngrediente().getNombre());
-            ingDTO.setUnidadMedida(ent.getIngrediente().getUnidadMedida());
-            dtoIng.setIngrediente(ingDTO);
-
-            // Convertir Producto a ProductoDTO (básico)
-            ProductoDTO prodDTO = new ProductoDTO();
-            prodDTO.setId(ent.getProducto().getId());
-            prodDTO.setNombre(ent.getProducto().getNombre());
-            prodDTO.setPrecio(ent.getProducto().getPrecio());
-            prodDTO.setTipo(ent.getProducto().getTipo());
-            prodDTO.setProductoActivo(ent.getProducto().getProductoActivo());
-            dtoIng.setProducto(prodDTO);
-
-            return dtoIng;
-        }).collect(Collectors.toList());
-
-        dto.setIngredienteProducto(ingredientesDTO);
-    }
-    return dto;
-}
-    
+  
     public void deshabilitarProducto(ProductoDTO producto) throws NegocioException {
         try {
             productoBO.deshabilitarProducto(producto);
