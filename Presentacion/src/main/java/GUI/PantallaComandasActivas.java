@@ -4,12 +4,16 @@
  */
 package GUI;
 
+import DTOEntrada.CrearComandaDTO;
 import DTOSalida.ComandaDTO;
+import DTOSalida.ProductoDTO;
 import Enums.Estado;
 import exception.NegocioException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -115,10 +119,23 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
             new String [] {
                 "NUMERO MESA", "FECHA CREACION", "FOLIO", "ESTADO"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableComandasActivas.setRowHeight(50);
         tableComandasActivas.getTableHeader().setResizingAllowed(false);
         tableComandasActivas.getTableHeader().setReorderingAllowed(false);
+        tableComandasActivas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableComandasActivasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableComandasActivas);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 6, 980, 400));
@@ -141,7 +158,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
                 btnBuscarClienteMouseClicked(evt);
             }
         });
-        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 300, 50));
+        pnlBtnGuardarCliente1.add(btnBuscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 50));
 
         add(pnlBtnGuardarCliente1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 320, 50));
 
@@ -223,6 +240,20 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
 
     private void btnBuscarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarClienteMouseClicked
         //app.mostrarPantallaConsultarCliente();
+        int filaSeleccionada = tableComandasActivas.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String folio = (String) tableComandasActivas.getValueAt( filaSeleccionada, 2);
+            try {
+                CrearComandaDTO comandaObtenida= app.obtenerComandasActivas(folio);
+                System.out.println(comandaObtenida.toString());
+            } catch (NegocioException ex) {
+                Logger.getLogger(PantallaComandasActivas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Primero debes seleccionar una comanda", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void btnEntregadaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEntregadaMouseClicked
@@ -233,6 +264,19 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         // TODO add your handling code here:
         marcarComandaCancelada();
     }//GEN-LAST:event_btnCanceladaMouseClicked
+
+    private void tableComandasActivasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableComandasActivasMouseClicked
+        // TODO add your handling code here
+        if(evt.getClickCount()==2){
+            int fila = tableComandasActivas.getSelectedRow();
+            String folio = (String) tableComandasActivas.getValueAt(fila, 2);
+            try {
+                app.obtenerComandasActivas(folio);
+            } catch (NegocioException ex) {
+                Logger.getLogger(PantallaComandasActivas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_tableComandasActivasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

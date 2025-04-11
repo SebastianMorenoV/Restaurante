@@ -283,7 +283,6 @@ public class Aplicacion {
         }
     }
 
-  
     public void deshabilitarProducto(ProductoDTO producto) throws NegocioException {
         try {
             productoBO.deshabilitarProducto(producto);
@@ -299,14 +298,25 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    public List<ComandaDTO> obtenerUltimaComandaClientes(List<ClienteDTO> clientesDTO) throws NegocioException{
-    try {
+
+    public List<ComandaDTO> obtenerUltimaComandaClientes(List<ClienteDTO> clientesDTO) throws NegocioException {
+        try {
             return comandaBO.obtenerUltimaComandaClientes(clientesDTO);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+    
+    public CrearComandaDTO obtenerComandasActivas(String folio) throws NegocioException{
+        try {
+            return comandaBO.obtenerComandaActiva(folio);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+    
+
 
     public void mostrarRegistroProductoDesdeConsulta() {
         producto.cargarProductoDesdeConsulta();

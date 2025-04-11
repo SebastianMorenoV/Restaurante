@@ -16,6 +16,7 @@ import Entidades.DetallesComanda;
 import Entidades.Mesa;
 import Entidades.Producto;
 import Enums.Estado;
+import Enums.Tipo;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IClienteDAO;
@@ -322,6 +323,59 @@ public class ComandaBO implements IComandaBO {
 
             // Obtener los detalles de la comanda
             return comandaDAO.obtenerDetallesComanda(comanda);  // Llamada al DAO para obtener los comentarios
+
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener los detalles de la comanda: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public CrearComandaDTO obtenerComandaActiva(String folio) throws NegocioException {
+        if (folio == null || folio.trim().isEmpty()) {
+            throw new NegocioException("El folio es obligatorio para obtener los detalles de la comanda.");
+        }
+
+        try {
+            // Buscar la comanda por el folio
+            Comanda comanda = comandaDAO.buscarComandaPorFolio(folio);//de aqui sacar totalVenta
+            List<DetallesComanda> detalles = detallesComandaDAO.obtenerDetallesPorFolio(folio);//de aqui sacar comentarios e importe
+            //De aqui sacar nombreProducto, categorio y precioUnitario
+            List<ProductoDTO> productosDTO = new ArrayList<>();
+            List<DetallesComandaDTO> detallesComanda = new ArrayList<>();
+            for (int i = 0; i < detalles.size(); i++) {
+                DetallesComanda detalle = detalles.get(i);
+                Producto producto = productoDAO.obtenerProductoPorId(detalle.getProducto().getId());
+                ProductoDTO productoDTO = new ProductoDTO();
+                productoDTO.setNombre(producto.getNombre());
+                productoDTO.setPrecio(producto.getPrecio());
+                productoDTO.setTipo(producto.getTipo());
+                productoDTO.setProductoActivo(producto.getProductoActivo());
+
+                productosDTO.add(productoDTO);
+                
+                DetallesComandaDTO detallesComandaDTO = new DetallesComandaDTO();
+                detallesComandaDTO.setPrecioUnitario(detalle.getPrecioUnitario());
+                detallesComandaDTO.setComentarios(detalle.getComentarios());
+                detallesComandaDTO.setImporteTotal(detalle.getImporteTotal());
+                
+                detallesComanda.add(detallesComandaDTO);
+
+                
+            }
+            if (comanda == null) {
+                throw new NegocioException("No se encontró una comanda con el folio proporcionado.");
+            }
+
+            // Obtener los detalles de la comanda
+            //Conversion listas a listasDTO
+            
+            CrearComandaDTO comandaDTO = new CrearComandaDTO();
+            comandaDTO.setNumeroMesa(comanda.getMesa().getNumMesa());
+            comandaDTO.setTotalVenta(comanda.getTotalVenta());
+            comandaDTO.setDetallesComanda(detallesComanda);
+            comandaDTO.setProductosComanda(productosDTO);
+            
+            return comandaDTO;
 
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al obtener los detalles de la comanda: " + e.getMessage(), e);

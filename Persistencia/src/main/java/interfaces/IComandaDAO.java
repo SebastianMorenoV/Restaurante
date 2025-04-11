@@ -8,6 +8,7 @@ import DTOSalida.FiltroComandaDTO;
 import Entidades.Cliente;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
+import Entidades.Producto;
 import exception.PersistenciaException;
 import java.util.List;
 
@@ -34,5 +35,7 @@ public interface IComandaDAO {
     public String obtenerDetallesComanda(Comanda comanda);
     
     public Comanda obtenerUltimaComandaCliente(Long idCliente)throws PersistenciaException;
+    
+    
 
 }

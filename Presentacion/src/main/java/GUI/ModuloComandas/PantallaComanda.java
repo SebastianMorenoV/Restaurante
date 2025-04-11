@@ -427,6 +427,7 @@ public class PantallaComanda extends javax.swing.JPanel {
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
         //Ocupa la validacion para saber si la comanda ya existe
         guardarComanda();
+        
 
     }//GEN-LAST:event_btnGuardarComandaMouseClicked
 
@@ -661,6 +662,7 @@ public class PantallaComanda extends javax.swing.JPanel {
 
         try {
             app.guardarComanda(comandaDTO);
+            
             JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             if (app.getRol().equals("Administrador")) {
                 app.mostrarMenuPrincipal();

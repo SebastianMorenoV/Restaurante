@@ -7,6 +7,7 @@ DTOSalida\ComandaDTO.class
 Enums\EstadoMesa.class
 DTOSalida\ProductoDTO.class
 Entidades\IngredientesProducto.class
+DTOSalida\ProductoConDetalleDTO.class
 Enums\ProductoActivo.class
 DTOEntrada\CrearClienteDTO.class
 DTOSalida\IngredientesProductoDTO.class

@@ -6,6 +6,7 @@ package interfaces;
 
 import Entidades.DetallesComanda;
 import exception.PersistenciaException;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,6 @@ import exception.PersistenciaException;
  */
 public interface IDetallesComandaDAO {
     public DetallesComanda guardarDetallesComanda(DetallesComanda detalle)throws PersistenciaException;
+    
+    public List<DetallesComanda> obtenerDetallesPorFolio(String folio) throws PersistenciaException;
 }

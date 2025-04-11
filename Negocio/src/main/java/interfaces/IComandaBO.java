@@ -8,6 +8,7 @@ import DTOEntrada.CrearComandaDTO;
 import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
+import DTOSalida.ProductoDTO;
 import Entidades.DetallesComanda;
 import Enums.Estado;
 import exception.NegocioException;
@@ -34,6 +35,9 @@ public interface IComandaBO {
     public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException;
     
     public List<ComandaDTO> obtenerUltimaComandaClientes(List<ClienteDTO> clientesDTO) throws NegocioException;
+    
+    public CrearComandaDTO obtenerComandaActiva(String folio) throws NegocioException;
+    
 
     
 }

@@ -9,6 +9,7 @@ import Entidades.Cliente;
 import interfaces.IComandaDAO;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
+import Entidades.Producto;
 import Enums.Estado;
 import conexion.Conexion;
 import exception.PersistenciaException;
@@ -248,4 +249,7 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
+    
+
+
 }

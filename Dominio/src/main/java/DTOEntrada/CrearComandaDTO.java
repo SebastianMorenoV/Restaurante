@@ -70,6 +70,10 @@ public class CrearComandaDTO {
         return productosComanda;
     }
 
+    public void setDetallesComanda(List<DetallesComandaDTO> detallesComanda) {
+        this.detallesComanda = detallesComanda;
+    }
+
     public void setProductosComanda(List<ProductoDTO> productosComanda) {
         this.productosComanda = productosComanda;
     }
@@ -116,6 +120,11 @@ public class CrearComandaDTO {
 
     public void setTotalVenta(double totalVenta) {
         this.totalVenta = totalVenta;
+    }
+
+    @Override
+    public String toString() {
+        return "CrearComandaDTO{" + "fechaHora=" + fechaHora + ", numeroMesa=" + numeroMesa + ", estado=" + estado + ", totalVenta=" + totalVenta + ", cliente=" + cliente + ", productosComanda=" + productosComanda + ", detallesComanda=" + detallesComanda + '}';
     }
     
     

@@ -8,7 +8,9 @@ import Entidades.DetallesComanda;
 import conexion.Conexion;
 import exception.PersistenciaException;
 import interfaces.IDetallesComandaDAO;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -63,4 +65,23 @@ public class DetallesComandaDAO implements IDetallesComandaDAO {
             em.close();
         }
     }
+    
+    @Override
+    public List<DetallesComanda> obtenerDetallesPorFolio(String folio) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+
+        try {
+            // Se asume que existe una relación entre DetallesComanda y Comanda con un campo llamado 'comanda'
+            TypedQuery<DetallesComanda> query = em.createQuery(
+                    "SELECT d FROM DetallesComanda d WHERE d.comanda.folio = :folio", DetallesComanda.class);
+            query.setParameter("folio", folio);
+
+            return query.getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al obtener los detalles por folio: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+    
 }

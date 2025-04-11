@@ -133,10 +133,10 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="8">
-                    <Column editable="true" title="NUMERO MESA" type="java.lang.Object"/>
-                    <Column editable="true" title="FECHA CREACION" type="java.lang.Object"/>
-                    <Column editable="true" title="FOLIO" type="java.lang.Object"/>
-                    <Column editable="true" title="ESTADO" type="java.lang.Object"/>
+                    <Column editable="false" title="NUMERO MESA" type="java.lang.Object"/>
+                    <Column editable="false" title="FECHA CREACION" type="java.lang.Object"/>
+                    <Column editable="false" title="FOLIO" type="java.lang.Object"/>
+                    <Column editable="false" title="ESTADO" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -168,6 +168,9 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="false"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableComandasActivasMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -209,7 +212,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="10" y="0" width="300" height="50"/>
+              <AbsoluteConstraints x="0" y="0" width="320" height="50"/>
             </Constraint>
           </Constraints>
         </Component>
