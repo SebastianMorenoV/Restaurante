@@ -12,7 +12,6 @@ import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
 import DTOSalida.IngredienteDTO;
-import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.IngredientesProducto;
@@ -35,7 +34,6 @@ import interfaces.IProductoBO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import manejadoresDeObjetoNegocio.ManejadorObjetosNegocio;
@@ -51,7 +49,10 @@ public class Aplicacion {
     private String mesa;
     private ClienteDTO clienteSeleccionado; // talvez puede ser un clienteDTO , si es necesario guardar en comanda el cliente con puntos.
     private boolean siguienteComanda;
+    private boolean siguienteComandasActivas;
     private List<ProductoDTO> productosTemporales = new ArrayList<>();
+    private CrearComandaDTO comandaProductosTemporales;
+  
 
     // Ventana principal
     private JFrame framePrincipal;
@@ -228,7 +229,7 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-
+    
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
             if (comandaBO == null) {
@@ -450,6 +451,22 @@ public class Aplicacion {
         }
 
         productosTemporales.add(productoTemporal);
+    }
+
+    public CrearComandaDTO getComandaProductosTemporales() {
+        return comandaProductosTemporales;
+    }
+
+    public void setComandaProductosTemporales(CrearComandaDTO comandaProductosTemporales) {
+        this.comandaProductosTemporales = comandaProductosTemporales;
+    }
+
+    public boolean isSiguienteComandasActivas() {
+        return siguienteComandasActivas;
+    }
+
+    public void setSiguienteComandasActivas(boolean siguienteComandasActivas) {
+        this.siguienteComandasActivas = siguienteComandasActivas;
     }
 
 }

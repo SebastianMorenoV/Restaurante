@@ -122,6 +122,8 @@ public class ComandaBO implements IComandaBO {
         }
     }
 
+ 
+
     @Override
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
@@ -352,15 +354,14 @@ public class ComandaBO implements IComandaBO {
                 productoDTO.setProductoActivo(producto.getProductoActivo());
 
                 productosDTO.add(productoDTO);
-                
+
                 DetallesComandaDTO detallesComandaDTO = new DetallesComandaDTO();
                 detallesComandaDTO.setPrecioUnitario(detalle.getPrecioUnitario());
                 detallesComandaDTO.setComentarios(detalle.getComentarios());
                 detallesComandaDTO.setImporteTotal(detalle.getImporteTotal());
-                
+
                 detallesComanda.add(detallesComandaDTO);
 
-                
             }
             if (comanda == null) {
                 throw new NegocioException("No se encontró una comanda con el folio proporcionado.");
@@ -368,13 +369,28 @@ public class ComandaBO implements IComandaBO {
 
             // Obtener los detalles de la comanda
             //Conversion listas a listasDTO
-            
+            ClienteDTO cliente = new ClienteDTO();
+            var cli = comanda.getCliente();
+            if (cli != null) {
+                cliente.setNombreCompleto(
+                        (cli.getNombre() != null ? cli.getNombre() : "")
+                        + (cli.getApellidoPaterno() != null ? " " + cli.getApellidoPaterno() : "")
+                        + (cli.getApellidoMaterno() != null ? " " + cli.getApellidoMaterno() : "")
+                );
+                cliente.setApellidoPaterno(cli.getApellidoPaterno());
+                cliente.setApellidoMaterno(cli.getApellidoMaterno());
+                cliente.setTelefono(cli.getTelefono());
+            } else {
+                cliente.setNombreCompleto("SIN ESPECIFICAR");
+            }
+
             CrearComandaDTO comandaDTO = new CrearComandaDTO();
+            comandaDTO.setCliente(cliente);
             comandaDTO.setNumeroMesa(comanda.getMesa().getNumMesa());
             comandaDTO.setTotalVenta(comanda.getTotalVenta());
             comandaDTO.setDetallesComanda(detallesComanda);
             comandaDTO.setProductosComanda(productosDTO);
-            
+
             return comandaDTO;
 
         } catch (PersistenciaException e) {

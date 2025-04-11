@@ -39,5 +39,6 @@ public interface IComandaBO {
     public CrearComandaDTO obtenerComandaActiva(String folio) throws NegocioException;
     
 
+
     
 }

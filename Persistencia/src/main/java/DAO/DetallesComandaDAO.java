@@ -65,7 +65,7 @@ public class DetallesComandaDAO implements IDetallesComandaDAO {
             em.close();
         }
     }
-    
+
     @Override
     public List<DetallesComanda> obtenerDetallesPorFolio(String folio) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -83,5 +83,34 @@ public class DetallesComandaDAO implements IDetallesComandaDAO {
             em.close();
         }
     }
-    
+
+    @Override
+    public void eliminarDetallesPorFolio(String folio) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+
+        try {
+            em.getTransaction().begin();
+
+            // Obtener los detalles que se van a eliminar
+            TypedQuery<DetallesComanda> query = em.createQuery(
+                    "SELECT d FROM DetallesComanda d WHERE d.comanda.folio = :folio", DetallesComanda.class);
+            query.setParameter("folio", folio);
+            List<DetallesComanda> detalles = query.getResultList();
+
+            // Eliminar cada detalle individualmente
+            for (DetallesComanda detalle : detalles) {
+                em.remove(em.contains(detalle) ? detalle : em.merge(detalle));
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al eliminar los detalles por folio: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
 }

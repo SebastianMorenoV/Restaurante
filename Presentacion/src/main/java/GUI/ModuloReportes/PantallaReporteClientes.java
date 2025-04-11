@@ -290,7 +290,7 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
     }//GEN-LAST:event_icnVolverMouseClicked
 
     private void btnImprimirReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimirReporteMouseClicked
-       generarReporte();
+        generarReporte();
     }//GEN-LAST:event_btnImprimirReporteMouseClicked
 
     private void inputNombresFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombresFocusGained
@@ -402,6 +402,11 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         String apellidoMaterno = inputApellidoMaterno.getText().trim();
         String visitasTexto = inputVisitasMinimas.getText().trim();
 
+        // No ejecutar búsqueda si todos los campos están vacíos
+        if (nombre.isEmpty() && apellidoPaterno.isEmpty() && apellidoMaterno.isEmpty() && visitasTexto.isEmpty()) {
+            return; // 🛑 No hacer nada
+        }
+
         // Validar visitas mínimas
         int visitasMinimas = 0;
         if (!visitasTexto.isEmpty() && !visitasTexto.equalsIgnoreCase("Visitas Minimas")) {
@@ -420,25 +425,33 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
         clienteFiltro.setVisitasTotales(visitasMinimas);
 
         // Realizar búsqueda
-        List<ClienteDTO> clientesEncontrados = null;
+        List<ClienteDTO> clientesEncontrados = new ArrayList<>();
+
         try {
-            clientesEncontrados = app.buscarClienteReporte(clienteFiltro);
-            
-              List<ComandaDTO> comandas = app.obtenerUltimaComandaClientes(clientesEncontrados);
-            
-            for (int i = 0; i < clientesEncontrados.size(); i++) {
-                ClienteDTO cliente = clientesEncontrados.get(i);
+            List<ClienteDTO> candidatos = app.buscarClienteReporte(clienteFiltro);
+            List<ComandaDTO> comandas = app.obtenerUltimaComandaClientes(candidatos);
+
+            for (int i = 0; i < candidatos.size(); i++) {
+                // Seguridad por si el tamaño de las listas no coincide
+                if (i >= comandas.size()) {
+                    break;
+                }
+
                 ComandaDTO comanda = comandas.get(i);
-                cliente.setUltimaComanda(comanda.getFechaHora());
+                if (comanda != null && comanda.getFechaHora() != null) {
+                    ClienteDTO cliente = candidatos.get(i);
+                    cliente.setUltimaComanda(comanda.getFechaHora());
+                    clientesEncontrados.add(cliente);
+                }
             }
-            
+
         } catch (NegocioException ex) {
             Logger.getLogger(PantallaConsultarClientes.class.getName()).log(Level.SEVERE, null, ex);
             clientesEncontrados = new ArrayList<>();
         }
 
-        // Actualizar tabla (muestra mensaje si está vacía)
-        actualizarTabla(clientesEncontrados != null ? clientesEncontrados : new ArrayList<>());
+        // Actualizar tabla (solo muestra clientes con comanda válida)
+        actualizarTabla(clientesEncontrados);
     }
 
     // Método para actualizar la tabla con los resultados de búsqueda
@@ -448,7 +461,7 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
 
         // Llenar la tabla con los resultados
         for (ClienteDTO cliente : clientes) {
-            model.addRow(new Object[]{cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos(),cliente.getUltimaComandaFormateada()});
+            model.addRow(new Object[]{cliente.getNombreCompleto(), cliente.getVisitasTotales(), cliente.getTotalGastado(), cliente.getPuntos(), cliente.getUltimaComandaFormateada()});
         }
     }
 
@@ -478,9 +491,9 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
 
         setearToolTips();
     }
-    
-    public void generarReporte(){
-    try {
+
+    public void generarReporte() {
+        try {
             // Obtener datos desde los inputs
             String nombre = inputNombres.getText().trim();
             String apellidoPaterno = inputApellidoPaterno.getText().trim();
@@ -505,15 +518,15 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
 
             // Consultar
             List<ClienteDTO> clientes = app.buscarClienteReporte(clienteFiltro);
-                
+
             List<ComandaDTO> comandas = app.obtenerUltimaComandaClientes(clientes);
-            
+
             for (int i = 0; i < clientes.size(); i++) {
                 ClienteDTO cliente = clientes.get(i);
                 ComandaDTO comanda = comandas.get(i);
                 cliente.setUltimaComanda(comanda.getFechaHora());
             }
-            
+
             if (clientes == null || clientes.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No se encontraron clientes para el reporte.", "Sin datos", JOptionPane.INFORMATION_MESSAGE);
                 return;
@@ -530,4 +543,5 @@ public class PantallaReporteClientes extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }

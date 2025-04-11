@@ -12,6 +12,7 @@ import javax.crypto.Cipher;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.crypto.spec.SecretKeySpec;
+import javax.persistence.NoResultException;
 
 /**
  * DAO del Modulo ClientesFrecuentes
@@ -254,31 +255,36 @@ public class ClienteDAO implements IClienteDAO {
             em.close();
         }
     }
+
     /**
      * Metodo para buscar un cliente por su telefono
+     *
      * @param telefono String con el telefono de el cliente
      * @return un Cliente consultado
-     * @throws PersistenciaException  Si existe un error.
+     * @throws PersistenciaException Si existe un error.
      */
     @Override
     public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
-            String telefonoEncriptado = encriptarTelefono(telefono);
+            // Verificamos si el teléfono parece estar encriptado
+            String telefonoEncriptado = (esTelefonoEncriptado(telefono)) ? telefono : encriptarTelefono(telefono);
 
             TypedQuery<Cliente> query = em.createQuery(
                     "SELECT c FROM Cliente c WHERE c.telefono = :telefono", Cliente.class);
             query.setParameter("telefono", telefonoEncriptado);
 
-            // Esto lanzará NoResultException si no se encuentra ningún cliente
             return query.getSingleResult();
 
+        } catch (NoResultException e) {
+            throw new PersistenciaException("No se encontró ningún cliente con ese teléfono.");
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar cliente por teléfono: " + e.getMessage(), e);
         } finally {
             em.close();
         }
     }
+
     //Metodos auxiliares:
     // Método para desencriptar el teléfono
     /**
@@ -338,5 +344,10 @@ public class ClienteDAO implements IClienteDAO {
             throw new PersistenciaException("Error al encriptar el telefono: " + e.getMessage(), e);
         }
     }
+    
+    private boolean esTelefonoEncriptado(String telefono) {
+    // Puedes ajustar este patrón según cómo encriptes
+    return telefono.matches("^[A-Za-z0-9+/=]{16,}$"); // Patrón base64 típico con longitud mínima
+}
 
 }

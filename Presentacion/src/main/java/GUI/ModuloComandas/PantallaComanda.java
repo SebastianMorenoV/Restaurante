@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 /**
@@ -426,8 +428,14 @@ public class PantallaComanda extends javax.swing.JPanel {
 
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
         //Ocupa la validacion para saber si la comanda ya existe
-        guardarComanda();
         
+        if(app.isSiguienteComandasActivas() == true){
+           // funcionalidad para actualizar la comanda activa...................... para que no se persista nuevamente.
+        } else{
+          guardarComanda();
+        }
+      
+
 
     }//GEN-LAST:event_btnGuardarComandaMouseClicked
 
@@ -436,7 +444,10 @@ public class PantallaComanda extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        if (app.getRol().equals("Administrador")) {
+        if (app.isSiguienteComandasActivas()) {
+            app.mostrarPantallaComandasActivas();
+            app.setSiguienteComandasActivas(false);
+        } else if ("Administrador".equals(app.getRol())) {
             app.mostrarMenuPrincipal();
         } else {
             app.mostrarMenuMesero();
@@ -659,10 +670,11 @@ public class PantallaComanda extends javax.swing.JPanel {
         comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
         comandaDTO.setTotalVenta(200); // o 200.00 si es fijo
         comandaDTO.setCliente(app.getClienteSeleccionado());
+        System.out.println("Cliente desde nios : " +app.getClienteSeleccionado());
 
         try {
             app.guardarComanda(comandaDTO);
-            
+
             JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             if (app.getRol().equals("Administrador")) {
                 app.mostrarMenuPrincipal();
@@ -677,25 +689,48 @@ public class PantallaComanda extends javax.swing.JPanel {
     }
 
     public void obtenerProductosTemporales() {
-        List<ProductoDTO> productosTemporales = app.getProductosTemporales();
+        if (app.isSiguienteComandasActivas()) {
+            CrearComandaDTO productosComanda = app.getComandaProductosTemporales();
+            List<ProductoDTO> productosTemporales = productosComanda.getProductosComanda();
+            List<DetallesComandaDTO> detallesTemporales = productosComanda.getDetallesComanda();
+            DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+            modeloTabla.setRowCount(0); // Limpia la tabla
 
-        if (productosTemporales == null || productosTemporales.isEmpty()) {
-            return; // Salimos del método
+            for (int i = 0; i < productosTemporales.size(); i++) {
+                ProductoDTO producto = productosTemporales.get(i);
+                DetallesComandaDTO detalle = detallesTemporales.get(i);
+                 modeloTabla.addRow(new Object[]{
+                    producto.getNombre(),
+                    producto.getTipo().toString(),
+                    producto.getPrecio(),
+                    detalle.getComentarios()
+                });
+            }
+            
+
+            calcularTotal();
+        } else {
+
+            List<ProductoDTO> productosTemporales = app.getProductosTemporales();
+
+            if (productosTemporales == null || productosTemporales.isEmpty()) {
+                return; // Salimos del método
+            }
+
+            DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+            modeloTabla.setRowCount(0); // Limpia la tabla
+
+            for (ProductoDTO producto : productosTemporales) {
+                modeloTabla.addRow(new Object[]{
+                    producto.getNombre(),
+                    producto.getTipo().toString(),
+                    producto.getPrecio(),
+                    "Introducir"
+                });
+            }
+
+            calcularTotal();
         }
-
-        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
-        modeloTabla.setRowCount(0); // Limpia la tabla
-
-        for (ProductoDTO producto : productosTemporales) {
-            modeloTabla.addRow(new Object[]{
-                producto.getNombre(),
-                producto.getTipo().toString(),
-                producto.getPrecio(),
-                "Introducir"
-            });
-        }
-
-        calcularTotal();
     }
 
     private void ajustarTamañoFuente(JLabel label, String texto) {

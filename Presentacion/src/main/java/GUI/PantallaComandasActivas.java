@@ -245,7 +245,13 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
             String folio = (String) tableComandasActivas.getValueAt( filaSeleccionada, 2);
             try {
                 CrearComandaDTO comandaObtenida= app.obtenerComandasActivas(folio);
-                System.out.println(comandaObtenida.toString());
+                System.out.println(comandaObtenida.getCliente());
+                app.setClienteSeleccionado(comandaObtenida.getCliente());
+                app.setMesa(String.valueOf(comandaObtenida.getNumeroMesa()));
+                app.setComandaProductosTemporales(comandaObtenida);
+                app.setSiguienteComandasActivas(true);
+                app.reconstruirPantallaComanda();
+                app.mostrarPantallaComanda();
             } catch (NegocioException ex) {
                 Logger.getLogger(PantallaComandasActivas.class.getName()).log(Level.SEVERE, null, ex);
             }

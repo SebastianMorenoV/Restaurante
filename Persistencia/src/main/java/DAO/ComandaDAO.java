@@ -35,11 +35,13 @@ public class ComandaDAO implements IComandaDAO {
 
     public ComandaDAO() {
     }
+
     /**
      * Metodo que obtiene una comanda por el id dado.
+     *
      * @param id el id dado
      * @return Una comanda consultada por el id.
-     * @throws PersistenciaException  si existe un error al buscar la comanda.
+     * @throws PersistenciaException si existe un error al buscar la comanda.
      */
     @Override
     public Comanda obtenerComandaPorId(Long id) throws PersistenciaException {
@@ -53,13 +55,16 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
+
     /**
-     * Metodo para registrar una comanda en la base de datos.
-     * Este metodo persiste la entidad comanda en la base de datos.
-     * Solo valida que se genere el id , si no arroja una excepcion.
+     * Metodo para registrar una comanda en la base de datos. Este metodo
+     * persiste la entidad comanda en la base de datos. Solo valida que se
+     * genere el id , si no arroja una excepcion.
+     *
      * @param comanda la comanda a persistir en al bd
      * @return La comanda persistida.
-     * @throws PersistenciaException  Si existe algun error persistiendo la comanda.
+     * @throws PersistenciaException Si existe algun error persistiendo la
+     * comanda.
      */
     @Override
     public Comanda registrarComanda(Comanda comanda) throws PersistenciaException {
@@ -79,12 +84,15 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
+
     /**
-     * Metodo para actualizar una comanda en la bd
-     * utilizamos merge para actualizarla una vez ya este creada.
+     * Metodo para actualizar una comanda en la bd utilizamos merge para
+     * actualizarla una vez ya este creada.
+     *
      * @param comandaActualizar el parametro de la comanda a actualizar.
      * @return La comanda actualizada
-     * @throws PersistenciaException si existe algun error actualizando la comanda.
+     * @throws PersistenciaException si existe algun error actualizando la
+     * comanda.
      */
     @Override
     public Comanda actualizarComanda(Comanda comandaActualizar) throws PersistenciaException {
@@ -120,7 +128,7 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-    
+
     @Override
     public Comanda buscarComandaPorFolio(String folio) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -205,32 +213,39 @@ public class ComandaDAO implements IComandaDAO {
     }
 
     /**
-     * Metodo para obtener una comanda con el id de el cliente dado.
-     * Este metodo los ordena descrecientemente por fecha , para obtener el ultimo resultado mas reciente.
+     * Metodo para obtener una comanda con el id de el cliente dado. Este metodo
+     * los ordena descrecientemente por fecha , para obtener el ultimo resultado
+     * mas reciente.
+     *
      * @param idCliente
      * @return La ultima comanda asociada al cliente dado.
-     * @throws PersistenciaException  si existe un error buscando la comanda.
+     * @throws PersistenciaException si existe un error buscando la comanda.
      */
     @Override
-    public Comanda obtenerUltimaComandaCliente(Long idCliente) throws PersistenciaException { // talvez cambiar por otra
+    public Comanda obtenerUltimaComandaCliente(Long idCliente) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
 
         try {
-            return em.createQuery(
+            List<Comanda> lista = em.createQuery(
                     "SELECT c FROM Comanda c WHERE c.cliente.id = :id ORDER BY c.fechaHora DESC", Comanda.class)
                     .setParameter("id", idCliente)
                     .setMaxResults(1)
-                    .getSingleResult();
+                    .getResultList(); // usamos getResultList() en lugar de getSingleResult()
+
+            if (lista.isEmpty()) {
+                return null; // No se encontró ninguna comanda para el cliente
+            }
+
+            return lista.get(0); // Retorna la más reciente
         } catch (Exception e) {
-            throw new PersistenciaException("Error al buscar la ultima comanda de el cliente: " + idCliente + e.getMessage(), e);
+            throw new PersistenciaException("Error al buscar la última comanda del cliente: " + idCliente + ". " + e.getMessage(), e);
         } finally {
             em.close();
         }
     }
-    
-    
+
     //Metodos auxiliares
-        //metodo para crear el formato del folio
+    //metodo para crear el formato del folio
     @Override
     public int obtenerUltimoConsecutivo() throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
@@ -249,7 +264,5 @@ public class ComandaDAO implements IComandaDAO {
             em.close();
         }
     }
-    
-
 
 }
