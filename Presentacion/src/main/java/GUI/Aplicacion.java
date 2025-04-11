@@ -13,6 +13,7 @@ import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
 import DTOSalida.IngredienteDTO;
+import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.MesaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.IngredientesProducto;
@@ -30,6 +31,7 @@ import exception.NegocioException;
 import interfaces.IClienteBO;
 import interfaces.IComandaBO;
 import interfaces.IIngredienteBO;
+import interfaces.IIngredientesProductoBO;
 import interfaces.IMesaBO;
 import interfaces.IProductoBO;
 import java.time.LocalDateTime;
@@ -56,7 +58,10 @@ public class Aplicacion {
     private String folioTemporal;
     private boolean siguienteRegistrarProducto;
     private IngredienteDTO ingredienteDTO;
-
+    private List<IngredienteDTO> ingredientesDTO = new ArrayList<>();
+    private ProductoDTO productoTemporal = new ProductoDTO();
+    
+    
     // Ventana principal
     private JFrame framePrincipal;
     // pantallas
@@ -74,6 +79,7 @@ public class Aplicacion {
     private PantallaComanda comanda;
     private RegistroProducto producto;
     private BuscarProducto productoConsulta;
+    
 
     //Manejadores de BO
     private IClienteBO clientesBO;
@@ -81,6 +87,7 @@ public class Aplicacion {
     private IMesaBO mesasBO;
     private IProductoBO productoBO;
     private IComandaBO comandaBO;
+    private IIngredientesProductoBO ingredienteProductoBO;
 
     public Aplicacion() {
         framePrincipal = new JFrame("Sistema Restaurante");
@@ -94,6 +101,7 @@ public class Aplicacion {
         mesasBO = ManejadorObjetosNegocio.crearMesasBO();
         productoBO = ManejadorObjetosNegocio.crearProductosBO();
         comandaBO = ManejadorObjetosNegocio.crearComandaBO();
+        ingredienteProductoBO = ManejadorObjetosNegocio.crearIngredientesProductoBO();
 
         //inicializar pantallas
         menuSelector = new MenuSelector(this);
@@ -119,7 +127,15 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-
+    public IngredientesProductoDTO registrarIngredienteProducto(IngredientesProductoDTO ingredienteProducto) throws NegocioException{
+     try {
+            return  ingredienteProductoBO.registrarIngredienteProducto(ingredienteProducto);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    
+    }
+            
     public ProductoDTO registrarProducto(ProductoDTO producto) throws NegocioException {
         try {
             return productoBO.registrarProducto(producto);
@@ -401,7 +417,9 @@ public class Aplicacion {
         menuMesero = new MenuMesero(this);
 
     }
-
+  public void reconstruirPantallaRegistroProducto() {
+        producto = new RegistroProducto(this);
+    }
     public void reconstruirPantallaComandasActivas() {
         comandasActivas = new PantallaComandasActivas(this);
     }
@@ -507,6 +525,34 @@ public class Aplicacion {
 
     public void setIngredienteDTO(IngredienteDTO ingredienteDTO) {
         this.ingredienteDTO = ingredienteDTO;
+    }
+
+    public List<IngredienteDTO> getIngredientesDTO() {
+        return ingredientesDTO;
+    }
+
+    public void setIngredientesDTO(List<IngredienteDTO> ingredientesDTO) {
+        this.ingredientesDTO = ingredientesDTO;
+    }
+    
+    
+    public void addIngredientesDTO(IngredienteDTO ingredientesDTO) {
+        this.ingredientesDTO.add(ingredienteDTO);
+    }
+    public void removeIngredientesDTO(IngredienteDTO ingredienteDTO) {
+    if (ingredientesDTO != null && ingredientesDTO.contains(ingredienteDTO)) {
+        this.ingredientesDTO.remove(ingredienteDTO);
+    } else {
+        System.out.println("El ingrediente no se encuentra en la lista.");
+    }
+}
+
+    public ProductoDTO getProductoTemporal() {
+        return productoTemporal;
+    }
+
+    public void setProductoTemporal(ProductoDTO productoTemporal) {
+        this.productoTemporal = productoTemporal;
     }
     
     

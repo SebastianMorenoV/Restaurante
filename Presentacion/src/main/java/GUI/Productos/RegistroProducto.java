@@ -9,6 +9,7 @@ import DTOSalida.IngredienteDTO;
 import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
 import Enums.Tipo;
+import Enums.UnidadMedida;
 import GUI.Aplicacion;
 import exception.NegocioException;
 import java.time.LocalTime;
@@ -38,28 +39,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     public RegistroProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        String[] columnas = {"Producto","Ingrediente", "Unidad de Medida", "Cantidad"};
-        DefaultTableModel model = new DefaultTableModel(null, columnas) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tablaIngredientes.setModel(model);
-
-        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"PLATILLO", "BEBIDA", "POSTRE"}));
-
-        //agregarDocumentListener(txtNombre);
-        cargarMeotodosAux();
-
-// Registra el MouseListener para la tabla
-        tablaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaProductosMouseClicked(evt);
-            }
-        });
-        
+        cargarIngredientes();
     }
 
     /**
@@ -87,7 +67,7 @@ public class RegistroProducto extends javax.swing.JPanel {
         btnCancelar = new javax.swing.JButton();
         btnConsulttar = new javax.swing.JButton();
         btnAgregarIngredientes = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         tablaIngredientes = new javax.swing.JTable();
 
         jTextArea1.setColumns(20);
@@ -95,6 +75,7 @@ public class RegistroProducto extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTextArea1);
 
         setBackground(new java.awt.Color(216, 202, 179));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -114,57 +95,73 @@ public class RegistroProducto extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(1095, Short.MAX_VALUE)
                 .addComponent(lblHora)
                 .addGap(55, 55, 55))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addGap(116, 116, 116)
+                .addGap(231, 231, 231)
                 .addComponent(jLabel1)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)))
+                .addGap(27, 27, 27)
                 .addComponent(lblHora)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1150, -1));
+
         jLabel2.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel2.setText("Nombre:");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 186, -1, 39));
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel3.setText("Tipo:");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 276, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel4.setText("Precio:");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 363, -1, -1));
+        add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 231, 196, 39));
 
         comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PLATILLO", "BEBIDA", "POSTRE" }));
+        add(comboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 314, 196, 37));
+        add(txtPrecio, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 395, 195, 35));
 
         btnRegistrarProducto.setText("Registrar Producto");
+        btnRegistrarProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegistrarProductoMouseClicked(evt);
+            }
+        });
         btnRegistrarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarProductoActionPerformed(evt);
             }
         });
+        add(btnRegistrarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 477, 195, 46));
 
         btnCancelar.setText("Cancelar");
+        add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 545, 195, -1));
 
-        btnConsulttar.setText("Consular Productos");
+        btnConsulttar.setText("Consultar Productos");
         btnConsulttar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsulttarActionPerformed(evt);
             }
         });
+        add(btnConsulttar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 540, 184, 45));
 
         btnAgregarIngredientes.setText("Agregar Ingredientes");
         btnAgregarIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -177,96 +174,39 @@ public class RegistroProducto extends javax.swing.JPanel {
                 btnAgregarIngredientesActionPerformed(evt);
             }
         });
+        add(btnAgregarIngredientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 540, 181, 44));
 
         tablaIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "tile 5"
+                "ID", "Cantidad (editable)", "Unidad Medida", "Ingrediente Nombre"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaIngredientes.setRowHeight(40);
+        tablaIngredientes.getTableHeader().setResizingAllowed(false);
+        tablaIngredientes.getTableHeader().setReorderingAllowed(false);
         tablaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaIngredientesMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tablaIngredientes);
+        jScrollPane2.setViewportView(tablaIngredientes);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(txtNombre)
-                            .addComponent(comboBox, 0, 196, Short.MAX_VALUE)
-                            .addComponent(jLabel4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtPrecio)
-                            .addComponent(btnRegistrarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(118, 118, 118))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(btnConsulttar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(179, 179, 179))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnRegistrarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnConsulttar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 650, 341));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIngredientesMouseClicked
-
-    }//GEN-LAST:event_tablaIngredientesMouseClicked
-
     private void btnRegistrarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarProductoActionPerformed
-        guardarProducto();
+        guardarProductoNuevo();
     }//GEN-LAST:event_btnRegistrarProductoActionPerformed
 
     private void btnConsulttarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulttarActionPerformed
@@ -275,6 +215,7 @@ public class RegistroProducto extends javax.swing.JPanel {
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         app.mostrarMenuPrincipal();
+        app.setIngredientesDTO(new ArrayList<>()); // se setee nulo al salir.
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void btnAgregarIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIngredientesActionPerformed
@@ -285,6 +226,47 @@ public class RegistroProducto extends javax.swing.JPanel {
         app.setSiguienteRegistrarProducto(true);
         app.mostrarPantallaConsultarIngredientes();
     }//GEN-LAST:event_btnAgregarIngredientesMouseClicked
+
+    private void btnRegistrarProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarProductoMouseClicked
+        guardarProductoNuevo();
+    }//GEN-LAST:event_btnRegistrarProductoMouseClicked
+
+    private void tablaIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaIngredientesMouseClicked
+        if (evt.getClickCount() == 2) {
+            // Obtener la fila seleccionada
+            int fila = tablaIngredientes.getSelectedRow();
+
+            if (fila != -1) {  // Asegurarse de que haya una fila seleccionada
+                // Obtener el modelo de la tabla
+                DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
+
+                // Obtener los valores de la fila seleccionada
+                Long id = Long.parseLong(model.getValueAt(fila, 0).toString()); // Columna 0: id
+                Integer cantidad = Integer.parseInt(model.getValueAt(fila, 1).toString()); // Columna 1: cantidad
+                UnidadMedida unidad = (UnidadMedida) model.getValueAt(fila, 2); // Columna 2: unidad (Enum)
+                String nombreIngrediente = model.getValueAt(fila, 3).toString(); // Columna 3: nombre
+
+                // Crear el DTO de ingrediente
+                IngredienteDTO ingredienteDTO = new IngredienteDTO();
+                ingredienteDTO.setId(id);
+                ingredienteDTO.setCantidad(cantidad);
+                ingredienteDTO.setUnidadMedida(unidad);
+                ingredienteDTO.setNombre(nombreIngrediente);
+
+                // Mostrar un cuadro de diálogo de confirmación
+                int opcion = JOptionPane.showConfirmDialog(null, "¿Deseas eliminar esta fila?",
+                        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+                if (opcion == JOptionPane.YES_OPTION) {
+                    // Eliminar la fila seleccionada
+                    model.removeRow(fila);
+                    // Eliminar el ingrediente de la lista DTO
+                  
+                    app.removeIngredientesDTO(ingredienteDTO);
+                }
+            }
+        }
+    }//GEN-LAST:event_tablaIngredientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -300,7 +282,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblHora;
     private javax.swing.JTable tablaIngredientes;
@@ -333,7 +315,7 @@ public class RegistroProducto extends javax.swing.JPanel {
 
         ProductoDTO productoFiltro = new ProductoDTO();
         productoFiltro.setNombre(nombreProducto.toString().trim()); // Evitar espacios extra
- 
+
         IngredienteDTO ingredientesProducto = app.getIngredienteDTO();
         // Realizar la búsqueda en el BO
         List<ProductoDTO> productosEncontrados = null; //prueba
@@ -353,34 +335,25 @@ public class RegistroProducto extends javax.swing.JPanel {
     // Método para actualizar la tabla con los resultados de búsqueda
     private void actualizarTabla(List<ProductoDTO> productos) {
         /**
-        DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
-        limpiarTabla(); // Limpiar tabla existente
-
-        // Llenar la tabla con los resultados
-        for (ProductoDTO producto : productos) {
-            if (producto.getIngredienteProducto() != null) {
-                List<IngredientesProductoDTO> listaDTO = new ArrayList<>();
-                for (IngredientesProductoDTO ingredientesProductoDTO : producto.getIngredienteProducto()) {
-                    IngredienteDTO ingrediente = ingredientesProductoDTO.getIngrediente();
-                    model.addRow(new Object[]{
-                        producto.getNombre(),
-                        ingrediente.getNombre(),
-                        ingrediente.getUnidadMedida(),
-                        ingrediente.getStock()
-                    });
-                    listaDTO.add(ingredientesProductoDTO);
-                }
-            } else {
-                //si no tiene ingredientes, agrega fila aclarandolo
-                model.addRow(new Object[]{
-                    "sin ingredientes",
-                    "-",
-                    "-"
-                });
-            }
-
-        }
-        * **/
+         * DefaultTableModel model = (DefaultTableModel)
+         * tablaIngredientes.getModel(); limpiarTabla(); // Limpiar tabla
+         * existente
+         *
+         * // Llenar la tabla con los resultados for (ProductoDTO producto :
+         * productos) { if (producto.getIngredienteProducto() != null) {
+         * List<IngredientesProductoDTO> listaDTO = new ArrayList<>(); for
+         * (IngredientesProductoDTO ingredientesProductoDTO :
+         * producto.getIngredienteProducto()) { IngredienteDTO ingrediente =
+         * ingredientesProductoDTO.getIngrediente(); model.addRow(new Object[]{
+         * producto.getNombre(), ingrediente.getNombre(),
+         * ingrediente.getUnidadMedida(), ingrediente.getStock() });
+         * listaDTO.add(ingredientesProductoDTO); } } else { //si no tiene
+         * ingredientes, agrega fila aclarandolo model.addRow(new Object[]{ "sin
+         * ingredientes", "-", "-" }); }
+         *
+         * }
+         * *
+         */
     }
 
     private void seterToolTips() {
@@ -398,42 +371,6 @@ public class RegistroProducto extends javax.swing.JPanel {
         seterToolTips();
     }
 
-    public void guardarProducto() {
-        String nombre = txtNombre.getText().trim();
-        String txttprecio = txtPrecio.getText().trim();
-        String tipoString = (String) comboBox.getSelectedItem();
-
-        if (nombre.isEmpty() || txttprecio.isEmpty() || tipoString == null || tipoString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-            return; // ⬅ necesario para evitar seguir ejecutando
-        }
-
-        double precio;
-        try {
-            precio = Double.parseDouble(txttprecio);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El precio debe ser un número válido");
-            return;
-        }
-
-        Tipo tipo = Tipo.valueOf(tipoString);
-
-        if (nombre.isEmpty() || txttprecio.isEmpty() || tipoString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-        }
-
-        ProductoDTO producto = new ProductoDTO(nombre, precio, tipo);
-
-        try {
-            app.registrarProducto(producto);
-            JOptionPane.showMessageDialog(this, "Producto registrado con exito\n " + nombre, "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-            limpiarCampos();
-        } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, "Error al registrar el proucto : " + ex.getMessage(),
-                    "Error en registro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     //Metodos Auxiliares.
     private void mostrarFecha() {
         Timer timer = new Timer(1000, e -> {
@@ -449,62 +386,103 @@ public class RegistroProducto extends javax.swing.JPanel {
         txtPrecio.setText("");
     }
 
-    public void cargarProductoDesdeConsulta() {
-        /**
-        List<ProductoDTO> productos = app.getProductosTemporales();
-        if (productos == null || productos.isEmpty()) {
-            return;
+    public void guardarProductoNuevo() {
+        DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
+
+        try {
+            // Crear el DTO de producto una sola vez
+            ProductoDTO producto = new ProductoDTO();
+            producto.setNombre(txtNombre.getText());
+            Tipo tipoNuevo = Tipo.valueOf(comboBox.getSelectedItem().toString()); // <-- Aquí se hace bien la conversión
+            producto.setTipo(tipoNuevo);
+            producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
+
+            System.out.println("Antes de registrar producto");
+            ProductoDTO productoInsertado = app.registrarProducto(producto);
+            System.out.println("Después de registrar producto");
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                // Obtener datos de cada fila de la tabla
+                Long id = Long.parseLong(model.getValueAt(i, 0).toString());
+                Integer cantidad = Integer.parseInt(model.getValueAt(i, 1).toString());  // Columna 0: cantidad
+                UnidadMedida unidad = (UnidadMedida) model.getValueAt(i, 2);            // Columna 1: unidad (Enum)
+                String nombreIngrediente = model.getValueAt(i, 3).toString();           // Columna 2: nombre
+
+                // Crear el DTO de ingrediente
+                IngredienteDTO ingredienteDTO = new IngredienteDTO();
+                ingredienteDTO.setId(id);
+                ingredienteDTO.setCantidad(cantidad);
+                ingredienteDTO.setUnidadMedida(unidad);
+                ingredienteDTO.setNombre(nombreIngrediente);
+
+                // Crear el DTO de relación Ingrediente-Producto
+                IngredientesProductoDTO ingredienteProductoDTO = new IngredientesProductoDTO();
+                ingredienteProductoDTO.setCantidad(cantidad);
+                ingredienteProductoDTO.setIngrediente(ingredienteDTO);
+                ingredienteProductoDTO.setProducto(productoInsertado);
+
+                System.out.println("Registrando relación: " + ingredienteProductoDTO);
+
+                // Registrar la relación Ingrediente-Producto
+                app.registrarIngredienteProducto(ingredienteProductoDTO);
+            }
+
+            JOptionPane.showMessageDialog(null, "Producto registrado correctamente.");
+        } catch (NegocioException ex) {
+            Logger.getLogger(RegistroProducto.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al registrar el producto: " + ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(RegistroProducto.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage());
+        }
+    }
+
+    public void cargarIngredientes() {
+        List<IngredienteDTO> ingredientesDTO = app.getIngredientesDTO();
+
+        if (ingredientesDTO == null || ingredientesDTO.isEmpty()) {
+            return; // Salir si la lista está vacía o es null
         }
 
-        ProductoDTO producto = productos.get(0);
-        txtNombre.setText(producto.getNombre());
-        txtPrecio.setText(String.valueOf(producto.getPrecio()));
-        comboBox.setSelectedItem(producto.getTipo());
-
-        // Cargar ingredientes en la tabla
         DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
-        limpiarTabla(); // Limpiar tabla
+        model.setRowCount(0); // Limpiar tabla antes de cargar
 
-        for (IngredientesProductoDTO ingrediente : producto.getIngredienteProducto()) {
-            IngredienteDTO ing = ingrediente.getIngrediente();
+        for (IngredienteDTO ingredienteDTO : ingredientesDTO) {
             model.addRow(new Object[]{
-                producto.getNombre(),
-                ing.getNombre(),
-                ing.getUnidadMedida(),
-                ingrediente.getCantidad()
+                ingredienteDTO.getId(),
+                ingredienteDTO.getCantidad(),
+                ingredienteDTO.getUnidadMedida(),
+                ingredienteDTO.getNombre()
             });
         }
-        * **/
+    }
+
+    public void cargarProductoDesdeConsulta() {
+        /**
+         * List<ProductoDTO> productos = app.getProductosTemporales(); if
+         * (productos == null || productos.isEmpty()) { return; }
+         *
+         * ProductoDTO producto = productos.get(0);
+         * txtNombre.setText(producto.getNombre());
+         * txtPrecio.setText(String.valueOf(producto.getPrecio()));
+         * comboBox.setSelectedItem(producto.getTipo());
+         *
+         * // Cargar ingredientes en la tabla DefaultTableModel model =
+         * (DefaultTableModel) tablaIngredientes.getModel(); limpiarTabla(); //
+         * Limpiar tabla
+         *
+         * for (IngredientesProductoDTO ingrediente :
+         * producto.getIngredienteProducto()) { IngredienteDTO ing =
+         * ingrediente.getIngrediente(); model.addRow(new Object[]{
+         * producto.getNombre(), ing.getNombre(), ing.getUnidadMedida(),
+         * ingrediente.getCantidad() }); } *
+         */
 
     }
 
     private void limpiarTabla() {
         DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
         model.setRowCount(0);
-    }
-
-    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {
-        if (evt.getClickCount() == 2) { // Doble clic
-            System.out.println("Doble clic detectado");
-            int row = tablaIngredientes.getSelectedRow();
-            if (row != -1) {
-                // Suponiendo que el ID del producto está en la primera columna
-                String idStr = tablaIngredientes.getValueAt(row, 0).toString();
-                Long productoId = Long.valueOf(idStr);
-
-                String productoNombre = (String) tablaIngredientes.getValueAt(row, 1); // Nombre del producto en la segunda columna
-
-                // 🔧 CORRECCIÓN: crear nueva instancia
-                this.productoSeleccionado = new ProductoDTO();
-                this.productoSeleccionado.setId(productoId);
-                this.productoSeleccionado.setNombre(productoNombre);
-
-                // Redirigir a la pantalla Consultar Ingredientes
-                app.mostrarPantallaConsultarIngredientes();
-                
-                 cargarProductoDesdeConsulta();
-            }
-        }
     }
 
 }

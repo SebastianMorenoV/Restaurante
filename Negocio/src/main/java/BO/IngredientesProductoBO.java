@@ -5,7 +5,9 @@
 package BO;
 
 import DTOSalida.IngredientesProductoDTO;
+import Entidades.Ingrediente;
 import Entidades.IngredientesProducto;
+import Entidades.Producto;
 import exception.NegocioException;
 import exception.PersistenciaException;
 import interfaces.IIngredienteDAO;
@@ -30,22 +32,47 @@ public class IngredientesProductoBO implements IIngredientesProductoBO {
     }
 
     @Override
-    public void insertar(IngredientesProductoDTO ingredientesProducto) throws NegocioException {
+    public IngredientesProductoDTO registrarIngredienteProducto(IngredientesProductoDTO ingredientesProducto) throws NegocioException {
+        // Crear un objeto IngredientesProducto para la capa de negocio
         IngredientesProducto ingredienteProducto = new IngredientesProducto();
         ingredienteProducto.setCantidad(ingredientesProducto.getCantidad());
-        ingredienteProducto.setId(ingredientesProducto.getId());
-        ingredientesProducto.setIngrediente(ingredientesProducto.getIngrediente());
-        ingredientesProducto.setProducto(ingredientesProducto.getProducto());
 
+        // Convertir el DTO de Ingrediente a la clase de negocio Ingrediente
+        Ingrediente ingrediente = new Ingrediente();
+        ingrediente.setId(ingredientesProducto.getIngrediente().getId()); // Establecer el ID del ingrediente
+        ingrediente.setNombre(ingredientesProducto.getIngrediente().getNombre()); // Establecer el nombre del ingrediente
+        ingrediente.setUnidadMedida(ingredientesProducto.getIngrediente().getUnidadMedida()); // Establecer la unidad de medida
+        
+        // Asociar el ingrediente al ingredienteProducto
+        ingredienteProducto.setIngrediente(ingrediente);
+                
+        // Convertir el DTO de Producto al objeto Producto de negocio
+        Producto producto = new Producto();
+        producto.setId(ingredientesProducto.getProducto().getId()); // Establecer el ID del producto
+        producto.setNombre(ingredientesProducto.getProducto().getNombre()); // Establecer el nombre del producto
+        producto.setPrecio(ingredientesProducto.getProducto().getPrecio()); // Establecer el precio del producto
+        producto.setTipo(ingredientesProducto.getProducto().getTipo()); // Establecer el tipo del producto
+        
+        // Asociar el producto al ingredienteProducto
+        ingredienteProducto.setProducto(producto);
+        
         try {
+            // Registrar el ingrediente-producto en la base de datos usando el DAO
             IngredientesProductoDAO.insertar(ingredienteProducto);
 
-            // ingredienteProducto.setIngrediente(ingrediente);
-            // IngredientesProductoDAO.insertar(ingredientesProducto);
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(IngredientesProductoBO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            // Ahora, devolver el DTO correspondiente
+            IngredientesProductoDTO nuevoIngredienteProductoDTO = new IngredientesProductoDTO();
+            nuevoIngredienteProductoDTO.setCantidad(ingredienteProducto.getCantidad());
+            nuevoIngredienteProductoDTO.setIngrediente(ingredientesProducto.getIngrediente());
+            nuevoIngredienteProductoDTO.setProducto(ingredientesProducto.getProducto());
 
+            return nuevoIngredienteProductoDTO; // Devuelvo el DTO con los datos del ingrediente-producto guardado
+        } catch (PersistenciaException ex) {
+            // Manejar error de persistencia
+            Logger.getLogger(IngredientesProductoBO.class.getName()).log(Level.SEVERE, null, ex);
+            // Lanzar una excepción de negocio si ocurre un error al guardar
+            throw new NegocioException("Error al registrar ingrediente-producto", ex);
+        }
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface IIngredientesProductoDAO {
 
-    public void insertar(IngredientesProducto ingredientesProducto) throws PersistenciaException;
+    public IngredientesProducto insertar(IngredientesProducto ingredientesProducto) throws PersistenciaException;
 
     public List<IngredientesProducto> obtenerTodos() throws PersistenciaException;
 

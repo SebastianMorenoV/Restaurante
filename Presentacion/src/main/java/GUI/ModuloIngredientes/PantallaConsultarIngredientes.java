@@ -52,8 +52,10 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                     if (filaSeleccionada != -1) {
                         Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
                         String nombre = (String) tableIngredientes.getValueAt(filaSeleccionada, 1);
-                        String valorUnidad = (String) tableIngredientes.getValueAt(filaSeleccionada, 2);
-                        UnidadMedida unidad = UnidadMedida.valueOf(valorUnidad); // 
+
+                  
+                        UnidadMedida unidad = (UnidadMedida) tableIngredientes.getValueAt(filaSeleccionada, 2);
+
                         int stock = (int) tableIngredientes.getValueAt(filaSeleccionada, 3);
 
                         IngredienteDTO ingredienteSeleccionado = new IngredienteDTO(id, nombre, stock, unidad);
@@ -75,27 +77,24 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                                     null,
                                     "Ingresa la cantidad requerida: "
                             );
- 
+
                             int cantidadRequerida = Integer.parseInt(respuesta);
                             IngredienteDTO dTOEntrada = new IngredienteDTO();
                             dTOEntrada.setId(id);
                             dTOEntrada.setNombre(nombre);
-                            dTOEntrada.setStock(stock);
                             dTOEntrada.setUnidadMedida(unidad);
                             dTOEntrada.setCantidad(cantidadRequerida);
-                            
+
                             app.setIngredienteDTO(dTOEntrada);
-                            //Aqui iria lo de 
+                            app.addIngredientesDTO(dTOEntrada); // añado a la lista de ingredientes temporales.
                             app.setSiguienteRegistrarProducto(false);
+                            app.reconstruirPantallaRegistroProducto();
                             app.mostrarRegistroProducto();
-                            
                         }
                     }
                 }
-
             }
         });
-
     }
 
     /**
@@ -109,6 +108,7 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
 
         pnlHeader = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableIngredientes = new javax.swing.JTable();
@@ -132,20 +132,32 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
         jLabel4.setText("Consultar Ingrediente");
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/flechaAtras.png"))); // NOI18N
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlHeaderLayout = new javax.swing.GroupLayout(pnlHeader);
         pnlHeader.setLayout(pnlHeaderLayout);
         pnlHeaderLayout.setHorizontalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlHeaderLayout.setVerticalGroup(
             pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel4)
+                .addGroup(pnlHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel4))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -246,6 +258,20 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputNombreActionPerformed
 
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        if (app.isSiguienteRegistrarProducto()) {
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Estas seguro de salir sin agregar un ingrediente?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                app.mostrarRegistroProducto();
+                app.setSiguienteRegistrarProducto(false);
+
+            } else {
+            }
+        } else {
+            app.mostrarPantallaRegistrarIngrediente();
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbxUnidades;
@@ -254,6 +280,7 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator3;
     private GUI.PanelRound panelRound2;

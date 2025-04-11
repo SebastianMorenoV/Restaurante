@@ -41,6 +41,13 @@ public class ProductoDAO implements IProductoDAO {
     public Producto guardarProducto(Producto producto) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
+            // Verificar si el producto con el mismo nombre ya existe
+            Producto productoExistente = buscarProductoPorNombre(em, producto.getNombre());
+
+            if (productoExistente != null) {
+                throw new PersistenciaException("Error: Ya existe un producto con el nombre '" + producto.getNombre() + "'");
+            }
+
             em.getTransaction().begin();
             em.persist(producto);
             em.getTransaction().commit();
@@ -48,12 +55,29 @@ public class ProductoDAO implements IProductoDAO {
             if (producto.getId() == null) {
                 throw new PersistenciaException("Error: No se generó un ID para el producto a guardar");
             }
+
             return producto;
         } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw new PersistenciaException("No se pudo registrar el producto: " + e.getMessage());
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("No se pudo registrar el producto con el nombre '" + producto.getNombre() + "': " + e.getMessage());
         } finally {
             em.close();
+        }
+    }
+
+    private Producto buscarProductoPorNombre(EntityManager em, String nombreProducto) {
+        try {
+            // Mejorar la consulta para que devuelva solo el primer resultado
+            return em.createQuery("SELECT p FROM Producto p WHERE p.nombre = :nombre", Producto.class)
+                    .setParameter("nombre", nombreProducto)
+                    .setMaxResults(1) // Evita traer más de un resultado
+                    .getSingleResult(); // Devuelve un solo resultado
+        } catch (NoResultException e) {
+            return null; // No se encontró el producto
+        } catch (Exception e) {
+            return null; // En caso de error, devolvemos null
         }
     }
 

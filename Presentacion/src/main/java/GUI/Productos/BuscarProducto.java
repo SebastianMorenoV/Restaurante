@@ -43,7 +43,7 @@ public class BuscarProducto extends javax.swing.JPanel {
     public BuscarProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        String[] columnas = {"Producto", "Categoria", "Precio", "Des/Habilitado", "Ingredientes", "id"};
+        String[] columnas = {"Id", "Producto", "Categoria", "Precio", "Des/Habilitado", "Ingredientes"};
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaProductos.setModel(model);
         tablaProductos.setDefaultEditor(Object.class, null);
@@ -59,29 +59,6 @@ public class BuscarProducto extends javax.swing.JPanel {
             }
         });
 
-        tablaProductos.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
-                    int fila = tablaProductos.getSelectedRow();
-                    if (productos != null && !productos.isEmpty()) {
-                        if (fila >= 0 && fila < productos.size()) {
-                            ProductoDTO productoSeleccionado = productos.get(fila);
-                            List<ProductoDTO> productoList = new ArrayList<>();
-                            productoList.add(productoSeleccionado);
-
-                            // Aquí se pasa la lista de productos seleccionados
-                            app.setProductosTemporales(productoList);
-                            app.mostrarPantallaConsultarIngredientes();
-                        } else {
-                            System.out.println("El índice seleccionado no es válido.");
-                        }
-                    } else {
-                        System.out.println("La lista de productos está vacía o no se ha inicializado.");
-                    }
-
-                }
-            }
-        });
     }
 
     /**
@@ -161,20 +138,36 @@ public class BuscarProducto extends javax.swing.JPanel {
 
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "Producto", "Categoria", "Precio", "Des/Habilitado", "Ingredientes"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaProductos.setRowHeight(30);
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaProductos);
 
         btnCancelar.setText("Cancelar");
 
         btnEliminarProducto.setText("Deshabilitar Producto");
+        btnEliminarProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarProductoMouseClicked(evt);
+            }
+        });
         btnEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarProductoActionPerformed(evt);
@@ -196,28 +189,34 @@ public class BuscarProducto extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNombre)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jLabel4)))
-                .addGap(209, 209, 209)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(btnHabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(79, 79, 79)
+                                        .addComponent(jLabel4)))
+                                .addGap(55, 55, 55))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(btnEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnHabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
@@ -260,6 +259,41 @@ public class BuscarProducto extends javax.swing.JPanel {
     private void btnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabilitarActionPerformed
         habilitarProducto();
     }//GEN-LAST:event_btnHabilitarActionPerformed
+
+    private void btnEliminarProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarProductoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarProductoMouseClicked
+
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        if (app.isSiguienteComanda() && evt.getClickCount() == 2) {
+            // Obtener la fila seleccionada
+            int filaSeleccionada = tablaProductos.getSelectedRow();
+
+            // Verificar si hay una fila seleccionada
+            if (filaSeleccionada != -1) {
+                // Obtener el valor de las columnas de la fila seleccionada
+                String nombreProducto = (String) tablaProductos.getValueAt(filaSeleccionada, 1); // Columna 1: nombre
+                String categoriaStr = tablaProductos.getValueAt(filaSeleccionada, 2).toString(); // Columna 2: categoría como String
+                Tipo tipoNuevo = Tipo.valueOf(categoriaStr); // Convertir el String a un Enum de Tipo
+                String precioStr = tablaProductos.getValueAt(filaSeleccionada, 3).toString(); // Columna 3: precio como String
+
+                // Convertir el precio a Double en lugar de Integer
+                Double precio = Double.parseDouble(precioStr);
+                // Crear el ProductoDTO con los valores obtenidos
+                ProductoDTO producto = new ProductoDTO();
+                producto.setNombre(nombreProducto);
+                producto.setTipo(tipoNuevo);
+                producto.setPrecio(precio);
+
+                // Establecer el producto temporal
+                app.setProductoTemporal(producto);
+
+                // Reconstruir y mostrar la pantalla de comanda
+                app.reconstruirPantallaComanda();
+                app.mostrarPantallaComanda();
+            }
+        }
+    }//GEN-LAST:event_tablaProductosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -335,6 +369,7 @@ public class BuscarProducto extends javax.swing.JPanel {
             //llenar la tabla
             for (ProductoDTO producto : productos) {
                 model.addRow(new Object[]{
+                    producto.getId(),
                     producto.getNombre(),
                     producto.getTipo(),
                     producto.getPrecio(),
@@ -347,10 +382,10 @@ public class BuscarProducto extends javax.swing.JPanel {
         // Ocultar la columna de ID
         int numColumnas = tablaProductos.getColumnCount();
         if (numColumnas
-                > 5) {
-            tablaProductos.getColumnModel().getColumn(5).setMinWidth(0);
-            tablaProductos.getColumnModel().getColumn(5).setMaxWidth(0);
-            tablaProductos.getColumnModel().getColumn(5).setWidth(0);
+                < 5) {
+            tablaProductos.getColumnModel().getColumn(0).setMinWidth(0);
+            tablaProductos.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablaProductos.getColumnModel().getColumn(0).setWidth(0);
         }
     }
 
@@ -404,7 +439,7 @@ public class BuscarProducto extends javax.swing.JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 // Obtener el ID desde la columna oculta (columna 5)
-                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 5).toString());
+                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 0).toString());
 
                 ProductoDTO productoDTO = new ProductoDTO();
                 productoDTO.setId(idProducto);
@@ -441,7 +476,7 @@ public class BuscarProducto extends javax.swing.JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 // Obtener el ID desde la columna oculta (columna 5)
-                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 5).toString());
+                Long idProducto = Long.parseLong(tablaProductos.getValueAt(filaSeleccionada, 0).toString());
 
                 ProductoDTO productoDTO = new ProductoDTO();
                 productoDTO.setId(idProducto);

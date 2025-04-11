@@ -27,7 +27,7 @@ import javax.persistence.UniqueConstraint;
  * @author Admin
  */
 @Entity
-@Table(name = "Producto", uniqueConstraints = @UniqueConstraint(columnNames = {"nombre"})) // indica que solo un producto puede tener un nombre y no repetirse
+@Table(name = "Producto") // indica que solo un producto puede tener un nombre y no repetirse
 public class Producto implements Serializable {
 
     @Id
@@ -48,7 +48,7 @@ public class Producto implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductoActivo productoActivo;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "producto")
     private List<IngredientesProducto> ingredientes;
 
     @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch /*PUEDE SER UNIDIRECCIO NAL DICE LA PROFRE BRO😃*/

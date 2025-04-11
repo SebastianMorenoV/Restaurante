@@ -120,6 +120,8 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound5 = new GUI.PanelRound();
         btnModificarIngrediente = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        panelRound7 = new GUI.PanelRound();
+        btnConsultarIngredientes = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(216, 202, 179));
         setForeground(new java.awt.Color(216, 202, 179));
@@ -319,14 +321,24 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         panelRound4.setLayout(panelRound4Layout);
         panelRound4Layout.setHorizontalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+            .addGap(0, 320, Short.MAX_VALUE)
+            .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelRound4Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(11, Short.MAX_VALUE)))
         );
         panelRound4Layout.setVerticalGroup(
             panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGap(0, 52, Short.MAX_VALUE)
+            .addGroup(panelRound4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound4Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 540, 320, 50));
+        add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 530, 320, 50));
 
         panelRound5.setBackground(new java.awt.Color(255, 255, 255));
         panelRound5.setRoundBottomLeft(30);
@@ -360,6 +372,40 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setText("Nombre:");
         add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+
+        panelRound7.setBackground(new java.awt.Color(255, 255, 255));
+        panelRound7.setRoundBottomLeft(30);
+        panelRound7.setRoundBottomRight(30);
+        panelRound7.setRoundTopLeft(30);
+        panelRound7.setRoundTopRight(30);
+
+        btnConsultarIngredientes.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        btnConsultarIngredientes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnConsultarIngredientes.setText("Consultar ingredientes");
+        btnConsultarIngredientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConsultarIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnConsultarIngredientesMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelRound7Layout = new javax.swing.GroupLayout(panelRound7);
+        panelRound7.setLayout(panelRound7Layout);
+        panelRound7Layout.setHorizontalGroup(
+            panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnConsultarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
+        );
+        panelRound7Layout.setVerticalGroup(
+            panelRound7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnConsultarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        add(panelRound7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 630, 320, 50));
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbxUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxUnidadesActionPerformed
@@ -389,9 +435,14 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
         app.mostrarMenuPrincipal();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
+    private void btnConsultarIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConsultarIngredientesMouseClicked
+      app.mostrarPantallaConsultarIngredientes();
+    }//GEN-LAST:event_btnConsultarIngredientesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCancelar;
+    private javax.swing.JLabel btnConsultarIngredientes;
     private javax.swing.JLabel btnModificarIngrediente;
     private javax.swing.JLabel btnRegistrarIngrediente;
     private javax.swing.JComboBox<String> cbxUnidades;
@@ -410,6 +461,7 @@ public class FormularioRegistrarIngrediente extends javax.swing.JPanel {
     private GUI.PanelRound panelRound4;
     private GUI.PanelRound panelRound5;
     private GUI.PanelRound panelRound6;
+    private GUI.PanelRound panelRound7;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JTable tableIngredientes;
     // End of variables declaration//GEN-END:variables

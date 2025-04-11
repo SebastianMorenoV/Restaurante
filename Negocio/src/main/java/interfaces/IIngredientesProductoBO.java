@@ -12,8 +12,7 @@ import exception.NegocioException;
  * @author SDavidLedesma
  */
 public interface IIngredientesProductoBO {
-    
-    
-        public void insertar(IngredientesProductoDTO ingredientesProducto) throws NegocioException;
+
+    public IngredientesProductoDTO registrarIngredienteProducto(IngredientesProductoDTO ingredientesProducto) throws NegocioException;
 
 }

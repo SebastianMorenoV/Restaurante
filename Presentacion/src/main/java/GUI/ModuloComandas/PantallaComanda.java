@@ -500,7 +500,11 @@ public class PantallaComanda extends javax.swing.JPanel {
 
     private void btnAgregarProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarProductoMouseClicked
         // TODO add your handling code here:
-        registrarProducto();
+
+        app.setSiguienteComanda(true);
+        app.mostrarBusquedaProducto();
+
+        //registrarProducto();
     }//GEN-LAST:event_btnAgregarProductoMouseClicked
 
     private void pnlHeaderFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pnlHeaderFocusGained
@@ -761,26 +765,34 @@ public class PantallaComanda extends javax.swing.JPanel {
             calcularTotal();
         } else {
 
-            List<ProductoDTO> productosTemporales = app.getProductosTemporales();
-
-            if (productosTemporales == null || productosTemporales.isEmpty()) {
-                return; // Salimos del método
+            if (app.getProductoTemporal() == null) {
+                // Si no hay producto temporal, simplemente salimos del método
+                return;
             }
 
+// Si hay un producto temporal
+            ProductoDTO producto = app.getProductoTemporal();
+
+// Verificamos si el tipo de producto es nulo
+            String tipoProducto = (producto.getTipo() != null) ? producto.getTipo().toString() : "Tipo no disponible";
+
+// Preparamos el modelo de la tabla
             DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
-            modeloTabla.setRowCount(0); // Limpia la tabla
+            modeloTabla.setRowCount(0); // Limpiamos la tabla
 
-            for (ProductoDTO producto : productosTemporales) {
-                modeloTabla.addRow(new Object[]{
-                    producto.getNombre(),
-                    producto.getTipo().toString(),
-                    producto.getPrecio(),
-                    "Introducir"
-                });
-            }
+// Añadimos la fila con los datos del producto
+            modeloTabla.addRow(new Object[]{
+                producto.getNombre(),
+                tipoProducto, // Aseguramos que el tipo no sea null
+                producto.getPrecio(),
+                "Introducir"
+            });
 
+// Calculamos el total después de actualizar la tabla
             calcularTotal();
+
         }
+
     }
 
     private void ajustarTamañoFuente(JLabel label, String texto) {

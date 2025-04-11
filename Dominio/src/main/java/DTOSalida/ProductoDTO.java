@@ -19,7 +19,7 @@ public class ProductoDTO {
     private double precio;
     private Tipo tipo;
     private ProductoActivo productoActivo;
-    private IngredientesProductoDTO ingredienteProducto;
+    private List<IngredientesProductoDTO> ingredienteProducto;
     private List<DetallesComandaDTO> detalleComandas;
 
     public ProductoDTO() {
@@ -46,17 +46,16 @@ public class ProductoDTO {
         this.tipo = tipo;
     }
 
-    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, IngredientesProductoDTO ingredienteProducto) {
+    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProductoDTO> ingredienteProducto, List<DetallesComandaDTO> detalleComandas) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
         this.productoActivo = productoActivo;
         this.ingredienteProducto = ingredienteProducto;
+        this.detalleComandas = detalleComandas;
     }
 
-    
-    
     public Long getId() {
         return id;
     }
@@ -97,13 +96,13 @@ public class ProductoDTO {
         this.productoActivo = productoActivo;
     }
 
-    public IngredientesProductoDTO getIngredienteProducto() {
+    public List<IngredientesProductoDTO> getIngredienteProducto() {
         return ingredienteProducto;
     }
 
-    public void setIngredienteProducto(IngredientesProductoDTO ingredienteProducto) {
+    public void setIngredienteProducto(List<IngredientesProductoDTO> ingredienteProducto) {
         this.ingredienteProducto = ingredienteProducto;
-    }
+    }   
 
     public List<DetallesComandaDTO> getDetalleComandas() {
         return detalleComandas;

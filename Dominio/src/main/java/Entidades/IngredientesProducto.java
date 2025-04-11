@@ -29,11 +29,11 @@ public class IngredientesProducto implements Serializable {
 
     private Integer cantidad;
 
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
@@ -102,7 +102,8 @@ public class IngredientesProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.IngredientesProducto[ id=" + id + " ]";
+        return "IngredientesProducto{" + "id=" + id + ", cantidad=" + cantidad + ", ingrediente=" + ingrediente + ", producto=" + producto + '}';
     }
 
+   
 }
