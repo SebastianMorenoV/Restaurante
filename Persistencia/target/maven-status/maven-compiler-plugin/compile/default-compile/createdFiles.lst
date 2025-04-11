@@ -17,5 +17,6 @@ interfaces\IComandaDAO.class
 pruebas\pruebasComanda.class
 pruebas\pruebasCliente.class
 conexion\Conexion.class
+pruebas\nuevaPrueba.class
 DAO\ClienteDAO.class
 DAO\IngredientesProductoDAO.class

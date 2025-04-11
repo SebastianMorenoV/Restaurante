@@ -3,6 +3,7 @@ GUI\ModuloReportes\PantallaReporteClientes$6.class
 GUI\ModuloReportes\MenuReportes$4.class
 com\carniceria\presentacion\Main.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$1.class
+GUI\Productos\RegistroProducto$8.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$13.class
 GUI\MenuPrincipalRestaurante$1.class
 GUI\ModuloIngredientes\FormularioRegistrarIngrediente$2.class
@@ -108,6 +109,7 @@ GUI\ModuloReportes\MenuReportes$2.class
 GUI\ModuloClientesFrecuentes\PantallaRegistrarCliente$7.class
 GUI\ModuloIngredientes\PantallaConsultarIngredientes.class
 GUI\ModuloComandas\PantallaComanda$8.class
+GUI\Productos\RegistroProducto$6.class
 GUI\PantallaComandasActivas$4.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$12.class
 GUI\ModuloComandas\PantallaComanda$16.class
@@ -124,6 +126,7 @@ GUI\ModuloReportes\PantallaReporteComandas$1.class
 GUI\Productos\BuscarProducto.class
 GUI\ModuloReportes\PantallaReporteClientes$2.class
 GUI\ModuloClientesFrecuentes\PantallaConsultarClientes$7.class
+GUI\Productos\RegistroProducto$7.class
 GUI\ModuloComandas\PantallaComanda$17.class
 GUI\MenuPrincipalRestaurante$18.class
 GUI\ModuloReportes\MenuReportes$3.class

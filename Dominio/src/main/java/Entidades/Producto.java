@@ -7,6 +7,7 @@ package Entidades;
 import Enums.ProductoActivo;
 import Enums.Tipo;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,13 +48,7 @@ public class Producto implements Serializable {
     @Enumerated(EnumType.STRING)
     private ProductoActivo productoActivo;
 
-    @OneToMany(mappedBy = "producto", cascade = {/**
-         * CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, *
-         */
-        CascadeType.REMOVE}, orphanRemoval = true /**
-     * , fetch = FetchType.LAZY*
-     */
-    )
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<IngredientesProducto> ingredientes;
 
     @OneToMany(mappedBy = "producto") // revisar cascadas y orphan removable y fetch /*PUEDE SER UNIDIRECCIO NAL DICE LA PROFRE BRO😃*/
@@ -150,7 +145,6 @@ public class Producto implements Serializable {
         this.detallesComanda = detallesComanda;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

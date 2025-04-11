@@ -37,6 +37,8 @@ public class BuscarProducto extends javax.swing.JPanel {
 
     /**
      * Creates new form BuscarProducto
+     *
+     * @param app
      */
     public BuscarProducto(Aplicacion app) {
         this.app = app;
@@ -45,6 +47,7 @@ public class BuscarProducto extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel(null, columnas);
         tablaProductos.setModel(model);
         tablaProductos.setDefaultEditor(Object.class, null);
+        productos = new ArrayList<>();
 
         cargarMeotdosAuxiliares();
         setearToolTips();
@@ -58,27 +61,27 @@ public class BuscarProducto extends javax.swing.JPanel {
 
         tablaProductos.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                tablaProductos.requestFocusInWindow();
-
                 if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
                     int fila = tablaProductos.getSelectedRow();
-                    if (fila >= 0) {
-                        ProductoDTO productoSeleccionado = productos.get(fila); // Asumiendo que tienes esta lista
+                    if (productos != null && !productos.isEmpty()) {
+                        if (fila >= 0 && fila < productos.size()) {
+                            ProductoDTO productoSeleccionado = productos.get(fila);
+                            List<ProductoDTO> productoList = new ArrayList<>();
+                            productoList.add(productoSeleccionado);
 
-                        // Mensaje de prueba
-                        JOptionPane.showMessageDialog(tablaProductos,
-                                "Doble clic detectado en: " + productoSeleccionado.getNombre());
-
-                        List<ProductoDTO> productoList = new ArrayList<>();
-                        productoList.add(productoSeleccionado);
-
-                        app.setProductosTemporales(productoList);
-                        app.mostrarPantallaConsultarIngredientes();
+                            // Aquí se pasa la lista de productos seleccionados
+                            app.setProductosTemporales(productoList);
+                            app.mostrarPantallaConsultarIngredientes();
+                        } else {
+                            System.out.println("El índice seleccionado no es válido.");
+                        }
+                    } else {
+                        System.out.println("La lista de productos está vacía o no se ha inicializado.");
                     }
+
                 }
             }
         });
-
     }
 
     /**

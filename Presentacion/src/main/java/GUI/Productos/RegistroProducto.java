@@ -32,18 +32,33 @@ public class RegistroProducto extends javax.swing.JPanel {
 
     private Aplicacion app;
     private DefaultTableModel modeloTabla;
+    private ProductoDTO productoSeleccionado;
 
     public RegistroProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        String[] columnas = {"Producto", "Ingrediente", "Unidad de Medida", "Cantidad"};
-        DefaultTableModel model = new DefaultTableModel(null, columnas);
+        String[] columnas = {"ID", "Producto", "Ingrediente", "Unidad de Medida", "Cantidad"};
+        DefaultTableModel model = new DefaultTableModel(null, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tablaIngredientes.setModel(model);
+
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"PLATILLO", "BEBIDA", "POSTRE"}));
 
         //agregarDocumentListener(txtNombre);
         cargarMeotodosAux();
-        seterToolTips();
 
+// Registra el MouseListener para la tabla
+        tablaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
+        
     }
 
     /**
@@ -106,7 +121,7 @@ public class RegistroProducto extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addGap(116, 116, 116)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,16 +166,21 @@ public class RegistroProducto extends javax.swing.JPanel {
         });
 
         btnAgregarIngredientes.setText("Agregar Ingredientes");
+        btnAgregarIngredientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarIngredientesActionPerformed(evt);
+            }
+        });
 
         tablaIngredientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "tile 5"
             }
         ));
         tablaIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -191,16 +211,17 @@ public class RegistroProducto extends javax.swing.JPanel {
                             .addComponent(txtPrecio)
                             .addComponent(btnRegistrarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnConsulttar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(166, 166, 166)
-                        .addComponent(btnAgregarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(179, 179, 179))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(118, 118, 118))))
+                        .addGap(118, 118, 118))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(btnConsulttar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAgregarIngredientes, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(179, 179, 179))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,6 +270,10 @@ public class RegistroProducto extends javax.swing.JPanel {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         app.mostrarMenuPrincipal();
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void btnAgregarIngredientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIngredientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarIngredientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,7 +338,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     // Método para actualizar la tabla con los resultados de búsqueda
     private void actualizarTabla(List<ProductoDTO> productos) {
         DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
-        model.setRowCount(0); // Limpiar tabla existente
+        limpiarTabla(); // Limpiar tabla existente
 
         // Llenar la tabla con los resultados
         for (ProductoDTO producto : productos) {
@@ -322,6 +347,7 @@ public class RegistroProducto extends javax.swing.JPanel {
                 for (IngredientesProductoDTO ingredientesProductoDTO : producto.getIngredienteProducto()) {
                     IngredienteDTO ingrediente = ingredientesProductoDTO.getIngrediente();
                     model.addRow(new Object[]{
+                        producto.getId(),
                         producto.getNombre(),
                         ingrediente.getNombre(),
                         ingrediente.getUnidadMedida(),
@@ -332,6 +358,7 @@ public class RegistroProducto extends javax.swing.JPanel {
             } else {
                 //si no tiene ingredientes, agrega fila aclarandolo
                 model.addRow(new Object[]{
+                    producto.getId(),
                     producto.getNombre(),
                     "sin ingredientes",
                     "-",
@@ -360,8 +387,21 @@ public class RegistroProducto extends javax.swing.JPanel {
     public void guardarProducto() {
         String nombre = txtNombre.getText().trim();
         String txttprecio = txtPrecio.getText().trim();
-        double precio = Double.parseDouble(txttprecio);
         String tipoString = (String) comboBox.getSelectedItem();
+
+        if (nombre.isEmpty() || txttprecio.isEmpty() || tipoString == null || tipoString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+            return; // ⬅ necesario para evitar seguir ejecutando
+        }
+
+        double precio;
+        try {
+            precio = Double.parseDouble(txttprecio);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El precio debe ser un número válido");
+            return;
+        }
+
         Tipo tipo = Tipo.valueOf(tipoString);
 
         if (nombre.isEmpty() || txttprecio.isEmpty() || tipoString.isEmpty()) {
@@ -408,14 +448,46 @@ public class RegistroProducto extends javax.swing.JPanel {
 
         // Cargar ingredientes en la tabla
         DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
-        model.setRowCount(0); // Limpiar tabla
+        limpiarTabla(); // Limpiar tabla
 
         for (IngredientesProductoDTO ingrediente : producto.getIngredienteProducto()) {
-            String nombreIngredienteFalso = "Ingrediente " + ingrediente.getId(); // Nombre simulado
+            IngredienteDTO ing = ingrediente.getIngrediente();
             model.addRow(new Object[]{
-                nombreIngredienteFalso,
+                producto.getNombre(),
+                ing.getNombre(),
+                ing.getUnidadMedida(),
                 ingrediente.getCantidad()
             });
+        }
+
+    }
+
+    private void limpiarTabla() {
+        DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
+        model.setRowCount(0);
+    }
+
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {
+        if (evt.getClickCount() == 2) { // Doble clic
+            System.out.println("Doble clic detectado");
+            int row = tablaIngredientes.getSelectedRow();
+            if (row != -1) {
+                // Suponiendo que el ID del producto está en la primera columna
+                String idStr = tablaIngredientes.getValueAt(row, 0).toString();
+                Long productoId = Long.valueOf(idStr);
+
+                String productoNombre = (String) tablaIngredientes.getValueAt(row, 1); // Nombre del producto en la segunda columna
+
+                // 🔧 CORRECCIÓN: crear nueva instancia
+                this.productoSeleccionado = new ProductoDTO();
+                this.productoSeleccionado.setId(productoId);
+                this.productoSeleccionado.setNombre(productoNombre);
+
+                // Redirigir a la pantalla Consultar Ingredientes
+                app.mostrarPantallaConsultarIngredientes();
+                
+                 cargarProductoDesdeConsulta();
+            }
         }
     }
 

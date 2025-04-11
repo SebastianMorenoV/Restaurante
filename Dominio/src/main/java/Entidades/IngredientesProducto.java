@@ -5,6 +5,7 @@
 package Entidades;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class IngredientesProducto implements Serializable {
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
