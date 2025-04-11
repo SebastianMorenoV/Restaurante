@@ -7,12 +7,14 @@ package Entidades;
 import Enums.Estado;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,8 +49,8 @@ public class Comanda implements Serializable {
     @Column(name = "totalVenta", nullable = true)
     private double totalVenta;
 
-    @OneToMany(mappedBy = "comanda" , cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.PERSIST} , orphanRemoval = true) 
-    private List<DetallesComanda> detallesComanda;
+    @OneToMany(mappedBy = "comanda" , cascade = {CascadeType.REMOVE, CascadeType.MERGE , CascadeType.PERSIST} , orphanRemoval = true,fetch = FetchType.EAGER) 
+    private List<DetallesComanda> detallesComanda = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "id_cliente")

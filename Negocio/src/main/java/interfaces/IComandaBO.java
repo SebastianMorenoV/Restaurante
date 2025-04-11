@@ -38,6 +38,10 @@ public interface IComandaBO {
     
     public CrearComandaDTO obtenerComandaActiva(String folio) throws NegocioException;
     
+    public ComandaDTO actualizarComandaCancelada(ComandaDTO comandaActualizar) throws NegocioException;
+    
+     public ComandaDTO actualizarComandaDetalles(ComandaDTO comandaActualizar) throws NegocioException;
+    
 
 
     

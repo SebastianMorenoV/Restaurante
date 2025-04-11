@@ -243,6 +243,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         int filaSeleccionada = tableComandasActivas.getSelectedRow();
         if (filaSeleccionada != -1) {
             String folio = (String) tableComandasActivas.getValueAt( filaSeleccionada, 2);
+            app.setFolioTemporal(folio);
             try {
                 CrearComandaDTO comandaObtenida= app.obtenerComandasActivas(folio);
                 System.out.println(comandaObtenida.getCliente());
@@ -358,6 +359,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 ComandaDTO comanda = app.buscarComandaPorFolio(folio);
+                System.out.println("Comanda : " + comanda);
                 comanda.setEstado(Estado.Entregada);
                 app.actualizarComanda(comanda);
                 JOptionPane.showMessageDialog(this, "Comanda marcada como entregada.", "Exito", JOptionPane.INFORMATION_MESSAGE);
@@ -393,7 +395,7 @@ public class PantallaComandasActivas extends javax.swing.JPanel {
             try {
                 ComandaDTO comanda = app.buscarComandaPorFolio(folio);
                 comanda.setEstado(Estado.Cancelada);
-                app.actualizarComanda(comanda);
+                app.actualizarComandaCancelada(comanda);
                 JOptionPane.showMessageDialog(this, "Comanda marcada como cancelada.", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 cargarDatosTabla(); // para reflejar los cambios en la tabla
             } catch (NegocioException ex) {

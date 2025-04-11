@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +43,7 @@ public class PantallaComanda extends javax.swing.JPanel {
      * Creates new form PantalalaComanda
      */
     Aplicacion app;
+    List<DetallesComandaDTO> detallesTemporales;
 
     public PantallaComanda(Aplicacion app) {
         this.app = app;
@@ -428,13 +430,18 @@ public class PantallaComanda extends javax.swing.JPanel {
 
     private void btnGuardarComandaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarComandaMouseClicked
         //Ocupa la validacion para saber si la comanda ya existe
-        
-        if(app.isSiguienteComandasActivas() == true){
-           // funcionalidad para actualizar la comanda activa...................... para que no se persista nuevamente.
-        } else{
-          guardarComanda();
+
+        if (app.isSiguienteComandasActivas() == true) {
+            try {
+                // funcionalidad para actualizar la comanda activa...................... para que no se persista nuevamente.
+                actualizarComandaDetalles();
+            } catch (NegocioException ex) {
+                Logger.getLogger(PantallaComanda.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            guardarComanda();
         }
-      
 
 
     }//GEN-LAST:event_btnGuardarComandaMouseClicked
@@ -641,7 +648,10 @@ public class PantallaComanda extends javax.swing.JPanel {
     public void guardarComanda() {
         CrearComandaDTO comandaDTO = new CrearComandaDTO();
         DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
-
+        if (modeloTabla.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Necesitas al menos un producto para realizar una comanda.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         for (int i = 0; i < modeloTabla.getRowCount(); i++) {
             ProductoDTO producto = new ProductoDTO();
 
@@ -668,9 +678,9 @@ public class PantallaComanda extends javax.swing.JPanel {
         comandaDTO.setEstado(Estado.Abierta);
         comandaDTO.setFechaHora(LocalDateTime.now());
         comandaDTO.setNumeroMesa(Integer.parseInt(app.getMesa()));
-        comandaDTO.setTotalVenta(200); // o 200.00 si es fijo
+        comandaDTO.setTotalVenta(200); // 
         comandaDTO.setCliente(app.getClienteSeleccionado());
-        System.out.println("Cliente desde nios : " +app.getClienteSeleccionado());
+        System.out.println("Cliente desde nios : " + app.getClienteSeleccionado());
 
         try {
             app.guardarComanda(comandaDTO);
@@ -688,25 +698,65 @@ public class PantallaComanda extends javax.swing.JPanel {
         }
     }
 
+    public void actualizarComandaDetalles() throws NegocioException {
+        String folioTemporal = app.getFolioTemporal();
+        ComandaDTO comanda = app.buscarComandaPorFolio(folioTemporal);
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
+        int filas = modeloTabla.getRowCount();
+
+        List<DetallesComandaDTO> nuevosDetalles = new ArrayList<>();
+
+        for (int i = 0; i < filas; i++) {
+            // Obtener los datos de la fila
+            String nombre = modeloTabla.getValueAt(i, 0).toString();
+            String categoria = modeloTabla.getValueAt(i, 1).toString();
+            double precio = Double.parseDouble(modeloTabla.getValueAt(i, 2).toString());
+            String comentario = modeloTabla.getValueAt(i, 3).toString();
+
+            // Crear el producto
+            ProductoDTO producto = new ProductoDTO();
+            producto.setNombre(nombre);
+            producto.setTipo(Tipo.valueOf(categoria)); // Asegúrate que coincida con el enum
+            producto.setPrecio(precio);
+
+            // Crear el detalle comanda
+            DetallesComandaDTO detalleNuevo = new DetallesComandaDTO();
+            detalleNuevo.setProducto(producto);
+            detalleNuevo.setComentarios(comentario);
+
+            nuevosDetalles.add(detalleNuevo);
+        }
+
+        comanda.setDetallesComanda(nuevosDetalles);
+        app.actualizarComandaDetalles(comanda);
+        JOptionPane.showMessageDialog(this, "Comanda guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        if (app.getRol() == "Administrador" && app.isSiguienteComandasActivas() == true) {
+            app.mostrarPantallaComandasActivas();
+        } else {
+            app.mostrarPantallaComandasActivas();
+        }
+
+    }
+
     public void obtenerProductosTemporales() {
         if (app.isSiguienteComandasActivas()) {
             CrearComandaDTO productosComanda = app.getComandaProductosTemporales();
             List<ProductoDTO> productosTemporales = productosComanda.getProductosComanda();
-            List<DetallesComandaDTO> detallesTemporales = productosComanda.getDetallesComanda();
+            detallesTemporales = productosComanda.getDetallesComanda();
             DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductosComanda.getModel();
             modeloTabla.setRowCount(0); // Limpia la tabla
 
             for (int i = 0; i < productosTemporales.size(); i++) {
                 ProductoDTO producto = productosTemporales.get(i);
                 DetallesComandaDTO detalle = detallesTemporales.get(i);
-                 modeloTabla.addRow(new Object[]{
+                modeloTabla.addRow(new Object[]{
                     producto.getNombre(),
                     producto.getTipo().toString(),
                     producto.getPrecio(),
                     detalle.getComentarios()
                 });
             }
-            
 
             calcularTotal();
         } else {

@@ -73,13 +73,21 @@ public class ComandaDAO implements IComandaDAO {
         try {
             em.getTransaction().begin();
             em.persist(comanda);
+
+            // Forzar que los datos se sincronicen con la base de datos antes de hacer commit
+            em.flush(); // Flush se llama aquí para asegurar que los detalles de la comanda se gestionen correctamente
+
             em.getTransaction().commit();
+
             if (comanda.getId() == null) {
-                throw new PersistenciaException("Error no se genero un id para la comanda");
+                throw new PersistenciaException("Error no se generó un id para la comanda");
             }
             return comanda;
         } catch (Exception e) {
-            throw new PersistenciaException("Error al regisstrar comanda " + e.getMessage());
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenciaException("Error al registrar comanda " + e.getMessage());
         } finally {
             em.close();
         }
@@ -134,10 +142,15 @@ public class ComandaDAO implements IComandaDAO {
         EntityManager em = Conexion.crearConexion();
 
         try {
-            return em.createQuery(
+            Comanda comanda = em.createQuery(
                     "SELECT c FROM Comanda c WHERE c.folio = :folio", Comanda.class)
                     .setParameter("folio", folio)
                     .getSingleResult();
+
+            // Recargar la comanda para asegurarse de que está actualizada
+            em.refresh(comanda);
+
+            return comanda;
         } catch (Exception e) {
             throw new PersistenciaException("Error al buscar comanda por folio: " + e.getMessage(), e);
         } finally {

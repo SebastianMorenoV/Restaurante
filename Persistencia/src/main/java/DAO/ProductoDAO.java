@@ -9,6 +9,7 @@ import Entidades.IngredientesProducto;
 import interfaces.IProductoDAO;
 import Entidades.Producto;
 import Enums.ProductoActivo;
+import Enums.Tipo;
 import conexion.Conexion;
 import exception.PersistenciaException;
 import java.util.ArrayList;
@@ -186,6 +187,28 @@ public class ProductoDAO implements IProductoDAO {
     }
 
     @Override
+    public Producto buscarProductoPorNombreYTipo(String nombre, Tipo tipo) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+
+        try {
+            TypedQuery<Producto> query = em.createQuery(
+                    "SELECT p FROM Producto p WHERE LOWER(p.nombre) = :nombre AND p.tipo = :tipo",
+                    Producto.class
+            );
+            query.setParameter("nombre", nombre.toLowerCase());
+            query.setParameter("tipo", tipo);
+
+            return query.getSingleResult(); // Lanza NoResultException si no encuentra
+        } catch (NoResultException e) {
+            return null; // No encontrado, retorna null
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar producto por nombre y tipo", e);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
     public List<IngredientesProducto> obtenerIngredientesPorProducto(Long idProducto) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
@@ -198,7 +221,5 @@ public class ProductoDAO implements IProductoDAO {
             em.close();
         }
     }
-    
-
 
 }

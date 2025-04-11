@@ -184,57 +184,7 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void btnImprimirReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnImprimirReporteMouseClicked
-        Date fechaInicioDate = calendario1.getDate();
-        Date fechaFinDate = calendario2.getDate();
-
-        if (fechaInicioDate == null || fechaFinDate == null) {
-            JOptionPane.showMessageDialog(this, "Selecciona ambas fechas para realizar la búsqueda.");
-            return;
-        }
-
-        // Convertir Date a LocalDateTime
-        LocalDateTime fechaInicio = fechaInicioDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate()
-                .atStartOfDay();
-
-        LocalDateTime fechaFin = fechaFinDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate()
-                .atTime(LocalTime.MAX); // hasta las 23:59:59
-
-        try {
-            List<ComandaDTO> comandas = app.buscarComandasPorFechas(fechaInicio, fechaFin);
-
-          
-            // PARA CADA ELEMENTO DE LA COMANDA DTO SETEAR EL DETALLE
-            for (int i = 0; i < comandas.size(); i++) {
-                ComandaDTO comandaDTO = comandas.get(i);
-                String detalle = app.obtenerDetallesComandaPorFolio(comandaDTO.getFolio());
-                // Crear la lista de detalles para esta comanda
-                List<DetallesComandaDTO> detallesComandaDTO = new ArrayList<DetallesComandaDTO>();
-
-                // Crear el objeto DetallesComandaDTO
-                DetallesComandaDTO detalleComanda = new DetallesComandaDTO();
-                detalleComanda.setComentarios(detalle); // Asumiendo que 'detalle' es el comentario
-
-                // Agregar el detalle a la lista
-                detallesComandaDTO.add(detalleComanda);
-
-                // Setear los detalles a la comandaDTO
-                comandaDTO.setDetallesComanda(detallesComandaDTO);
-            }
-
-            // Ahora pasamos los detalles junto con las comandas al servicio de reporte
-            ReporteService reporteService = new ReporteService();
-            Map<String, Object> parametros = new HashMap<>();
-
-            reporteService.generarReporteComandas(comandas, parametros); // Generar el reporte con los detalles
-
-        } catch (NegocioException | JRException ex) {
-            //Logger.getLogger(PantallaConsultarComandas.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Error al buscar comandas: " + ex.getMessage());
-        }
+        generarReporteComandas();
     }//GEN-LAST:event_btnImprimirReporteMouseClicked
 
     private void tablaReporteComandasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaReporteComandasMouseClicked
@@ -336,6 +286,66 @@ public class PantallaReporteComandas extends javax.swing.JPanel {
         tablaReporteComandas.getColumnModel().getColumn(3).setPreferredWidth(20);
         tablaReporteComandas.getColumnModel().getColumn(4).setPreferredWidth(80);
         tablaReporteComandas.getColumnModel().getColumn(5).setPreferredWidth(160);
+    }
+
+    public void generarReporteComandas() {
+        Date fechaInicioDate = calendario1.getDate();
+        Date fechaFinDate = calendario2.getDate();
+
+        if (fechaInicioDate == null || fechaFinDate == null) {
+            JOptionPane.showMessageDialog(this, "Selecciona ambas fechas para realizar la búsqueda.");
+            return;
+        }
+
+        // Convertir Date a LocalDateTime
+        LocalDateTime fechaInicio = fechaInicioDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .atStartOfDay();
+
+        LocalDateTime fechaFin = fechaFinDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .atTime(LocalTime.MAX); // hasta las 23:59:59
+
+        try {
+            List<ComandaDTO> comandas = app.buscarComandasPorFechas(fechaInicio, fechaFin);
+
+            int totalSuma = 0;
+            // PARA CADA ELEMENTO DE LA COMANDA DTO SETEAR EL DETALLE
+            for (int i = 0; i < comandas.size(); i++) {
+                ComandaDTO comandaDTO = comandas.get(i);
+                String comentarios = app.obtenerDetallesComandaPorFolio(comandaDTO.getFolio());
+
+                //DE AQUI EMPECE
+                if (comandaDTO.getEstado() == comandaDTO.getEstado().Entregada) {
+                    totalSuma += comandaDTO.getTotalVenta();
+                }
+
+                // Crear la lista de detalles para esta comanda
+                List<DetallesComandaDTO> detallesComandaDTO = new ArrayList<DetallesComandaDTO>();
+
+                // Crear el objeto DetallesComandaDTO
+                DetallesComandaDTO detalleComanda = new DetallesComandaDTO();
+                detalleComanda.setComentarios(comentarios); // Asumiendo que 'detalle' es el comentario
+
+                // Agregar el detalle a la lista
+                detallesComandaDTO.add(detalleComanda);
+
+                // Setear los detalles a la comandaDTO
+                comandaDTO.setDetallesComanda(detallesComandaDTO);
+            }
+
+            // Ahora pasamos los detalles junto con las comandas al servicio de reporte
+            ReporteService reporteService = new ReporteService();
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("totalSumaTexto", String.format("$%,d", totalSuma));
+            reporteService.generarReporteComandas(comandas, parametros); // Generar el reporte con los detalles
+
+        } catch (NegocioException | JRException ex) {
+            //Logger.getLogger(PantallaConsultarComandas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al buscar comandas: " + ex.getMessage());
+        }
     }
 
 }

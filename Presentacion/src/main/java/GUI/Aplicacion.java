@@ -52,6 +52,9 @@ public class Aplicacion {
     private boolean siguienteComandasActivas;
     private List<ProductoDTO> productosTemporales = new ArrayList<>();
     private CrearComandaDTO comandaProductosTemporales;
+    private String folioTemporal;
+
+   
   
 
     // Ventana principal
@@ -275,6 +278,22 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
+    
+    public ComandaDTO actualizarComandaDetalles(ComandaDTO comandaActualizar) throws NegocioException {
+        try {
+            return comandaBO.actualizarComandaDetalles(comandaActualizar);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
+    
+     public ComandaDTO actualizarComandaCancelada(ComandaDTO comandaActualizar) throws NegocioException {
+        try {
+            return comandaBO.actualizarComandaCancelada(comandaActualizar);
+        } catch (NegocioException ex) {
+            throw new NegocioException(ex.getLocalizedMessage());
+        }
+    }
 
     public String obtenerDetallesComandaPorFolio(String folio) throws NegocioException {
         try {
@@ -467,6 +486,13 @@ public class Aplicacion {
 
     public void setSiguienteComandasActivas(boolean siguienteComandasActivas) {
         this.siguienteComandasActivas = siguienteComandasActivas;
+    }
+     public String getFolioTemporal() {
+        return folioTemporal;
+    }
+
+    public void setFolioTemporal(String folioTemporal) {
+        this.folioTemporal = folioTemporal;
     }
 
 }

@@ -202,11 +202,12 @@ public class MenuMesero extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarClienteMouseClicked
 
     private void btnBuscarCliente1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarCliente1MouseClicked
+        app.reconstruirPantallaComandasActivas();
         app.mostrarPantallaComandasActivas();
     }//GEN-LAST:event_btnBuscarCliente1MouseClicked
 
     private void tablaMesasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMesasMouseClicked
-         if (evt.getClickCount() == 2) { // Doble clic
+        if (evt.getClickCount() == 2) { // Doble clic
             int fila = tablaMesas.getSelectedRow();
             String mesa = String.valueOf(tablaMesas.getValueAt(fila, 0));
             app.setMesa(mesa);

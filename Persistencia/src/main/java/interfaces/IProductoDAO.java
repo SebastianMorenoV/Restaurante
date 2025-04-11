@@ -9,6 +9,7 @@ import Entidades.Ingrediente;
 import Entidades.IngredientesProducto;
 import Entidades.Producto;
 import Enums.ProductoActivo;
+import Enums.Tipo;
 import exception.PersistenciaException;
 import java.util.List;
 
@@ -86,13 +87,14 @@ public interface IProductoDAO {
      */
     public Producto buscarProductoPorNombre(String nombre) throws PersistenciaException;
 
-    
     /**
-     * 
+     *
      * @param idProducto
      * @return
-     * @throws PersistenciaException 
+     * @throws PersistenciaException
      */
     public List<IngredientesProducto> obtenerIngredientesPorProducto(Long idProducto) throws PersistenciaException;
+
+    public Producto buscarProductoPorNombreYTipo(String nombre, Tipo tipo) throws PersistenciaException;
 
 }

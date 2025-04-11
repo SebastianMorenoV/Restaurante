@@ -11,6 +11,7 @@ import DTOSalida.DetallesComandaDTO;
 import DTOSalida.FiltroComandaDTO;
 import DTOSalida.ProductoDTO;
 import Entidades.Cliente;
+import Entidades.ClienteFrecuente;
 import Entidades.Comanda;
 import Entidades.DetallesComanda;
 import Entidades.Mesa;
@@ -65,7 +66,7 @@ public class ComandaBO implements IComandaBO {
             mesa.setId(comandaDTO.getNumeroMesa().longValue()); // EL NUMERO DE LA MESA VIENE DESDE EL DTO.
             mesa.setNumMesa(comandaDTO.getNumeroMesa());
             comanda.setMesa(mesa);
-            comanda.setTotalVenta(0.00);
+            comanda.setTotalVenta(0);
 
             int numeroConsecutivo = obtenerSiguienteNumeroConsecutivo();
             String folio = generarFolio(LocalDateTime.now(), numeroConsecutivo);
@@ -76,8 +77,21 @@ public class ComandaBO implements IComandaBO {
                 comanda.setCliente(null);
             } else {
                 Cliente cliente = clienteDAO.buscarClientePorTelefono(comandaDTO.getCliente().getTelefono());
-                comanda.setCliente(cliente);
                 // Actualizar puntos, visitas y gasto acumulado al cliente si es necesario --------
+                if (cliente instanceof ClienteFrecuente) {
+                    ClienteFrecuente cf = (ClienteFrecuente) cliente;
+                    int puntos = cf.getPuntosFidelidad(); // o como se llame tu método
+                    Integer numeroVisitas = cf.getVisitas();
+                    double gasto = cf.getGastoAcumulado();
+                    System.out.println("Puntos de fidelidad: " + puntos);
+                    System.out.println("Numero de visitas " + numeroVisitas);
+                    System.out.println("gasto acumulado " + gasto + comanda.getTotalVenta());
+                } else {
+                    System.out.println("Este cliente no es frecuente.");
+                }
+
+                comanda.setCliente(cliente);
+
             }
 
             // Registrar la comanda en la base de datos y obtener la comanda con id
@@ -122,8 +136,6 @@ public class ComandaBO implements IComandaBO {
         }
     }
 
- 
-
     @Override
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
@@ -150,15 +162,128 @@ public class ComandaBO implements IComandaBO {
     }
 
     @Override
+    public ComandaDTO actualizarComandaDetalles(ComandaDTO comandaActualizar) throws NegocioException {
+        try {
+            String folio = comandaActualizar.getFolio();
+            Comanda comanda = comandaDAO.buscarComandaPorFolio(folio);
+
+            List<DetallesComandaDTO> nuevosDetallesDTO = comandaActualizar.getDetallesComanda();
+            if (nuevosDetallesDTO == null || nuevosDetallesDTO.isEmpty()) {
+                throw new NegocioException("No se proporcionaron detalles para actualizar la comanda.");
+            }
+
+            // Limpiar detalles anteriores si es necesario
+            comanda.getDetallesComanda().clear();
+
+            List<DetallesComanda> nuevosDetallesEntidad = new ArrayList<>();
+            int totalVenta = 0;
+
+            for (DetallesComandaDTO dto : nuevosDetallesDTO) {
+                DetallesComanda detalle = new DetallesComanda();
+
+                Producto productoBD = productoDAO.buscarProductoPorNombreYTipo(
+                        dto.getProducto().getNombre(),
+                        dto.getProducto().getTipo()
+                );
+
+                if (productoBD == null) {
+                    throw new NegocioException("Producto no encontrado: " + dto.getProducto().getNombre());
+                }
+
+                detalle.setProducto(productoBD);
+                detalle.setComentarios(dto.getComentarios());
+                detalle.setCantidad(1); // ✅ ESTO RESUELVE EL ERROR
+                detalle.setComanda(comanda);
+                detalle.setPrecioUnitario(productoBD.getPrecio());
+                detalle.setImporteTotal(productoBD.getPrecio() * 1);
+
+                totalVenta += productoBD.getPrecio() * 1; // actualiza total correctamente
+             
+                nuevosDetallesEntidad.add(detalle);
+            }
+                   System.out.println("totalVenta : " + totalVenta);
+            comanda.setDetallesComanda(nuevosDetallesEntidad);
+            comanda.setTotalVenta(totalVenta);
+
+            // Guardar cambios
+            comandaDAO.actualizarComanda(comanda);
+            System.out.println("Comanda actualizada correctamente");
+            // Devolver DTO actualizado
+            ComandaDTO comandaDTO = new ComandaDTO(
+                    comanda.getFolio(),
+                    comanda.getFechaHora(),
+                    comanda.getMesa().getNumMesa(),
+                    comanda.getEstado(),
+                    comanda.getTotalVenta()
+            );
+            comandaDTO.setDetallesComanda(nuevosDetallesDTO); // Opcional
+
+            return comandaDTO;
+
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al actualizar la comanda: " + ex.getMessage());
+        }
+    }
+
+    @Override   // se usa
     public ComandaDTO actualizarComanda(ComandaDTO comandaActualizar) throws NegocioException {
         try {
             // Buscar la comanda en la base de datos
             String folio = comandaActualizar.getFolio();
             Comanda comanda = comandaDAO.buscarComandaPorFolio(folio);
 
+            int totalVenta = 0;
+            List<DetallesComanda> detalles = comanda.getDetallesComanda();
+            // Verificar si los detalles de la comanda están cargados y no están vacíos
+            if (detalles == null || detalles.isEmpty()) {
+                throw new NegocioException("No hay detalles en la comanda para actualizar.");
+            }
+            // Variable para acumular los puntos de la comanda
+            int puntosComanda = 0;
+
+            for (int i = 0; i < detalles.size(); i++) {
+                DetallesComanda detalle = detalles.get(i);
+                totalVenta += detalle.getProducto().getPrecio(); // Suma el importe total de cada detalle a totalVenta
+            }
+
+            // puntos de la comanda 
+            puntosComanda = totalVenta / 20;
+            int puntosRedondeados = (int) Math.round(totalVenta / 20.0); // Redondeo con precisión de los puntos
+
+            // Obtener el cliente asociado con la comanda
+            Cliente cliente1 = comanda.getCliente();
+            Cliente cliente = clienteDAO.buscarClientePorId(cliente1.getId());
+            System.out.println(cliente.getTelefono());
+
+            // Si el cliente es de tipo ClienteFrecuente, actualizamos los puntos
+            if (cliente instanceof ClienteFrecuente) {
+                ClienteFrecuente clienteFrecuente = (ClienteFrecuente) cliente;
+
+                // Obtener los puntos actuales y sumarle los nuevos puntos de la comanda
+                int puntosActuales = clienteFrecuente.getPuntosFidelidad();
+                int nuevosPuntos = puntosActuales + puntosRedondeados;
+
+                Integer visitasActuales = clienteFrecuente.getVisitas();
+                Integer visitasActualizadas = visitasActuales + 1;
+
+                double totalGastadoActual = clienteFrecuente.getGastoAcumulado();
+                double totalGastadoActualizado = totalGastadoActual + totalVenta;
+
+                // Actualizar los puntos en el cliente
+                clienteFrecuente.setPuntosFidelidad(nuevosPuntos);
+                clienteFrecuente.setVisitas(visitasActualizadas);
+                clienteFrecuente.setGastoAcumulado(totalGastadoActualizado);
+                System.out.println("Puntos actualizados: " + nuevosPuntos);
+                System.out.println("puntos visitas: " + visitasActualizadas);
+                System.out.println("total gastado : " + totalGastadoActualizado);
+
+                // Persistir los cambios del cliente en la base de datos
+                clienteDAO.actualizarCliente(clienteFrecuente);
+            }
+
             // Actualizar el estado o cualquier otro campo necesario
             comanda.setEstado(comandaActualizar.getEstado()); // por ejemplo, actualizando solo el estado
-
+            comanda.setTotalVenta(totalVenta);
             // Persistir los cambios en la base de datos
             comandaDAO.actualizarComanda(comanda);
 
@@ -176,6 +301,40 @@ public class ComandaBO implements IComandaBO {
         } catch (PersistenciaException ex) {
             // Manejo de excepciones
             throw new NegocioException("Error al actualizar la comanda: " + ex.getMessage());
+        }
+    }
+
+    @Override   // se usa
+    public ComandaDTO actualizarComandaCancelada(ComandaDTO comandaActualizar) throws NegocioException {
+        try {
+            // Buscar la comanda en la base de datos por su folio
+            String folio = comandaActualizar.getFolio();
+            Comanda comanda = comandaDAO.buscarComandaPorFolio(folio);
+
+            // Verificamos que la comanda tenga detalles (opcional, puedes quitar esto si no quieres validación)
+            List<DetallesComanda> detalles = comanda.getDetallesComanda();
+            if (detalles == null || detalles.isEmpty()) {
+                throw new NegocioException("No hay detalles en la comanda para actualizar.");
+            }
+
+            // Actualizamos solo el estado y el total en 0
+            comanda.setEstado(comandaActualizar.getEstado());
+            comanda.setTotalVenta(0.0);
+
+            // Persistimos los cambios en la base de datos
+            comandaDAO.actualizarComanda(comanda);
+
+            // Retornamos el DTO actualizado
+            return new ComandaDTO(
+                    comanda.getFolio(),
+                    comanda.getFechaHora(),
+                    comanda.getMesa().getNumMesa(),
+                    comanda.getEstado(),
+                    comanda.getTotalVenta()
+            );
+
+        } catch (PersistenciaException ex) {
+            throw new NegocioException("Error al actualizar la comanda como cancelada: " + ex.getMessage());
         }
     }
 

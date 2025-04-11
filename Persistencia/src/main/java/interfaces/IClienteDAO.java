@@ -25,5 +25,9 @@ public interface IClienteDAO {
     
     public Cliente buscarClientePorTelefono(String telefono) throws PersistenciaException;
     
+    public ClienteFrecuente actualizarCliente(ClienteFrecuente clienteFrecuente) throws PersistenciaException;
+    
+    public ClienteFrecuente buscarClientePorId(Long id) throws PersistenciaException;
+    
     
 }

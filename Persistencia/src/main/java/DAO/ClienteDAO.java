@@ -69,6 +69,80 @@ public class ClienteDAO implements IClienteDAO {
         }
     }
 
+    @Override
+    public ClienteFrecuente buscarClientePorId(Long id) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            ClienteFrecuente cliente = em.find(ClienteFrecuente.class, id);
+
+            if (cliente == null) {
+                throw new PersistenciaException("No se encontró ningún cliente con el ID proporcionado.");
+            }
+
+            // Desencriptar el teléfono si existe
+            String telefono = cliente.getTelefono();
+            if (telefono != null && !telefono.isEmpty()) {
+                String telefonoDesencriptado = desencriptarTelefono(telefono);
+                cliente.setTelefono(telefonoDesencriptado);
+            }
+
+            return cliente;
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al buscar cliente por ID: " + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public ClienteFrecuente actualizarCliente(ClienteFrecuente clienteFrecuente) throws PersistenciaException {
+        EntityManager em = Conexion.crearConexion();
+        try {
+            // Verifica si el clienteFrecuente tiene un ID válido
+            if (clienteFrecuente.getId() == null) {
+                throw new PersistenciaException("El cliente frecuente no tiene un ID válido para actualizar.");
+            }
+
+            // Encriptación de teléfono si está presente
+            String telefonoOriginal = clienteFrecuente.getTelefono();
+            if (telefonoOriginal != null && !telefonoOriginal.isEmpty()) {
+                String telefonoEncriptado = encriptarTelefono(telefonoOriginal);
+                clienteFrecuente.setTelefono(telefonoEncriptado);
+            }
+
+            // Inicia la transacción
+            em.getTransaction().begin();
+
+            // Verifica si el cliente existe en la base de datos
+            ClienteFrecuente clienteExistente = em.find(ClienteFrecuente.class, clienteFrecuente.getId());
+            if (clienteExistente == null) {
+                throw new PersistenciaException("No se encontró el cliente frecuente con ID: " + clienteFrecuente.getId());
+            }
+
+            // Actualiza el cliente con los nuevos valores (incluyendo los puntos de fidelidad)
+            clienteExistente.setTelefono(clienteFrecuente.getTelefono());
+            clienteExistente.setPuntosFidelidad(clienteFrecuente.getPuntosFidelidad()); // Actualiza los puntos de fidelidad
+            clienteExistente.setVisitas(clienteFrecuente.getVisitas());
+            clienteExistente.setGastoAcumulado(clienteFrecuente.getGastoAcumulado());
+
+            // Otros campos pueden actualizarse aquí
+            // Guarda los cambios
+            em.merge(clienteExistente);
+
+            // Confirma la transacción
+            em.getTransaction().commit();
+
+            return clienteExistente; // Retorna el cliente actualizado
+
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new PersistenciaException("No se pudo actualizar el cliente frecuente: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
     /**
      * Metodo para obtener clientes frecuentes parcialmente por Nombres,Apellido
      * Paterno , Apellido Materno ,Numero minimo de visitas. Utiliza un string
@@ -344,10 +418,10 @@ public class ClienteDAO implements IClienteDAO {
             throw new PersistenciaException("Error al encriptar el telefono: " + e.getMessage(), e);
         }
     }
-    
+
     private boolean esTelefonoEncriptado(String telefono) {
-    // Puedes ajustar este patrón según cómo encriptes
-    return telefono.matches("^[A-Za-z0-9+/=]{16,}$"); // Patrón base64 típico con longitud mínima
-}
+        // Puedes ajustar este patrón según cómo encriptes
+        return telefono.matches("^[A-Za-z0-9+/=]{16,}$"); // Patrón base64 típico con longitud mínima
+    }
 
 }

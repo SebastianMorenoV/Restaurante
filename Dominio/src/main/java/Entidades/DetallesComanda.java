@@ -129,9 +129,13 @@ public class DetallesComanda implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "DetallesComanda{" + "id=" + id + ", producto=" + producto + ", comanda=" + comanda + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", comentarios=" + comentarios + ", importeTotal=" + importeTotal + '}';
-    }
+   @Override
+public String toString() {
+    return "DetallesComanda{" +
+            "producto=" + (producto != null ? producto.getNombre() : "Producto no disponible") +
+            ", cantidad=" + cantidad +
+            ", total=" + importeTotal +
+            '}';
+}
 
 }
