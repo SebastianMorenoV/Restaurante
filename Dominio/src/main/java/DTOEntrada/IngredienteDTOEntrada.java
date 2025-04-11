@@ -8,21 +8,32 @@ import Enums.UnidadMedida;
 
 /**
  *
- * @author Admin
+ * @author SDavidLedesma
  */
-public class CrearIngredienteDTO {
+public class IngredienteDTOEntrada {
 
+    private Long id;
     private String nombre;
     private Integer stock;
     private UnidadMedida unidadMedida;
+    private Integer cantidad;
 
-    public CrearIngredienteDTO() {
+    public IngredienteDTOEntrada() {
     }
 
-    public CrearIngredienteDTO(String nombre, Integer stock, UnidadMedida unidadMedida) {
+    public IngredienteDTOEntrada(String nombre, Integer stock, UnidadMedida unidadMedida, Integer cantidad) {
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
+        this.cantidad = cantidad;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -47,6 +58,14 @@ public class CrearIngredienteDTO {
 
     public void setUnidadMedida(UnidadMedida unidadMedida) {
         this.unidadMedida = unidadMedida;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
 }

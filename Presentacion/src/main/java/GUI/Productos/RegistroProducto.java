@@ -4,6 +4,7 @@
  */
 package GUI.Productos;
 
+import DTOEntrada.IngredienteDTOEntrada;
 import DTOSalida.IngredienteDTO;
 import DTOSalida.IngredientesProductoDTO;
 import DTOSalida.ProductoDTO;
@@ -37,7 +38,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     public RegistroProducto(Aplicacion app) {
         this.app = app;
         initComponents();
-        String[] columnas = {"ID", "Producto", "Ingrediente", "Unidad de Medida", "Cantidad"};
+        String[] columnas = {"Producto","Ingrediente", "Unidad de Medida", "Cantidad"};
         DefaultTableModel model = new DefaultTableModel(null, columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -166,6 +167,11 @@ public class RegistroProducto extends javax.swing.JPanel {
         });
 
         btnAgregarIngredientes.setText("Agregar Ingredientes");
+        btnAgregarIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarIngredientesMouseClicked(evt);
+            }
+        });
         btnAgregarIngredientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarIngredientesActionPerformed(evt);
@@ -275,6 +281,11 @@ public class RegistroProducto extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarIngredientesActionPerformed
 
+    private void btnAgregarIngredientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarIngredientesMouseClicked
+        app.setSiguienteRegistrarProducto(true);
+        app.mostrarPantallaConsultarIngredientes();
+    }//GEN-LAST:event_btnAgregarIngredientesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarIngredientes;
@@ -322,11 +333,15 @@ public class RegistroProducto extends javax.swing.JPanel {
 
         ProductoDTO productoFiltro = new ProductoDTO();
         productoFiltro.setNombre(nombreProducto.toString().trim()); // Evitar espacios extra
-
+ 
+        IngredienteDTO ingredientesProducto = app.getIngredienteDTO();
         // Realizar la búsqueda en el BO
         List<ProductoDTO> productosEncontrados = null; //prueba
         try {
             productosEncontrados = app.buscarProductos(productoFiltro);
+            for (int i = 0; i < productosEncontrados.size(); i++) {
+                ProductoDTO productoDTO = productosEncontrados.get(i);
+            }
             // Actualizar la tabla con los resultados
 
         } catch (NegocioException ex) {
@@ -337,6 +352,7 @@ public class RegistroProducto extends javax.swing.JPanel {
 
     // Método para actualizar la tabla con los resultados de búsqueda
     private void actualizarTabla(List<ProductoDTO> productos) {
+        /**
         DefaultTableModel model = (DefaultTableModel) tablaIngredientes.getModel();
         limpiarTabla(); // Limpiar tabla existente
 
@@ -347,7 +363,6 @@ public class RegistroProducto extends javax.swing.JPanel {
                 for (IngredientesProductoDTO ingredientesProductoDTO : producto.getIngredienteProducto()) {
                     IngredienteDTO ingrediente = ingredientesProductoDTO.getIngrediente();
                     model.addRow(new Object[]{
-                        producto.getId(),
                         producto.getNombre(),
                         ingrediente.getNombre(),
                         ingrediente.getUnidadMedida(),
@@ -358,8 +373,6 @@ public class RegistroProducto extends javax.swing.JPanel {
             } else {
                 //si no tiene ingredientes, agrega fila aclarandolo
                 model.addRow(new Object[]{
-                    producto.getId(),
-                    producto.getNombre(),
                     "sin ingredientes",
                     "-",
                     "-"
@@ -367,6 +380,7 @@ public class RegistroProducto extends javax.swing.JPanel {
             }
 
         }
+        * **/
     }
 
     private void seterToolTips() {
@@ -436,6 +450,7 @@ public class RegistroProducto extends javax.swing.JPanel {
     }
 
     public void cargarProductoDesdeConsulta() {
+        /**
         List<ProductoDTO> productos = app.getProductosTemporales();
         if (productos == null || productos.isEmpty()) {
             return;
@@ -459,6 +474,7 @@ public class RegistroProducto extends javax.swing.JPanel {
                 ingrediente.getCantidad()
             });
         }
+        * **/
 
     }
 

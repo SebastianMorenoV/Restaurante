@@ -8,6 +8,7 @@ import DAO.IngredientesProductoDAO;
 import DTOEntrada.CrearClienteDTO;
 import DTOEntrada.CrearComandaDTO;
 import DTOEntrada.CrearIngredienteDTO;
+import DTOEntrada.IngredienteDTOEntrada;
 import DTOSalida.ClienteDTO;
 import DTOSalida.ComandaDTO;
 import DTOSalida.FiltroComandaDTO;
@@ -53,9 +54,8 @@ public class Aplicacion {
     private List<ProductoDTO> productosTemporales = new ArrayList<>();
     private CrearComandaDTO comandaProductosTemporales;
     private String folioTemporal;
-
-   
-  
+    private boolean siguienteRegistrarProducto;
+    private IngredienteDTO ingredienteDTO;
 
     // Ventana principal
     private JFrame framePrincipal;
@@ -232,7 +232,7 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
+
     public List<ComandaDTO> obtenerComandas() throws NegocioException {
         try {
             if (comandaBO == null) {
@@ -278,7 +278,7 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
+
     public ComandaDTO actualizarComandaDetalles(ComandaDTO comandaActualizar) throws NegocioException {
         try {
             return comandaBO.actualizarComandaDetalles(comandaActualizar);
@@ -286,8 +286,8 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-     public ComandaDTO actualizarComandaCancelada(ComandaDTO comandaActualizar) throws NegocioException {
+
+    public ComandaDTO actualizarComandaCancelada(ComandaDTO comandaActualizar) throws NegocioException {
         try {
             return comandaBO.actualizarComandaCancelada(comandaActualizar);
         } catch (NegocioException ex) {
@@ -326,17 +326,14 @@ public class Aplicacion {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    public CrearComandaDTO obtenerComandasActivas(String folio) throws NegocioException{
+
+    public CrearComandaDTO obtenerComandasActivas(String folio) throws NegocioException {
         try {
             return comandaBO.obtenerComandaActiva(folio);
         } catch (NegocioException ex) {
             throw new NegocioException(ex.getLocalizedMessage());
         }
     }
-    
-    
-
 
     public void mostrarRegistroProductoDesdeConsulta() {
         producto.cargarProductoDesdeConsulta();
@@ -487,12 +484,31 @@ public class Aplicacion {
     public void setSiguienteComandasActivas(boolean siguienteComandasActivas) {
         this.siguienteComandasActivas = siguienteComandasActivas;
     }
-     public String getFolioTemporal() {
+
+    public String getFolioTemporal() {
         return folioTemporal;
     }
 
     public void setFolioTemporal(String folioTemporal) {
         this.folioTemporal = folioTemporal;
     }
+
+    public boolean isSiguienteRegistrarProducto() {
+        return siguienteRegistrarProducto;
+    }
+
+    public void setSiguienteRegistrarProducto(boolean siguienteRegistrarProducto) {
+        this.siguienteRegistrarProducto = siguienteRegistrarProducto;
+    }
+
+    public IngredienteDTO getIngredienteDTO() {
+        return ingredienteDTO;
+    }
+
+    public void setIngredienteDTO(IngredienteDTO ingredienteDTO) {
+        this.ingredienteDTO = ingredienteDTO;
+    }
+    
+    
 
 }

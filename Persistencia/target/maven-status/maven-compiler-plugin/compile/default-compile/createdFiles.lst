@@ -1,5 +1,6 @@
 DAO\MesaDAO.class
 pruebas\pruebasProducto.class
+interfaces\IIngredientesProductoDAO.class
 pruebas\pruebasMesa.class
 DAO\ComandaDAO.class
 DAO\IngredienteDAO.class

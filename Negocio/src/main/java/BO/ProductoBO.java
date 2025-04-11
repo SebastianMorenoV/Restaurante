@@ -259,7 +259,7 @@ public class ProductoBO implements IProductoBO {
                 ingredientesDTO.add(ipDTO);
             }
 
-            dto.setIngredienteProducto(ingredientesDTO); // ️ esto es clave
+//            dto.setIngredienteProducto(ingredientesDTO); // ️ esto es clave
             return dto;
 
         } catch (PersistenciaException e) {

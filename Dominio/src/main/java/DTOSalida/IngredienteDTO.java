@@ -16,6 +16,7 @@ public class IngredienteDTO {
     private String nombre;
     private Integer stock;
     private UnidadMedida unidadMedida;
+    private Integer cantidad;
 
     public IngredienteDTO() {
     }
@@ -25,6 +26,14 @@ public class IngredienteDTO {
         this.nombre = nombre;
         this.stock = stock;
         this.unidadMedida = unidadMedida;
+    }
+
+    public IngredienteDTO(Long id, String nombre, Integer stock, UnidadMedida unidadMedida, Integer cantidad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.stock = stock;
+        this.unidadMedida = unidadMedida;
+        this.cantidad = cantidad;
     }
 
     public Long getId() {
@@ -57,6 +66,14 @@ public class IngredienteDTO {
 
     public void setUnidadMedida(UnidadMedida unidadMedida) {
         this.unidadMedida = unidadMedida;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
     @Override

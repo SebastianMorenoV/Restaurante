@@ -19,7 +19,7 @@ public class ProductoDTO {
     private double precio;
     private Tipo tipo;
     private ProductoActivo productoActivo;
-    private List<IngredientesProductoDTO> ingredienteProducto;
+    private IngredientesProductoDTO ingredienteProducto;
     private List<DetallesComandaDTO> detalleComandas;
 
     public ProductoDTO() {
@@ -45,28 +45,18 @@ public class ProductoDTO {
         this.precio = precio;
         this.tipo = tipo;
     }
-    
-    
 
-    public ProductoDTO(String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProductoDTO> ingredienteProducto, List<DetallesComandaDTO> detalleComandas) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.tipo = tipo;
-        this.productoActivo = productoActivo;
-        this.ingredienteProducto = ingredienteProducto;
-        this.detalleComandas = detalleComandas;
-    }
-
-    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, List<IngredientesProductoDTO> ingredienteProducto, List<DetallesComandaDTO> detalleComandas) {
+    public ProductoDTO(Long id, String nombre, double precio, Tipo tipo, ProductoActivo productoActivo, IngredientesProductoDTO ingredienteProducto) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
         this.productoActivo = productoActivo;
         this.ingredienteProducto = ingredienteProducto;
-        this.detalleComandas = detalleComandas;
     }
 
+    
+    
     public Long getId() {
         return id;
     }
@@ -107,11 +97,11 @@ public class ProductoDTO {
         this.productoActivo = productoActivo;
     }
 
-    public List<IngredientesProductoDTO> getIngredienteProducto() {
+    public IngredientesProductoDTO getIngredienteProducto() {
         return ingredienteProducto;
     }
 
-    public void setIngredienteProducto(List<IngredientesProductoDTO> ingredienteProducto) {
+    public void setIngredienteProducto(IngredientesProductoDTO ingredienteProducto) {
         this.ingredienteProducto = ingredienteProducto;
     }
 

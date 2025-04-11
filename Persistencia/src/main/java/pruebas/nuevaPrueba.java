@@ -16,16 +16,5 @@ import exception.PersistenciaException;
 public class nuevaPrueba {
 
     public static void main(String[] args) throws PersistenciaException {
-        ProductoDAO dao = new ProductoDAO();
-        Producto p = dao.obtenerProductoConIngredientes(8L); // ID de producto
-
-        if (p != null) {
-            System.out.println("Producto: " + p.getNombre());
-            for (IngredientesProducto i : p.getIngredientes()) {
-                System.out.println(" - Ingrediente: " + i.getIngrediente().getNombre());
-            }
-        } else {
-            System.out.println("Producto no encontrado.");
-        }
     }
 }

@@ -4,36 +4,20 @@ package GUI.ModuloIngredientes;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-import DTOEntrada.CrearIngredienteDTO;
+import DTOEntrada.IngredienteDTOEntrada;
 import DTOSalida.IngredienteDTO;
 import Enums.UnidadMedida;
-import GUI.*;
 import GUI.Aplicacion;
 import exception.NegocioException;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -63,7 +47,7 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
         tableIngredientes.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2) { // Doble clic
+                if (evt.getClickCount() == 2 && app.isSiguienteRegistrarProducto() == true) { // Doble clic
                     int filaSeleccionada = tableIngredientes.getSelectedRow();
                     if (filaSeleccionada != -1) {
                         Long id = (Long) tableIngredientes.getValueAt(filaSeleccionada, 0);
@@ -91,10 +75,20 @@ public class PantallaConsultarIngredientes extends javax.swing.JPanel {
                                     null,
                                     "Ingresa la cantidad requerida: "
                             );
-
+ 
                             int cantidadRequerida = Integer.parseInt(respuesta);
+                            IngredienteDTO dTOEntrada = new IngredienteDTO();
+                            dTOEntrada.setId(id);
+                            dTOEntrada.setNombre(nombre);
+                            dTOEntrada.setStock(stock);
+                            dTOEntrada.setUnidadMedida(unidad);
+                            dTOEntrada.setCantidad(cantidadRequerida);
+                            
+                            app.setIngredienteDTO(dTOEntrada);
                             //Aqui iria lo de 
-                            app.mostrarBusquedaProducto();
+                            app.setSiguienteRegistrarProducto(false);
+                            app.mostrarRegistroProducto();
+                            
                         }
                     }
                 }

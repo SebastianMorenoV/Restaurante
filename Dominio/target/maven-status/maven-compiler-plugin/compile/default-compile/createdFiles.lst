@@ -9,6 +9,7 @@ DTOSalida\ProductoDTO.class
 Entidades\IngredientesProducto.class
 DTOSalida\ProductoConDetalleDTO.class
 Enums\ProductoActivo.class
+DTOEntrada\IngredienteDTOEntrada.class
 DTOEntrada\CrearClienteDTO.class
 DTOSalida\IngredientesProductoDTO.class
 DTOSalida\FiltroComandaDTO.class

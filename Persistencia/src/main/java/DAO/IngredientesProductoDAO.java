@@ -4,10 +4,12 @@
  */
 package DAO;
 
+import DTOSalida.IngredienteDTO;
 import Entidades.Ingrediente;
 import Entidades.IngredientesProducto;
 import conexion.Conexion;
 import exception.PersistenciaException;
+import interfaces.IIngredientesProductoDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,7 +18,7 @@ import javax.persistence.TypedQuery;
  *
  * @author SDavidLedesma
  */
-public class IngredientesProductoDAO {
+public class IngredientesProductoDAO implements IIngredientesProductoDAO{
 
     public static IngredientesProductoDAO instanceIPDAO;
 
@@ -31,6 +33,7 @@ public class IngredientesProductoDAO {
         return instanceIPDAO;
     }
 
+    @Override
     public void insertar(IngredientesProducto ingredientesProducto) throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
@@ -45,6 +48,7 @@ public class IngredientesProductoDAO {
         }
     }
 
+    @Override
     public List<IngredientesProducto> obtenerTodos() throws PersistenciaException {
         EntityManager em = Conexion.crearConexion();
         try {
@@ -72,6 +76,7 @@ public class IngredientesProductoDAO {
         }
     }
     
+    @Override
     public List<IngredientesProducto> obtenerPorProductoId(Long idProducto) throws PersistenciaException {
     EntityManager em = Conexion.crearConexion();
     try {
@@ -87,6 +92,11 @@ public class IngredientesProductoDAO {
         }
     }
 }
+
+    @Override
+    public boolean existeIngredienteEnProductos(IngredienteDTO ingrediente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 
 }

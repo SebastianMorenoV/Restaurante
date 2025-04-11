@@ -1,5 +1,6 @@
 BO\MesaBO.class
 pruebas\pruebasProducto.class
+BO\IngredientesProductoBO.class
 pruebas\PruebasIngrediente.class
 BO\IngredienteBO.class
 interfaces\IClienteBO.class
@@ -9,6 +10,7 @@ BO\ClienteBO.class
 manejadoresDeObjetoNegocio\ManejadorObjetosNegocio.class
 BO\ProductoBO.class
 interfaces\IIngredienteBO.class
+interfaces\IIngredientesProductoBO.class
 pruebas\PruebasCliente.class
 BO\ComandaBO.class
 interfaces\IMesaBO.class
